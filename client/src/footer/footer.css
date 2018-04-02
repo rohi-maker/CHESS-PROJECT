@@ -1,0 +1,18 @@
+#footer {
+  margin-top: 1em;
+  padding: 1.5em 0;
+  background-color: #282a2b;
+  color: #8C8989;
+}
+
+#footer ul {
+  padding: 0;
+}
+
+#footer ul li {
+  display: inline;
+}
+
+#copyright {
+  font-size: 0.7em;
+}

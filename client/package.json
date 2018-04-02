@@ -1,0 +1,26 @@
+{
+  "name": "synergychess-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "npm-run-all": "^4.1.2",
+    "qs": "^6.5.1",
+    "react": "^16.2.0",
+    "react-async-script": "^0.9.1",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.2.0",
+    "react-fontawesome": "^1.6.1",
+    "react-google-recaptcha": "^0.9.9",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1",
+    "sockjs-client": "^1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build-react": "react-scripts build",
+    "remove-map": "find -L build -name *.map -exec rm {} \\;",
+    "build": "npm-run-all build-react remove-map",
+    "test": "react-scripts test --env=jsdom"
+  }
+}

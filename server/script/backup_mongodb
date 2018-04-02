@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Quote because path may contain spaces
+if [ -h $0 ]
+then
+  ROOT_DIR="$(cd "$(dirname "$(readlink -n "$0")")/.." && pwd)"
+else
+  ROOT_DIR="$(cd "$(dirname $0)/.." && pwd)"
+fi
+cd "$ROOT_DIR"
+
+BACKUP_DIR=backup
+KEEP_DAYS=10
+
+mkdir -p $BACKUP_DIR
+
+# Delete backups older than 5 days
+find $BACKUP_DIR/ -mtime +$KEEP_DAYS -type f -delete
+
+# mongodump outputs a directory
+NEW_DIR=$BACKUP_DIR/mongodb-`date +"%Y-%m-%d"`
+mongodump --db synergychess --out $NEW_DIR
+zip -r $NEW_DIR.zip $NEW_DIR
+rm -r $NEW_DIR
