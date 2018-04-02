@@ -1,7 +1,7 @@
 package synergychess
 
 import nchess.Server
-import nchess.rule.{Position, State}
+import nchess.rule.{Position, Search, State}
 
 class PositionAdapter extends Position {
   override def getState(moves: Seq[String]): State.Value = State.ALIVE
@@ -13,8 +13,14 @@ class PositionAdapter extends Position {
   override def isStalemateDraw: Boolean = true
 }
 
+class SearchAdapter extends Search {
+  override def searchBestMove(moves: Seq[String], level: Int, onBestMove: String => Unit) {
+    onBestMove("TODO")
+  }
+}
+
 object Boot {
   def main(args: Array[String]) {
-    Server.boot(new PositionAdapter)
+    Server.boot(new PositionAdapter, new SearchAdapter)
   }
 }

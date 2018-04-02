@@ -73,7 +73,7 @@ class Lobby extends Component {
   }
 
   componentWillMount() {
-    this.sock = new SockJS(serverUrl('/api/sockjs-lobby'))
+    this.sock = new SockJS(serverUrl('/api/sockjs/lobby'))
 
     this.sock.onopen = () => {
       this.sock.send(window.$me.eusername)
