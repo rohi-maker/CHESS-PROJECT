@@ -1,0 +1,6 @@
+{
+  "name": "synergychess-engine",
+  "version": "1.0.0-SNAPSHOT",
+  "private": true,
+  "main": "synergychess-engine-opt.js"
+}
