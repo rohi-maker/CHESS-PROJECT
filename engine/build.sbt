@@ -11,6 +11,7 @@ lazy val root = project.in(file(".")).
 
 lazy val engine = crossProject.in(file(".")).
   settings(
+    organization := "net.synergychess",
     name := "synergychess-engine",
     version := "1.0.0-SNAPSHOT",
     libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.5" % "test"

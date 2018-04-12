@@ -1,26 +1,24 @@
 package synergychess
 
 import nchess.Server
-import nchess.rule.{Position, Search, State}
+import nchess.api.{MoveInfo, Position, Search, State, StateInfo}
 
 class PositionAdapter extends Position {
-  override def getState(moves: Seq[String]): State.Value = State.ALIVE
+  override def stateInfo(gameName: String, moves: Seq[String], onStateInfo: Option[StateInfo] => Unit) {
 
-  override def isLegal(moves: Seq[String], move: String): Boolean = true
+  }
 
-  override def getFen(moves: Seq[String]): String = "TODO"
-
-  override def isStalemateDraw: Boolean = true
+  override def stalemateIsDraw(gameName: String): Boolean = true
 }
 
 class SearchAdapter extends Search {
-  override def searchBestMove(moves: Seq[String], level: Int, onBestMove: String => Unit) {
-    onBestMove("TODO")
+  override def searchBestMove(gameName: String, moves: Seq[String], level: Int, onBestMove: Option[MoveInfo] => Unit) {
+
   }
 }
 
 object Boot {
   def main(args: Array[String]) {
-    Server.boot(new PositionAdapter, new SearchAdapter)
+    Server.boot(Seq(""), new PositionAdapter, new SearchAdapter)
   }
 }
