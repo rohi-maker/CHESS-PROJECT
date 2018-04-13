@@ -69,7 +69,7 @@ case class Notation (
     promoPiece = ""
   }
 
-  def castleWhichWay(moveInfo: MoveData) {
+  def castleWhichWay(moveData: MoveData) {
     val kingsBase = Array("F1", "G3", "G10", "F12")
     val outerKingside = Array("A1", "B1", "C1", "D1", "E1", "A12", "B12", "C12", "D12", "E12")
     val outerQueenside = Array("G1", "H1", "I1", "J1", "K1", "L1", "G12", "H12", "I12", "J12", "K12", "L12")
@@ -77,30 +77,30 @@ case class Notation (
     val innerQueenside = Array("E3", "E10")
 
     // It's a king starting kings base position and is to a king side castling move target
-    if ((kingsBase.indexOf(moveInfo.from) != -1) && (outerKingside.indexOf(moveInfo.to) != -1)) {
-      kingPos = moveInfo.to
-      rookLocation = moveInfo.rookPlacement
+    if ((kingsBase.indexOf(moveData.from) != -1) && (outerKingside.indexOf(moveData.to) != -1)) {
+      kingPos = moveData.to
+      rookLocation = moveData.rookPlacement
       isOuterKingCastle = true
       isOuterQueenCastle = false //there can be only one
     }
     // If to is one of outer Queen side AND piece is King (K)
-    if ((kingsBase.indexOf(moveInfo.from) != -1) && (outerQueenside.indexOf(moveInfo.to) != -1)) {
-      kingPos = moveInfo.to
-      rookLocation = moveInfo.rookPlacement
+    if ((kingsBase.indexOf(moveData.from) != -1) && (outerQueenside.indexOf(moveData.to) != -1)) {
+      kingPos = moveData.to
+      rookLocation = moveData.rookPlacement
       isOuterQueenCastle = true
       isOuterKingCastle = false //there can be only one
     }
     // Inner king side castle
-    if ((kingsBase.indexOf(moveInfo.from) != -1) && (innerKingside.indexOf(moveInfo.to) != -1)) {
-      kingPos = moveInfo.to
-      rookLocation = moveInfo.rookPlacement
+    if ((kingsBase.indexOf(moveData.from) != -1) && (innerKingside.indexOf(moveData.to) != -1)) {
+      kingPos = moveData.to
+      rookLocation = moveData.rookPlacement
       isInnerKingCastle = true
       isInnerQueenCastle = false //there can be only one
     }
     // Inner queen side castle
-    if ((kingsBase.indexOf(moveInfo.from) != -1) && (innerQueenside.indexOf(moveInfo.to) != -1)) {
-      kingPos = moveInfo.to
-      rookLocation = moveInfo.rookPlacement
+    if ((kingsBase.indexOf(moveData.from) != -1) && (innerQueenside.indexOf(moveData.to) != -1)) {
+      kingPos = moveData.to
+      rookLocation = moveData.rookPlacement
       isInnerQueenCastle = true
       isInnerKingCastle = false //there can be only one
     }

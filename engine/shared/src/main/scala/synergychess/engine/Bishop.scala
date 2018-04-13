@@ -12,8 +12,8 @@ class Bishop(override val color: String, override val basePos: Point) extends Pi
 
   override def squaresAttacking(board: Board, from: String): ArrayBuffer[String] = diagonal(board, from)
 
-  override def validMoves(moveInfo: MoveData): ArrayBuffer[String] = {
-    val move = new MoveData(moveInfo)
+  override def validMoves(moveData: MoveData): ArrayBuffer[String] = {
+    val move = new MoveData(moveData)
     move.moveList = squaresAttacking(move.board, move.from)
 
     filterInvalidMoves(move)

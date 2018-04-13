@@ -19,8 +19,8 @@ class Rook(override val color: String, override val basePos: Point) extends Piec
     if (color == "white") "R" else "r"
   }
 
-  override def validMoves(moveInfo: MoveData): ArrayBuffer[String] = {
-    moveInfo.moveList = squaresAttacking(moveInfo.board, moveInfo.from)
-    filterInvalidMoves(moveInfo)
+  override def validMoves(moveData: MoveData): ArrayBuffer[String] = {
+    moveData.moveList = squaresAttacking(moveData.board, moveData.from)
+    filterInvalidMoves(moveData)
   }
 }

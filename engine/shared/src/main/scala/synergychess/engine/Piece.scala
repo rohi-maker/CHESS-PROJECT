@@ -14,7 +14,7 @@ class Piece(val color: String, val basePos: Point) {
 
   def senString: String = ""
 
-  def validMoves(moveInfo: MoveData): ArrayBuffer[String] = null
+  def validMoves(moveData: MoveData): ArrayBuffer[String] = null
 
   def squaresAttacking(board: Board, from: String): ArrayBuffer[String] = null
 
@@ -98,12 +98,12 @@ class Piece(val color: String, val basePos: Point) {
     diagonal(board, new Point(pos))
   }
 
-  def move (moveInfo: MoveData): MoveResult = {
+  def move (moveData: MoveData): MoveResult = {
     MoveResult(
-      ArrayBuffer(Tuple2(moveInfo.from, null), Tuple2(moveInfo.to, this)),
+      ArrayBuffer(Tuple2(moveData.from, null), Tuple2(moveData.to, this)),
       "",
-      moveInfo.from,
-      moveInfo.to,
+      moveData.from,
+      moveData.to,
       "",
       false,
       "",
@@ -113,16 +113,16 @@ class Piece(val color: String, val basePos: Point) {
     )
   }
 
-  def filterInvalidMoves(moveInfo: MoveData): ArrayBuffer[String] = {
-    val board = moveInfo.board
-    val validMoves = moveInfo.moveList
+  def filterInvalidMoves(moveData: MoveData): ArrayBuffer[String] = {
+    val board = moveData.board
+    val validMoves = moveData.moveList
 
     val testMove = new MoveData()
-    testMove.board = moveInfo.board
-    testMove.from = moveInfo.from
+    testMove.board = moveData.board
+    testMove.from = moveData.from
 
     // Given a set of validMoves filter the ones that don't end up in a checked Positions
-    val color = board.getSquare(moveInfo.from).color
+    val color = board.getSquare(moveData.from).color
 
     var i = 0
     while (i < validMoves.length) {

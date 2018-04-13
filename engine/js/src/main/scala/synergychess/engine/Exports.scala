@@ -48,46 +48,53 @@ class Position {
       return js.Array[String]()
     }
 
-    val moveInfo = new MoveData()
-    moveInfo.from = from
-    moveInfo.enPassant = data.enPassant
-    moveInfo.castling = data.castling
-    moveInfo.board = data.board
+    val moveData = new MoveData()
+    moveData.from = from
+    moveData.enPassant = data.enPassant
+    moveData.castling = data.castling
+    moveData.board = data.board
 
-    val result = data.board.getSquare(from).validMoves(moveInfo)
+    val result = data.board.getSquare(from).validMoves(moveData)
     result.toJSArray
   }
 
   @JSExport
   def updatePosition(from: String, to: String, rookPlacement: String, promotion: String, kingChoice: String): String = {
-    val moveInfo = new MoveData()
+    val moveData = new MoveData()
 
-    if (kingChoice != "") {
-      moveInfo.from = kingChoice
-
-      val moveResult = data.move(moveInfo)
-      val mateData = moveResult.mateData
-
-      if (mateData == null) {
-        data.removedKingChoices = ArrayBuffer[String]()
-      } else {
-        data.removedKingChoices = mateData.choices
-      }
-    }
-
-    moveInfo.from = from
-    moveInfo.to = to
-    moveInfo.rookPlacement = rookPlacement
-    moveInfo.enPassant = data.enPassant
-    moveInfo.castling = data.castling
-    moveInfo.board = data.board
+    moveData.from = from
+    moveData.to = to
+    moveData.rookPlacement = rookPlacement
+    moveData.enPassant = data.enPassant
+    moveData.castling = data.castling
+    moveData.board = data.board
     if (promotion != "") {
-      moveInfo.promotionData = new PromotionData()
-      moveInfo.promotionData.name = promotion
+      moveData.promotionData = new PromotionData()
+      moveData.promotionData.name = promotion
     }
 
-    val moveResult = data.move(moveInfo)
-    val mateData = moveResult.mateData
+    val moveResult = data.move(moveData)
+    val mateData = moveResult.get.mateData
+
+    if (mateData == null) {
+      data.removedKingChoices = ArrayBuffer[String]()
+      ""
+    } else {
+      data.removedKingChoices = mateData.choices
+      mateData.toString
+    }
+  }
+
+  @JSExport
+  def updatePositionFromString(moveDataString: String): String = {
+    val moveData = new MoveData(moveDataString)
+
+    moveData.enPassant = data.enPassant
+    moveData.castling = data.castling
+    moveData.board = data.board
+
+    val moveResult = data.move(moveData)
+    val mateData = moveResult.get.mateData
 
     if (mateData == null) {
       data.removedKingChoices = ArrayBuffer[String]()

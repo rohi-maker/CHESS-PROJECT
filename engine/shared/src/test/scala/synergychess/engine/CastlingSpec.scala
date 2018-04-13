@@ -7,20 +7,20 @@ class CastlingSpec extends FlatSpec with Matchers with BeforeAndAfter {
 
   var game: Game = Game()
   var board: Board = new Board()
-  var moveInfo: MoveData = new MoveData()
+  var moveData: MoveData = new MoveData()
 
   before {
     game = GameGenerator.loadFromSEN(castlingConfig)
     board = game.board
-    moveInfo = new MoveData()
+    moveData = new MoveData()
   }
 
   "(inner)" should "be able to castle king side" in {
     val king = board.getSquare("G3")
     val rook = board.getSquare("J3")
-    moveInfo.from = "G3"
-    moveInfo.to = "I3"
-    game.move(moveInfo)
+    moveData.from = "G3"
+    moveData.to = "I3"
+    game.move(moveData)
 
     board.getSquare("G3") shouldBe null
     board.getSquare("J3") shouldBe null
@@ -32,9 +32,9 @@ class CastlingSpec extends FlatSpec with Matchers with BeforeAndAfter {
   "(inner)" should "be able to castle queen side" in {
     val king = board.getSquare("G3")
     val rook = board.getSquare("C3")
-    moveInfo.from = "G3"
-    moveInfo.to = "E3"
-    game.move(moveInfo)
+    moveData.from = "G3"
+    moveData.to = "E3"
+    game.move(moveData)
 
     board.getSquare("G3") shouldBe null
     board.getSquare("C3") shouldBe null
@@ -47,11 +47,11 @@ class CastlingSpec extends FlatSpec with Matchers with BeforeAndAfter {
   "(outer)" should "be able to castle king side" in {
     val king = board.getSquare("F1")
     val rook = board.getSquare("A1")
-    moveInfo.from = "F1"
-    moveInfo.to = "B1"
-    moveInfo.rookPlacement = "D1"
+    moveData.from = "F1"
+    moveData.to = "B1"
+    moveData.rookPlacement = "D1"
 
-    game.move(moveInfo)
+    game.move(moveData)
 
     board.getSquare("F1") shouldBe null
     board.getSquare("B1").senString shouldBe king.senString
@@ -62,10 +62,10 @@ class CastlingSpec extends FlatSpec with Matchers with BeforeAndAfter {
   "(outer)" should "be able to castle queen side" in {
     val king = board.getSquare("G3")
     val rook = board.getSquare("C3")
-    moveInfo.from = "G3"
-    moveInfo.to = "E3"
+    moveData.from = "G3"
+    moveData.to = "E3"
 
-    game.move(moveInfo)
+    game.move(moveData)
 
     board.getSquare("G3") shouldBe null
     board.getSquare("C3") shouldBe null

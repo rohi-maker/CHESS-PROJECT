@@ -27,11 +27,11 @@ class Board {
       if (v != null) {
         val color = v.color
         val sqsAtk = v.squaresAttacking(this, pos.toString)
-        val moveInfo = new MoveData()
-        moveInfo.from = v.basePos.toString
-        moveInfo.board = this
-        moveInfo.moveList = sqsAtk.distinct
-        val valids = v.validMoves(moveInfo)
+        val moveData = new MoveData()
+        moveData.from = v.basePos.toString
+        moveData.board = this
+        moveData.moveList = sqsAtk.distinct
+        val valids = v.validMoves(moveData)
         val sqsAtkd = sqsAtk.filter(valids.contains(_))
 
         for (i <- sqsAtkd.indices) {

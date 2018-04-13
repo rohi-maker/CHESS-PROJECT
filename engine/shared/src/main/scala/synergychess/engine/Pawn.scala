@@ -40,12 +40,12 @@ class Pawn(override val color: String, override val basePos: Point) extends Piec
     if (color == "white") pStr.toUpperCase() else pStr
   }
 
-  override def validMoves(thisMoveInfo: MoveData): ArrayBuffer[String] = {
-    val moveInfo = new MoveData(thisMoveInfo)
-    val board = moveInfo.board
-    val enPassant = moveInfo.enPassant
-    val moves = squaresAttacking(board, moveInfo.from)
-    val pos = new Point(moveInfo.from)
+  override def validMoves(thismoveData: MoveData): ArrayBuffer[String] = {
+    val moveData = new MoveData(thismoveData)
+    val board = moveData.board
+    val enPassant = moveData.enPassant
+    val moves = squaresAttacking(board, moveData.from)
+    val pos = new Point(moveData.from)
 
     val x = pos.x
     val y = pos.y
@@ -82,9 +82,9 @@ class Pawn(override val color: String, override val basePos: Point) extends Piec
       }
     }
 
-    moveInfo.moveList = moves
+    moveData.moveList = moves
 
-    filterInvalidMoves(moveInfo)
+    filterInvalidMoves(moveData)
   }
 
   def isPromotion(from: String, to: String): Boolean = {
@@ -93,34 +93,34 @@ class Pawn(override val color: String, override val basePos: Point) extends Piec
     p2.y == endRank
   }
 
-  override def move(moveInfo: MoveData): MoveResult = {
+  override def move(moveData: MoveData): MoveResult = {
     val result = new MoveResult()
-    result.sq = ArrayBuffer((moveInfo.from, null), (moveInfo.to, this))
+    result.sq = ArrayBuffer((moveData.from, null), (moveData.to, this))
     result.enPassant = ""
-    result.from = moveInfo.from
-    result.to = moveInfo.to
+    result.from = moveData.from
+    result.to = moveData.to
 
-    val p1 = new Point(moveInfo.from)
-    val p2 = new Point(moveInfo.to)
+    val p1 = new Point(moveData.from)
+    val p2 = new Point(moveData.to)
 
     if (Math.abs(p1.y - p2.y) == 2) {
       val x = p1.x
       result.enPassant = Point(x, (p1.y + p2.y) / 2).toString
     }
 
-    if (moveInfo.to == moveInfo.enPassant) {
-      val p3 = new Point(moveInfo.enPassant)
+    if (moveData.to == moveData.enPassant) {
+      val p3 = new Point(moveData.enPassant)
       p3.y += (if (color == "white") -1 else 1)
       result.sq.append((p3.toString, null))
     }
 
-    if (moveInfo.promotionData != null) {
-      val newPiece = PieceFactory.newPiece(moveInfo.promotionData.name, color, basePos)
-      moveInfo.board.setSquare(basePos, newPiece)
-      if (moveInfo.promotionData.kingPlacement != null && moveInfo.promotionData.kingPlacement != "") {
-        result.sq = ArrayBuffer((moveInfo.from, null), (moveInfo.to, null), (moveInfo.promotionData.kingPlacement, newPiece))
+    if (moveData.promotionData != null) {
+      val newPiece = PieceFactory.newPiece(moveData.promotionData.name, color, basePos)
+      moveData.board.setSquare(basePos, newPiece)
+      if (moveData.promotionData.kingPlacement != null && moveData.promotionData.kingPlacement != "") {
+        result.sq = ArrayBuffer((moveData.from, null), (moveData.to, null), (moveData.promotionData.kingPlacement, newPiece))
       } else {
-        result.sq = ArrayBuffer((moveInfo.from, null), (moveInfo.to, newPiece))
+        result.sq = ArrayBuffer((moveData.from, null), (moveData.to, newPiece))
       }
     }
     result

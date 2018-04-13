@@ -7,17 +7,17 @@ import scala.collection.mutable.ArrayBuffer
 
 class EndConditions() {
   def staleMate(board: Board, color: String, enPassant: String): Boolean = {
-    val moveInfo = new MoveData()
-    moveInfo.board = board
-    moveInfo.enPassant = enPassant
+    val moveData = new MoveData()
+    moveData.board = board
+    moveData.enPassant = enPassant
 
     // Where team given is team being checked
     var flag = false
     for (pos <- board.gameBoard.keys) {
       val v = board.getSquare(pos)
       if (v != null && v.color == color) {
-        moveInfo.from = pos
-        flag = flag || v.validMoves(moveInfo).nonEmpty
+        moveData.from = pos
+        flag = flag || v.validMoves(moveData).nonEmpty
       }
     }
     !flag
@@ -38,10 +38,10 @@ class EndConditions() {
 
     // Have to check for singleCheckMate
     def singleKingMated(board: Board, king: String): Boolean = {
-      val moveInfo = new MoveData()
-      moveInfo.board = board
-      moveInfo.from = king
-      val kValids = board.getSquare(king).validMoves(moveInfo)
+      val moveData = new MoveData()
+      moveData.board = board
+      moveData.from = king
+      val kValids = board.getSquare(king).validMoves(moveData)
       if (kValids.nonEmpty) return false
 
       val sqsAtkdBy = board.squaresAttackedBy
@@ -59,8 +59,8 @@ class EndConditions() {
       if (atkingAtker != null) {
         for (p <- atkingAtker) {
           // Check if the attackers are pinned
-          moveInfo.from = p
-          if (board.getSquare(p).validMoves(moveInfo).nonEmpty) return false
+          moveData.from = p
+          if (board.getSquare(p).validMoves(moveData).nonEmpty) return false
         }
       }
 
@@ -72,8 +72,8 @@ class EndConditions() {
       pointsBtwn.remove(pointsBtwn.length - 1)
 
       !pointsBtwn.exists(pos => currTeamAtking(pos).exists(p => {
-          moveInfo.from = p
-          return board.getSquare(p).validMoves(moveInfo).contains(pos)
+          moveData.from = p
+          return board.getSquare(p).validMoves(moveData).contains(pos)
       }))
     }
 
@@ -81,8 +81,8 @@ class EndConditions() {
     if (doubleCheck) {
       def doubleCheckMate(): Boolean = {
         // If double check only valid move is to capture piece, can't block or move
-        val moveInfo = new MoveData()
-        moveInfo.board = board
+        val moveData = new MoveData()
+        moveData.board = board
         val sqsAtkdBy = board.squaresAttackedBy
         val oppTeam = if (color == "white") "black" else "white"
         val currTeamAtking = sqsAtkdBy(color)
@@ -102,8 +102,8 @@ class EndConditions() {
         if (atkingAtker != null) {
           atkingAtker = atkingAtker.filter(k => {
             // Check if the attackers are pinned
-            moveInfo.from = k
-            return board.getSquare(k).validMoves(moveInfo).nonEmpty
+            moveData.from = k
+            return board.getSquare(k).validMoves(moveData).nonEmpty
           })
           if (atkingAtker.nonEmpty) return false
         }

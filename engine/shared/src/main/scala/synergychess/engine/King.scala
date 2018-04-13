@@ -44,12 +44,12 @@ class King(override val color: String, override val basePos: Point) extends Piec
     if (color == "white") "K" else "k"
   }
 
-  def isBackRankCastle(moveInfo: MoveData): Boolean = {
-    val board = moveInfo.board
-    val from = moveInfo.from
-    val to = moveInfo.to
+  def isBackRankCastle(moveData: MoveData): Boolean = {
+    val board = moveData.board
+    val from = moveData.from
+    val to = moveData.to
 
-    val castling = moveInfo.castling
+    val castling = moveData.castling
 
     // Can't castle from check
     if (board.inCheck(color)) return false
@@ -101,10 +101,10 @@ class King(override val color: String, override val basePos: Point) extends Piec
     false
   }
 
-  override def validMoves(moveInfo: MoveData): ArrayBuffer[String] = {
-    val board = moveInfo.board
-    val from = moveInfo.from
-    val castling = moveInfo.castling
+  override def validMoves(moveData: MoveData): ArrayBuffer[String] = {
+    val board = moveData.board
+    val from = moveData.from
+    val castling = moveData.castling
 
     val valids = squaresAttacking(board, from)
 
@@ -154,32 +154,32 @@ class King(override val color: String, override val basePos: Point) extends Piec
         }
       }
     }
-    moveInfo.moveList = valids.distinct
-    filterInvalidMoves(moveInfo)
+    moveData.moveList = valids.distinct
+    filterInvalidMoves(moveData)
   }
 
-  override def move(moveInfo: MoveData): MoveResult = {
+  override def move(moveData: MoveData): MoveResult = {
     val result = new MoveResult()
     result.sq = ArrayBuffer[(String, Piece)]()
-    result.from = moveInfo.from
-    result.to = moveInfo.to
+    result.from = moveData.from
+    result.to = moveData.to
 
 
-    val p1 = new Point(moveInfo.from)
-    val p2 = new Point(moveInfo.to)
+    val p1 = new Point(moveData.from)
+    val p2 = new Point(moveData.to)
     var castleSquare = new Point()
     var inBetween = new Point()
-    if (moveInfo.rookPlacement != "") {
+    if (moveData.rookPlacement != "") {
       val dir = if (p1.x < p2.x) 6 else -5
       castleSquare = Point(dir + p1.x, p1.y)
-      val king = new King(moveInfo.board.getSquare(moveInfo.from).asInstanceOf[King])
-      val rook = new Rook(moveInfo.board.getSquare(castleSquare).asInstanceOf[Rook])
+      val king = new King(moveData.board.getSquare(moveData.from).asInstanceOf[King])
+      val rook = new Rook(moveData.board.getSquare(castleSquare).asInstanceOf[Rook])
 
-      result.sq.append((moveInfo.from, null))
+      result.sq.append((moveData.from, null))
       result.sq.append((castleSquare.toString(), null))
-      result.sq.append((moveInfo.to, king))
-      result.sq.append((moveInfo.rookPlacement, rook))
-      result.rookPlacement = moveInfo.rookPlacement
+      result.sq.append((moveData.to, king))
+      result.sq.append((moveData.rookPlacement, rook))
+      result.rookPlacement = moveData.rookPlacement
       return result
     }
 
@@ -188,16 +188,16 @@ class King(override val color: String, override val basePos: Point) extends Piec
       inBetween = Point((p1.x + p2.x) / 2, p2.y)
       castleSquare = Point(dir + p1.x, p1.y)
       result.sq.append((castleSquare.toString, null))
-      result.sq.append((inBetween.toString, moveInfo.board.getSquare(castleSquare)))
-      result.sq.append((moveInfo.to, this))
-      result.sq.append((moveInfo.from, null))
+      result.sq.append((inBetween.toString, moveData.board.getSquare(castleSquare)))
+      result.sq.append((moveData.to, this))
+      result.sq.append((moveData.from, null))
       result.castle = "inner"
     }
 
     if (rank == "inner" && Math.abs(p1.x - p2.x) == 2) {
       innerCastle()
     } else {
-      result.sq = ArrayBuffer((moveInfo.from, null), (moveInfo.to, this))
+      result.sq = ArrayBuffer((moveData.from, null), (moveData.to, this))
     }
     result
   }

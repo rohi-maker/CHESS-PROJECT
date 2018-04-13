@@ -29,24 +29,24 @@ class Knight(override val color: String, override val basePos: Point) extends Pi
     valids
   }
 
-  override def validMoves(moveInfo: MoveData): ArrayBuffer[String] = {
+  override def validMoves(moveData: MoveData): ArrayBuffer[String] = {
     val valids = ArrayBuffer[String]()
     val possible = Array(Point(-1, 2), Point(-1, -2), Point(1, 2), Point(1, -2), Point(-2, 1), Point(2, 1), Point(2, -1), Point(-2, -1))
 
-    val pos = new Point(moveInfo.from)
+    val pos = new Point(moveData.from)
     val x = pos.x
     val y = pos.y
 
     for (i <- possible.indices) {
       val sq = possible(i)
       val adj = Point(sq.x + x, sq.y + y)
-      if (adj.inBounds && (moveInfo.board.getSquare(adj) == null || moveInfo.board.getSquare(adj).color != color)) {
+      if (adj.inBounds && (moveData.board.getSquare(adj) == null || moveData.board.getSquare(adj).color != color)) {
         valids.append(adj.toString())
       }
     }
 
-    moveInfo.moveList = valids
-    filterInvalidMoves(moveInfo)
+    moveData.moveList = valids
+    filterInvalidMoves(moveData)
   }
 
   override def senString: String = {

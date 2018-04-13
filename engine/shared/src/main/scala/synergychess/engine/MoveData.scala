@@ -10,6 +10,7 @@ case class MoveData (
   var moveList: ArrayBuffer[String],
   var castling: Castling,
   var rookPlacement: String,
+  var kingChoice: String,
   var promotionData: PromotionData
 ) {
   def this() {
@@ -20,6 +21,7 @@ case class MoveData (
       "",
       ArrayBuffer[String](),
       new Castling(),
+      "",
       "",
       null
     )
@@ -34,7 +36,63 @@ case class MoveData (
       another.moveList,
       another.castling,
       another.rookPlacement,
+      another.kingChoice,
       another.promotionData
     )
+  }
+
+  def this(moveDataString: String) {
+    this()
+
+    var start = 0
+    if ('A' <= moveDataString(start + 2) && moveDataString(start + 2) <= 'Z') {
+      from = moveDataString.substring(start, start + 2)
+      start = start + 2
+    } else {
+      from = moveDataString.substring(start, start + 3)
+      start = start + 3
+    }
+
+    if (('A' <= moveDataString(start + 2) && moveDataString(start + 2) <= 'Z') || moveDataString(start + 2) == '_') {
+      to = moveDataString.substring(start, start + 2)
+      start = start + 2
+    } else {
+      to = moveDataString.substring(start, start + 3)
+      start = start + 3
+    }
+
+    if (moveDataString(start) == '_') {
+      rookPlacement = ""
+      start = start + 1
+    } else if (('A' <= moveDataString(start + 2) && moveDataString(start + 2) <= 'Z') || moveDataString(start + 2) == '_') {
+      rookPlacement = moveDataString.substring(start, start + 2)
+      start = start + 2
+    } else {
+      rookPlacement = moveDataString.substring(start, start + 3)
+      start = start + 3
+    }
+
+    if (moveDataString(start) == '_') {
+      kingChoice = ""
+      start = start + 1
+    } else if (('A' <= moveDataString(start + 2) && moveDataString(start + 2) <= 'Z') || moveDataString(start + 2) == '_') {
+      kingChoice = moveDataString.substring(start, start + 2)
+      start = start + 2
+    } else {
+      kingChoice = moveDataString.substring(start, start + 3)
+      start = start + 3
+    }
+
+    promotionData = new PromotionData()
+    if (moveDataString(start) == '_') {
+      promotionData = null
+    } else {
+      promotionData.name = moveDataString(start) match {
+        case 'r' => "rook"
+        case 'b' => "bishop"
+        case 'q' => "queen"
+        case 'n' => "knight"
+      }
+    }
   }
 }
