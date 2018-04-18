@@ -1,15 +1,43 @@
 import React, {Component} from 'react'
 import {GameGenerator} from 'synergychess-engine'
 
+import bishop_b from './imgs/bishop_b.svg'
+import bishop_w from './imgs/bishop_w.svg'
+import king_b from './imgs/king_b.svg'
+import king_w from './imgs/king_w.svg'
+import knight_b from './imgs/knight_b.svg'
+import knight_w from './imgs/knight_w.svg'
+import pawn_b from './imgs/pawn_b.svg'
+import pawn_w from './imgs/pawn_w.svg'
+import queen_b from './imgs/queen_b.svg'
+import queen_w from './imgs/queen_w.svg'
+import rook_b from './imgs/rook_b.svg'
+import rook_w from './imgs/rook_w.svg'
+
+const IMGS = {
+  bishop_b,
+  bishop_w,
+  king_b,
+  king_w,
+  knight_b,
+  knight_w,
+  pawn_b,
+  pawn_w,
+  queen_b,
+  queen_w,
+  rook_b,
+  rook_w
+}
+
 export default class Helper extends Component {
   static getImageFilename(sen) {
-    let result = "/" + this.getPieceName(sen)
+    let result = this.getPieceName(sen)
     if (sen === sen.toUpperCase()) {
-      result += "_w.svg"
+      result += "_w"
     } else {
-      result += "_b.svg"
+      result += "_b"
     }
-    return result
+    return IMGS[result]
   }
 
   static getPieceName(sen) {
@@ -31,7 +59,7 @@ export default class Helper extends Component {
     if (sen === undefined || sen === null || sen === "") {
       return <div />
     } else {
-      return <img 
+      return <img
         src={this.getImageFilename(sen)}
         alt={this.getPieceName(sen)}
       />
