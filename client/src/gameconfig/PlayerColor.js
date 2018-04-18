@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import './PlayerColor.css'
 
 export default class PlayerColor extends Component {
-  static BLACK = 0
-  static WHITE = 1
+  static WHITE = 0
+  static BLACK = 1
   static RANDOM = 2
 
   render() {

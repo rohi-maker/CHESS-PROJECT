@@ -29,7 +29,8 @@ export default class GamePage extends Component {
     if (!game) return 'Loading...'
 
     const {myColor} = game
-    const allowMove = myColor === PlayerColor.P1 || myColor === PlayerColor.P2
+    const viewAsBlackPlayer = myColor === PlayerColor.BLACK
+    const allowMove = myColor === PlayerColor.WHITE || myColor === PlayerColor.BLACK
 
     return (
       <div>
@@ -43,7 +44,7 @@ export default class GamePage extends Component {
               showCoords={true}
               showLegalMoves={true}
               showLastMove={true}
-              viewAsBlackPlayer={true}
+              viewAsBlackPlayer={viewAsBlackPlayer}
               allowMove={allowMove}
               onMove={this.onThisBoardMove.bind(this)}
             />
