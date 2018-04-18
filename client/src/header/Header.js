@@ -20,10 +20,6 @@ class Header extends Component {
 
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1}>
-              Live games
-            </NavItem>
-
             <NavItem eventKey={2}>
               Ended games
             </NavItem>

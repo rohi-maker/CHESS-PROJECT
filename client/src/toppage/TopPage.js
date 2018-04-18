@@ -17,8 +17,7 @@ export default class TopPage extends Component {
 
           <Col md={7} sm={6}>
             <Jumbotron>
-              <h1>Live game</h1>
-              <p>Board of a live game will be displayed here.</p>
+              <h1>Live games will be displayed here.</h1>
               <p>Click to go to the game page.</p>
             </Jumbotron>
           </Col>
