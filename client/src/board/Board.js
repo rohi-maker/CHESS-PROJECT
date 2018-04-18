@@ -30,7 +30,7 @@ export default class Board extends Component {
 
       validMoves: [],
       currentMove: "",
-      lastMove: props.lastMove,
+      lastMove: [],
       isPromoting: false,
       value: ""
     }
@@ -64,12 +64,11 @@ export default class Board extends Component {
     })
   }
 
-  clickOnPiece(row, col) {
+  clickOnPiece(r, c) {
     if (this.state.isPromoting) return
 
-    if (!this.state.viewAsBlackPlayer) {
-      row = 11 - row
-    }
+    let row = r, col = c
+    row = this.getRowAsBlackPlayer(row)
 
     let x, y
     [x, y] = Helper.toPos(this.state.currentMove)
@@ -141,7 +140,8 @@ export default class Board extends Component {
       return
     }
 
-    if (this.state.validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
+    let validMoves = this.state.validMoves.map(e => this.getPosAsBlackPlayer(e))
+    if (validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
       let move = {}
       move = {
         from: this.state.currentMove,
@@ -170,7 +170,7 @@ export default class Board extends Component {
       return
     }
 
-    const validMoves = this.position.validMoves(Helper.toSEN(row, col))
+    validMoves = this.position.validMoves(Helper.toSEN(row, col))
     this.setState({
       validMoves: validMoves.map(e => Helper.toPos(e)),
       currentMove: Helper.toSEN(row, col)
@@ -224,8 +224,32 @@ export default class Board extends Component {
     }
   }
 
+  getPosAsBlackPlayer(pos) {
+    if (typeof pos === "string") {
+      return pos[0] + (this.getRowAsBlackPlayer(parseInt(pos.substring(1, pos.length), 10) - 1) + 1)
+    } else {
+      if (pos.length === 0) {
+        return []
+      }
+      const p = pos
+      p[0] = this.getRowAsBlackPlayer(p[0])
+      return p
+    }
+  }
+
+  getRowAsBlackPlayer(row) {
+    let r = row
+    if (!this.state.viewAsBlackPlayer) {
+      r = 11 - r
+    }
+    return r
+  }
+
   render() {
     let board = GameGenerator.loadFromSEN(this.state.sen)
+    const validMoves = this.state.validMoves.map(e => this.getPosAsBlackPlayer(e))
+    const currentMove = this.getPosAsBlackPlayer(this.state.currentMove)
+    const lastMove = this.state.lastMove.map(e => this.getPosAsBlackPlayer(e))
     if (!this.state.viewAsBlackPlayer) {
       board = board.reverse()
     }
@@ -244,13 +268,13 @@ export default class Board extends Component {
                     className={
                       ((i + j) % 2 === 0 ? "black" : "white") +
                       ((this.state.showLegalMoves
-                          && this.state.validMoves.reduce(
+                          && validMoves.reduce(
                             (res, e) => res || (i === e[0] && j === e[1]), false))
-                        || (Helper.toSEN(i, j) === this.state.currentMove
+                        || (Helper.toSEN(i, j) === currentMove
                           && !this.castling
                           && Helper.getTeam(sen) === this.position.getTeamToMove)
                         || (this.state.showLastMove
-                          && this.state.lastMove.includes(Helper.toSEN(i, j))) ?
+                          && lastMove.includes(Helper.toSEN(i, j))) ?
                         " highlight" :
                         ""
                       )

@@ -25,7 +25,7 @@ export default class GamePage extends Component {
   }
 
   render() {
-    const {iJoined, state, status} = this.state
+    const {iJoined, status} = this.state
 
     if (!iJoined) return status
 
@@ -40,7 +40,6 @@ export default class GamePage extends Component {
             <Board
               ref={r => this.board =r}
               sen={Board.startingSEN}
-              lastMove=""
 
               showCoords={true}
               showLegalMoves={true}

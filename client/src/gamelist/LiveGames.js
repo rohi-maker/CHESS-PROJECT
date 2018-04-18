@@ -105,7 +105,6 @@ export default class LiveGames extends Component {
         <Board
           ref={r => this.boards[gameRef] = r}
           sen={Board.startingSEN}
-          lastMove=""
 
           showCoords={false}
           showLegalMoves={false}
