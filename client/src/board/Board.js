@@ -7,6 +7,8 @@ import {Position, GameGenerator, MoveData} from 'synergychess-engine'
 import './Board.css'
 
 export default class Board extends Component {
+  static startingSEN = "r1n1bkqb1n1r/2p6p2/1prnbqkbnrp1/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/1PRNBQKBNRP1/2P6P2/R1N1BKQB1N1R w KQkq KQkq - 0 0"
+
   constructor(props) {
     super(props)
 
@@ -211,7 +213,7 @@ export default class Board extends Component {
         <Button
           bsStyle="primary"
           onClick={f => {
-            this.state.isPromoting = false
+            this.setState({isPromoting: false})
             this.clickOnPiece(this.row, this.col)
           }}
         >
