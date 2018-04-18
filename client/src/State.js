@@ -1,28 +1,28 @@
 export default ({
-  ALIVE        : 0,
+  ALIVE          : 0,
 
-  P1_CHECKMATE : 1,
-  P2_CHECKMATE : 2,
+  WHITE_CHECKMATE: 1,
+  BLACK_CHECKMATE: 2,
 
-  P1_STALEMATE :  3,
-  P2_STALEMATE :  4,
-  DRAW_MATERIAL: 5,
+  WHITE_STALEMATE: 3,
+  BLACK_STALEMATE: 4,
+  DRAW_MATERIAL  : 5,
 
-  DRAW_50       : 6,
-  DRAW_REP      : 7,
+  DRAW_50        : 6,
+  DRAW_REP       : 7,
 
-  DRAW_AGREE   : 8,
+  DRAW_AGREE     : 8,
 
-  P1_RESIGN    : 9,
-  P2_RESIGN    : 10,
+  WHITE_RESIGN   : 9,
+  BLACK_RESIGN   : 10,
 
-  P1_CANCEL    : 11,
-  P2_CANCEL    : 12,
+  WHITE_CANCEL   : 11,
+  BLACK_CANCEL   : 12,
 
-  P1_NO_TIME   : 13,
-  P2_NO_TIME   : 14,
+  WHITE_NO_TIME  : 13,
+  BLACK_NO_TIME  : 14,
 
-  NOT_STARTED  : 15
+  NOT_STARTED    : 15
 })
 
 export const STATE_DESCS = [
