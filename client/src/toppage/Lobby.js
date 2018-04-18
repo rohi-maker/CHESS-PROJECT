@@ -34,8 +34,9 @@ class Lobby extends Component {
   render() {
     return (
       <div>
+        <p>Join games:</p>
+
         <Table className="lobby" bordered hover>
-          <caption>Join games:</caption>
           <thead>
             <tr>
               <th>Player</th>

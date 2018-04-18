@@ -1,0 +1,18 @@
+.gamelist-board {
+  background-color: silver;
+}
+
+.gamelist-p1 {
+  padding: 0.2em;
+  background-color: white;
+  color: black;
+
+  border: solid 1px silver;
+  margin-bottom: 1em;
+}
+
+.gamelist-p2 {
+  padding: 0.2em;
+  background-color: black;
+  color: white;
+}

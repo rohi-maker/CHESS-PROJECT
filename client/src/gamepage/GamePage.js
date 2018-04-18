@@ -4,8 +4,6 @@ import {Route} from 'react-router-dom'
 
 import Board from '../board/Board'
 
-const startingSEN = "r1n1bkqb1n1r/2p6p2/1prnbqkbnrp1/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/1PRNBQKBNRP1/2P6P2/R1N1BKQB1N1R w KQkq KQkq - 0 0"
-
 export default class GamePage extends Component {
   static route = <Route exact path="/games/:gameId" component={GamePage}/>
 
@@ -16,7 +14,7 @@ export default class GamePage extends Component {
           <Col md={8}>
             <Board
               ref={r => this.board =r}
-              sen={startingSEN}
+              sen={Board.startingSEN}
               lastMove=""
 
               showCoords={true}
