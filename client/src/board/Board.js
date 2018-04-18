@@ -116,8 +116,8 @@ export default class Board extends Component {
     }
 
     // Castling
-    if (  this.state.currentMove !== "" 
-          && board[x][y].toUpperCase() === "K" 
+    if (  this.state.currentMove !== ""
+          && board[x][y].toUpperCase() === "K"
           && Math.abs(y - col) > 1) {
       board[row][col] = board[x][y]
       board[x][y] = ""
@@ -143,7 +143,7 @@ export default class Board extends Component {
     if (this.state.validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
       let move = {}
       move = {
-        from: this.state.currentMove, 
+        from: this.state.currentMove,
         to: Helper.toSEN(row, col)
       }
 
@@ -151,8 +151,8 @@ export default class Board extends Component {
         move.kingChoice = this.kingChoice
       }
 
-      if (board[x][y].toUpperCase() === "P" 
-          && ((Helper.getTeam(board[x][y]) === "white" && row === 11) 
+      if (board[x][y].toUpperCase() === "P"
+          && ((Helper.getTeam(board[x][y]) === "white" && row === 11)
               || (Helper.getTeam(board[x][y]) === "black" && row === 0)
           )
       ) {
@@ -168,7 +168,7 @@ export default class Board extends Component {
       this.props.onMove(move)
       return
     }
-    
+
     const validMoves = this.position.validMoves(Helper.toSEN(row, col))
     this.setState({
       validMoves: validMoves.map(e => Helper.toPos(e)),
@@ -233,7 +233,7 @@ export default class Board extends Component {
       <div>
         {this.getPromotionButtons()}
 
-        <table>
+        <table className="board">
           <tbody>
             {board.map((e, i) =>
               <tr key={i}>
@@ -241,8 +241,8 @@ export default class Board extends Component {
                   <td
                     key={j}
                     className={
-                      ((i + j) % 2 === 0 ? "black" : "white") + 
-                      ((this.state.showLegalMoves 
+                      ((i + j) % 2 === 0 ? "black" : "white") +
+                      ((this.state.showLegalMoves
                           && this.state.validMoves.reduce(
                             (res, e) => res || (i === e[0] && j === e[1]), false))
                         || (Helper.toSEN(i, j) === this.state.currentMove
@@ -253,7 +253,7 @@ export default class Board extends Component {
                         " highlight" :
                         ""
                       )
-                    } 
+                    }
                     id={String.fromCharCode(65 + i) + j}
                     onClick={(e) => (this.state.allowMove) ? this.clickOnPiece(i, j) : {}}
                   >
@@ -270,11 +270,11 @@ export default class Board extends Component {
           {/* File name */}
           <tfoot>
             {(this.state.showCoords) ? <tr>
-              {board.map((e, i) => 
-                <td key={i} className="colName"> 
-                  {String.fromCharCode(65 + i)} 
+              {board.map((e, i) =>
+                <td key={i} className="colName">
+                  {String.fromCharCode(65 + i)}
                 </td>
-              )} 
+              )}
             </tr> : <div />}
           </tfoot>
         </table>
