@@ -57,7 +57,6 @@ export default class Board extends Component {
     this.kingRemoveChoices = kingRemoveChoices
     this.position = position
 
-    console.log(this.position.senString)
     const lastMove = [move[0], move[1]]
     this.setState({
       sen: this.position.senString,
