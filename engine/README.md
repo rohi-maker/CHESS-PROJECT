@@ -1,11 +1,7 @@
 ## Build for JVM
 
 ```
-sbt
-
-project engineJVM
-
-publish-local
+sbt "project engineJVM" publish-local
 ```
 
 ## Build for JS
