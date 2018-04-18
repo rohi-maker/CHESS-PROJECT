@@ -263,23 +263,23 @@ export default class Board extends Component {
                 )}
 
                 {/* Rank name */}
-                {this.state.showCoords ? <td className="rowName"> {i + 1} </td> : <td />}
+                {this.state.showCoords && <td className="rowName"> {i + 1} </td>}
               </tr>
             )}
           </tbody>
 
           {/* File name */}
-          <tfoot>
-            {this.state.showCoords ?
+          {(this.state.showCoords) &&
+            <tfoot>
               <tr>
                 {board.map((e, i) =>
                   <td key={i} className="colName">
                     {String.fromCharCode(65 + i)}
                   </td>
                 )}
-              </tr> : <tr />
-            }
-          </tfoot>
+              </tr>
+            </tfoot>
+          }
         </table>
       </div>
     );
