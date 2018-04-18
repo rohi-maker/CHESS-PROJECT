@@ -15,13 +15,13 @@ export default class PlayerInfo extends Component {
 
     const creatorIsUpper = iAmPlayer
       ? (window.$me.username !== creatorId)
-      : creatorColor === PlayerColor.P2
+      : creatorColor === PlayerColor.BLACK
 
     const [username, color] = upper
       ? (creatorIsUpper ? [creatorId, creatorColor] : [opponentId, opponentColor])
       : (creatorIsUpper ? [opponentId, opponentColor] : [creatorId, creatorColor])
 
-    const colorName = color === PlayerColor.P2 ? 'Player2' : 'Player1'
+    const colorName = color === PlayerColor.BLACK ? 'Black' : 'White'
 
     return (
       <Well bsSize="small">

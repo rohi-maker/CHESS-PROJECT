@@ -92,7 +92,7 @@ export default class LiveGames extends Component {
     const {games} = this.state
     const game = games[gameRef]
 
-    const [p1Username, p2Username] = game.creatorColor === PlayerColor.P1
+    const [p1Username, p2Username] = game.creatorColor === PlayerColor.WHITE
       ? [game.creatorId, game.opponentId]
       : [game.opponentId, game.creatorId]
 
