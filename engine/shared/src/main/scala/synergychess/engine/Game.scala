@@ -174,31 +174,39 @@ case class Game() {
     result.toString()
   }
 
-  def nextBestMove: Option[MoveData] = {
-    val listOfPossibleMove = new ArrayBuffer[MoveData]()
-    val moveData = new MoveData()
-    moveData.board = board
-    moveData.castling = castling
-    moveData.enPassant = enPassant
+  def possibleMoves: Seq[MoveData] = {
+    val ret = new ArrayBuffer[MoveData]()
+
+    // Reuse
+    val from = new MoveData()
+    from.board = board
+    from.castling = castling
+    from.enPassant = enPassant
 
     for (piece <- board.gameBoard) {
       if (piece._2 != null && piece._2.color == teamToMove) {
-        moveData.from = piece._1
-        val validMoves = piece._2.validMoves(moveData)
+        from.from = piece._1
+        val validMoves = piece._2.validMoves(from)
+
         for (validMove <- validMoves) {
+          // Cannot reuse "from" above
+          val moveData = new MoveData()
+          moveData.from = from.from
           moveData.to = validMove
-          listOfPossibleMove.append(moveData)
+          moveData.board = board
+          moveData.castling = castling
+          moveData.enPassant = enPassant
+
+          ret.append(moveData)
         }
       }
     }
 
-    if (listOfPossibleMove.isEmpty) {
-      return None
-    }
+    ret
+  }
 
-    val randomGenerator = Random
-    val pos = randomGenerator.nextInt(listOfPossibleMove.length)
-
-    Some(listOfPossibleMove(pos))
+  def nextBestMove: Option[MoveData] = {
+    val moves = possibleMoves
+    if (moves.isEmpty) None else Some(moves(Random.nextInt(moves.length)))
   }
 }
