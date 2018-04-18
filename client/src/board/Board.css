@@ -46,10 +46,10 @@
   padding-top: 5px;
 }
 
-.board .white .highlight {
+.board .white.highlight {
   background: rgba(252, 170, 27, 0.42);
 }
 
-.board .black .highlight {
+.board .black.highlight {
   background: rgba(177, 114, 6, 0.81);
 }
