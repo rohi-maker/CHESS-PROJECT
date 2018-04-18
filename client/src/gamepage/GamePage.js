@@ -18,17 +18,18 @@ export default class GamePage extends Component {
     super()
 
     this.state = {
-      game: undefined,
-      status: undefined
+      iJoined: undefined,
+      state: undefined,
+      status: 'Loading...'
     }
   }
 
   render() {
-    const {game, state} = this.state
+    const {iJoined, state, status} = this.state
 
-    if (!game) return 'Loading...'
+    if (!iJoined) return status
 
-    const {myColor} = game
+    const {myColor} = iJoined
     const viewAsBlackPlayer = myColor === PlayerColor.BLACK
     const allowMove = myColor === PlayerColor.WHITE || myColor === PlayerColor.BLACK
 
@@ -51,11 +52,11 @@ export default class GamePage extends Component {
           </Col>
 
           <Col md={4}>
-            <Alert>{STATE_DESCS[state]}</Alert>
+            <Alert>{status}</Alert>
 
-            <PlayerInfo upper={true} ijoined={game} />
+            <PlayerInfo upper={true} iJoined={iJoined} />
 
-            <PlayerInfo upper={false} ijoined={game} />
+            <PlayerInfo upper={false} iJoined={iJoined} />
 
             <Button bsStyle="primary">
               <Glyphicon glyph="remove-circle" />{' '}
@@ -109,11 +110,12 @@ export default class GamePage extends Component {
   handleServerMsg(msg) {
     switch (msg.type) {
       case 'GameNotFound': {
+        this.setState({status: 'Game not found'})
         break
       }
 
       case 'IJoined': {
-        this.setState({game: msg, state: msg.state})
+        this.setState({iJoined: msg, state: msg.state, status: STATE_DESCS[msg.state]})
 
         const {moves} = msg
         for (const move of moves) this.board.move(move)
@@ -129,7 +131,7 @@ export default class GamePage extends Component {
 
       case 'StateChanged': {
         const {state} = msg
-        this.setState({state})
+        this.setState({state, status: STATE_DESCS[state]})
         break
       }
 

@@ -5,8 +5,8 @@ import PlayerColor from '../gameconfig/PlayerColor'
 
 export default class PlayerInfo extends Component {
   render() {
-    const {upper, ijoined} = this.props
-    const {creatorId, creatorColor, opponentId} = ijoined
+    const {upper, iJoined} = this.props
+    const {creatorId, creatorColor, opponentId} = iJoined
     const opponentColor = 1 - creatorColor
 
     const iAmPlayer =
