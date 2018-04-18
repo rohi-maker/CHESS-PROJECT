@@ -170,6 +170,7 @@ class Lobby extends Component {
 
     this.sock.send(JSON.stringify({
       type: 'CreateOffer',
+      gameName: '',
       mode: withComputer ? GameConfig.MODE_HUMAN_VS_BOT : GameConfig.MODE_HUMAN_LISTED,
       limit: limit * 60,
       bonus,
