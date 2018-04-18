@@ -1,6 +1,7 @@
 package synergychess.engine
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 case class Game() {
   val maxPieces = Map(
@@ -16,6 +17,7 @@ case class Game() {
 
   var board = new Board()
   var castling = new Castling()
+  var enPassant = ""
   var endConditions = new EndConditions()
   var teamToMove = "white"
   var moveHistory: ArrayBuffer[MoveData] = ArrayBuffer[MoveData]()
@@ -24,7 +26,6 @@ case class Game() {
   var moveArray: ArrayBuffer[String] = ArrayBuffer[String]()
   var moveNumber = 1
 
-  var enPassant = ""
   var validMoves: ArrayBuffer[String] = ArrayBuffer[String]()
 
   def move(moveData: MoveData): Option[MoveResult] = {
@@ -171,5 +172,33 @@ case class Game() {
 
 
     result.toString()
+  }
+
+  def nextBestMove: Option[MoveData] = {
+    val listOfPossibleMove = new ArrayBuffer[MoveData]()
+    val moveData = new MoveData()
+    moveData.board = board
+    moveData.castling = castling
+    moveData.enPassant = enPassant
+
+    for (piece <- board.gameBoard) {
+      if (piece._2 != null && piece._2.color == teamToMove) {
+        moveData.from = piece._1
+        val validMoves = piece._2.validMoves(moveData)
+        for (validMove <- validMoves) {
+          moveData.to = validMove
+          listOfPossibleMove.append(moveData)
+        }
+      }
+    }
+
+    if (listOfPossibleMove.isEmpty) {
+      return None
+    }
+
+    val randomGenerator = Random
+    val pos = randomGenerator.nextInt(listOfPossibleMove.length)
+
+    Some(listOfPossibleMove(pos))
   }
 }

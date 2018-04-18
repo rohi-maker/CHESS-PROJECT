@@ -95,4 +95,11 @@ case class MoveData (
       }
     }
   }
+
+  override def toString: String = {
+    from + to +
+      (if (rookPlacement != "") rookPlacement else "_") +
+      (if (kingChoice != "") kingChoice else "_") +
+      (if (promotionData != null) promotionData.name(0) else "_")
+  }
 }

@@ -28,7 +28,7 @@ object GameGeneratorJs {
 }
 
 @JSExportTopLevel("Position")
-class Position {
+case class Position() {
   val startingSEN = "r1n1bkqb1n1r/2p6p2/1prnbqkbnrp1/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/1PRNBQKBNRP1/2P6P2/R1N1BKQB1N1R w KQkq KQkq - 0 0"
   var data: Game = GameGenerator.loadFromSEN(startingSEN)
 
@@ -108,5 +108,61 @@ class Position {
   @JSExport
   def senString: String = {
     data.senString
+  }
+}
+
+@JSExportTopLevel("MoveData")
+case class MoveDataJs() {
+  @JSExport
+  var from: String = _
+  var to: String = _
+  var rookPlacement: String = _
+  var kingChoice: String = _
+  var promotionData: PromotionData = _
+
+  @JSExport
+  def init(
+    from: String,
+    to: String,
+    rookPlacement: String,
+    kingChoice: String,
+    name: String) {
+    this.from = from
+    this.to = to
+    this.kingChoice = kingChoice
+    this.rookPlacement = rookPlacement
+
+    if (name != "") {
+      promotionData = new PromotionData()
+      promotionData.name = name
+    } else {
+      promotionData = null
+    }
+  }
+
+  @JSExport
+  def getDataFromString(moveString: String): js.Array[String] = {
+    val moveData = new MoveData(moveString)
+
+    val result = Array(
+      moveData.from,
+      moveData.to,
+      moveData.rookPlacement,
+      moveData.kingChoice,
+      if (moveData.promotionData != null) moveData.promotionData.name else ""
+    )
+
+    result.toJSArray
+  }
+
+  @JSExport
+  override def toString: String = {
+    val moveData = new MoveData()
+    moveData.from = from
+    moveData.to = to
+    moveData.rookPlacement = rookPlacement
+    moveData.kingChoice = kingChoice
+    moveData.promotionData = promotionData
+    moveData.toString()
   }
 }
