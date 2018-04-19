@@ -53,7 +53,7 @@ export default class GamePage extends Component {
         <Row>
           <Col md={8}>
             <Board
-              ref={r => this.board =r}
+              ref={r => this.board = r}
               sen={Board.startingSEN}
 
               showCoords={true}
