@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Alert, Button, Col, Glyphicon, Row, Well} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
+import {MoveData} from 'synergychess-engine'
 
 import Board from '../board/Board'
 import PlayerColor from '../gameconfig/PlayerColor'
@@ -10,6 +11,20 @@ import PlayerInfo from './PlayerInfo'
 
 import SockJS from 'sockjs-client'
 import serverUrl from '../server'
+
+const moveToString = (move) => {
+  const moveData = new MoveData()
+
+  moveData.init(
+    move.from,
+    move.to,
+    move.rookPlacement ? move.rookPlacement : "",
+    move.kingChoice ? move.kingChoice : "",
+    move.promotion ? move.promotion : ""
+  )
+
+  return moveData.toString()
+}
 
 export default class GamePage extends Component {
   static route = <Route exact path="/games/:gameId" component={GamePage}/>
@@ -145,6 +160,8 @@ export default class GamePage extends Component {
   }
 
   onThisBoardMove(move) {
-    this.sock.send(JSON.stringify({type: 'Move', move}))
+    const moveString = moveToString(move)
+    this.board.move(moveString)
+    this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
   }
 }
