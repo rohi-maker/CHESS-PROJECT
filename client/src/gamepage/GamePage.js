@@ -129,10 +129,13 @@ export default class GamePage extends Component {
       }
 
       case 'IJoined': {
-        this.setState({iJoined: msg, state: msg.state, status: STATE_DESCS[msg.state]})
-
-        const {moves} = msg
-        for (const move of moves) this.board.move(move)
+        this.setState(
+          {iJoined: msg, state: msg.state, status: STATE_DESCS[msg.state]},
+          () => {
+            const {moves} = msg
+            for (const move of moves) this.board.move(move)
+          }
+        )
 
         break
       }

@@ -71,9 +71,6 @@ export default class LiveGames extends Component {
     iJoined.id = gameId
     games[gameRef] = iJoined
     this.setState({games})
-
-    const {moves} = iJoined
-    for (const move of moves) this.boards[gameRef].move(move)
   }
 
   handleGameMsg(gameRef, msg) {
@@ -103,7 +100,7 @@ export default class LiveGames extends Component {
         </span>
 
         <Board
-          ref={r => this.boards[gameRef] = r}
+          ref={r => this.initBoard(gameRef, game, r)}
           sen={Board.startingSEN}
 
           showCoords={false}
@@ -121,5 +118,14 @@ export default class LiveGames extends Component {
         <br />
       </div>
     )
+  }
+
+  initBoard(gameRef, game, board) {
+    if (!board || this.boards[gameRef]) return
+
+    this.boards[gameRef] = board
+
+    const {moves} = game
+    for (let move of moves) board.move(move)
   }
 }
