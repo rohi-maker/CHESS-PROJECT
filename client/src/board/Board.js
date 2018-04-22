@@ -6,6 +6,20 @@ import {Position, GameGenerator, MoveData} from 'synergychess-engine'
 
 import './Board.css'
 
+const moveToString = (move) => {
+  const moveData = new MoveData()
+
+  moveData.init(
+    move.from,
+    move.to,
+    move.rookPlacement ? move.rookPlacement : "",
+    move.kingChoice ? move.kingChoice : "",
+    move.promotion ? move.promotion : ""
+  )
+
+  return moveData.toString()
+}
+
 export default class Board extends Component {
   static startingSEN = "r1n1bkqb1n1r/2p6p2/1prnbqkbnrp1/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/1PRNBQKBNRP1/2P6P2/R1N1BKQB1N1R w KQkq KQkq - 0 0"
 
@@ -17,8 +31,6 @@ export default class Board extends Component {
     this.kingChoice = ""
     this.kingRemoveChoices = []
     this.castling = false
-
-    this.handleChange = this.handleChange.bind(this)
 
     this.state = {
       sen: this.position.senString,
@@ -60,6 +72,8 @@ export default class Board extends Component {
     const lastMove = [move[0], move[1]]
     this.setState({
       sen: this.position.senString,
+      currentMove: '',
+      validMoves: [],
       lastMove
     })
   }
@@ -68,7 +82,6 @@ export default class Board extends Component {
     if (this.state.isPromoting) return
 
     let row = r, col = c
-    row = this.getRowAsBlackPlayer(row)
 
     let x, y
     [x, y] = Helper.toPos(this.state.currentMove)
@@ -111,6 +124,7 @@ export default class Board extends Component {
         to: this.state.kingPlacement,
         rookPlacement: Helper.toSEN(row, col)
       }
+      this.move(moveToString(move))
       this.props.onMove(move)
       return
     }
@@ -140,7 +154,7 @@ export default class Board extends Component {
       return
     }
 
-    let validMoves = this.state.validMoves.map(e => this.getPosAsBlackPlayer(e))
+    let validMoves = this.state.validMoves
     if (validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
       let move = {}
       move = {
@@ -166,6 +180,7 @@ export default class Board extends Component {
         move.promotion = this.state.value
       }
 
+      this.move(moveToString(move))
       this.props.onMove(move)
       return
     }
@@ -184,15 +199,10 @@ export default class Board extends Component {
         result[prop] = nextProps[prop]
       }
     }
-    result["position"] = Position()
-    result["position"].setSEN(nextProps.sen)
+
     result["validMoves"] = []
 
     return result
-  }
-
-  handleChange(value) {
-    this.setState({value})
   }
 
   getPromotionButtons() {
@@ -204,40 +214,38 @@ export default class Board extends Component {
           <Button
             key={Helper.getPieceName(e)}
             bsStyle={this.state.value === Helper.getPieceName(e) ? "success" : "default"}
-            onClick={f => this.handleChange(Helper.getPieceName(e))}
+            onClick={f => {
+              this.setState({
+                value: e,
+                isPromoting: false
+              }, () => {
+                this.clickOnPiece(this.row, this.col)
+              })
+            }}
           >
             {Helper.getImage(e)}
           </Button>
         )}
-        <Button
-          bsStyle="primary"
-          onClick={f => {
-            this.setState({isPromoting: false})
-            this.clickOnPiece(this.row, this.col)
-          }}
-        >
-          choose
-        </Button>
       </ButtonToolbar>
     } else {
       return <div />
     }
   }
 
-  getPosAsBlackPlayer(pos) {
-    if (typeof pos === "string") {
-      return pos[0] + (this.getRowAsBlackPlayer(parseInt(pos.substring(1, pos.length), 10) - 1) + 1)
-    } else {
-      if (pos.length === 0) {
-        return []
-      }
-      const p = pos
-      p[0] = this.getRowAsBlackPlayer(p[0])
-      return p
+  getPosAsBlackPlayer(position) {
+    const pos = (typeof position === 'string') ? Helper.toPos(position) : position.slice()
+
+    if (pos.length === 0) {
+      return []
     }
+
+    const p = pos
+    p[0] = this.getLineAsBlackPlayer(p[0])
+    p[1] = 11 - this.getLineAsBlackPlayer(p[1])
+    return p
   }
 
-  getRowAsBlackPlayer(row) {
+  getLineAsBlackPlayer(row) {
     let r = row
     if (!this.state.viewAsBlackPlayer) {
       r = 11 - r
@@ -250,8 +258,11 @@ export default class Board extends Component {
     const validMoves = this.state.validMoves.map(e => this.getPosAsBlackPlayer(e))
     const currentMove = this.getPosAsBlackPlayer(this.state.currentMove)
     const lastMove = this.state.lastMove.map(e => this.getPosAsBlackPlayer(e))
+    
     if (!this.state.viewAsBlackPlayer) {
       board = board.reverse()
+    } else {
+      board = board.map(e => e.reverse())
     }
 
     return (
@@ -268,26 +279,36 @@ export default class Board extends Component {
                     className={
                       ((i + j) % 2 === 0 ? "black" : "white") +
                       ((this.state.showLegalMoves
+                          && validMoves.length > 0
                           && validMoves.reduce(
                             (res, e) => res || (i === e[0] && j === e[1]), false))
-                        || (Helper.toSEN(i, j) === currentMove
+                        || (i === currentMove[0] && j === currentMove[1]
                           && !this.castling
                           && Helper.getTeam(sen) === this.position.getTeamToMove)
                         || (this.state.showLastMove
-                          && lastMove.includes(Helper.toSEN(i, j))) ?
-                        " highlight" :
-                        ""
+                          && lastMove.length > 0
+                          && lastMove.reduce(
+                            (res, e) => res || (i === e[0] && j === e[1]), false
+                          ))
+                        ? ' highlight' 
+                        : ''
                       )
                     }
                     id={String.fromCharCode(65 + i) + j}
-                    onClick={(e) => (this.state.allowMove) ? this.clickOnPiece(i, j) : {}}
+                    onClick={(e) => (this.state.allowMove) 
+                      ? this.clickOnPiece(
+                          this.getLineAsBlackPlayer(i), 
+                          11 - this.getLineAsBlackPlayer(j)
+                      )
+                      : {}
+                    }
                   >
                     {Helper.getImage(sen)}
                   </td>
                 )}
 
                 {/* Rank name */}
-                {this.state.showCoords && <td className="rowName"> {i + 1} </td>}
+                {this.state.showCoords && <td className="rowName"> {this.getLineAsBlackPlayer(i) + 1} </td>}
               </tr>
             )}
           </tbody>
@@ -298,7 +319,7 @@ export default class Board extends Component {
               <tr>
                 {board.map((e, i) =>
                   <td key={i} className="colName">
-                    {String.fromCharCode(65 + i)}
+                    {String.fromCharCode('A'.charCodeAt(0) + this.getLineAsBlackPlayer(11 - i))}
                   </td>
                 )}
               </tr>

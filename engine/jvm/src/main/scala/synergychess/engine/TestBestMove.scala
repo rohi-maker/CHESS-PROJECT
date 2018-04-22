@@ -20,6 +20,9 @@ object TestBestMove {
               if (moveResult.mateData.trueCheckMate) {
                 println("True checkmate")
                 System.exit(0)
+              } else if (moveResult.mateData.staleMate) {
+                println("Sheckmate")
+                System.exit(0)
               }
           }
       }

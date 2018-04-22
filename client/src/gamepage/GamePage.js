@@ -164,7 +164,6 @@ export default class GamePage extends Component {
 
   onThisBoardMove(move) {
     const moveString = moveToString(move)
-    this.board.move(moveString)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
   }
 }

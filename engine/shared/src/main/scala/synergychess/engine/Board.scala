@@ -393,10 +393,10 @@ class Board {
     for (row <- board) {
       for (piece <- row) {
         if (piece == " ") {
-          if ('0' <= result.last && result.last <= '9') {
+          if (result.nonEmpty && '0' <= result.last && result.last <= '9') {
             var countSpace = result.last.toInt - '0'.toInt
             result.deleteCharAt(result.length - 1)
-            if ('0' <= result.last && result.last <= '9') {
+            if (result.nonEmpty && '0' <= result.last && result.last <= '9') {
               countSpace += (result.last.toInt - '0'.toInt) * 10
               result.deleteCharAt(result.length - 1)
             }
