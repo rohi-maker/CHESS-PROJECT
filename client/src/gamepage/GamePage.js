@@ -5,7 +5,7 @@ import {MoveData} from 'synergychess-engine'
 
 import Board from '../board/Board'
 import PlayerColor from '../gameconfig/PlayerColor'
-import {STATE_DESCS} from '../State'
+import State, {STATE_DESCS} from '../State'
 
 import PlayerInfo from './PlayerInfo'
 
@@ -40,13 +40,14 @@ export default class GamePage extends Component {
   }
 
   render() {
-    const {iJoined, status} = this.state
+    const {iJoined, state, status} = this.state
 
     if (!iJoined) return status
 
     const {myColor} = iJoined
     const viewAsBlackPlayer = myColor === PlayerColor.BLACK
-    const allowMove = myColor === PlayerColor.WHITE || myColor === PlayerColor.BLACK
+    const iAmPlayer = iJoined.myColor === PlayerColor.WHITE || iJoined.myColor === PlayerColor.BLACK
+    const allowMove = iAmPlayer && state === State.ALIVE
 
     return (
       <div>
