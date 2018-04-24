@@ -40,12 +40,29 @@ export default class Board extends Component {
       showLastMove: props.showLastMove,
       viewAsBlackPlayer: props.viewAsBlackPlayer,
 
+      boardSize: 500,
+
       validMoves: [],
       currentMove: "",
       lastMove: [],
       isPromoting: false,
       value: ""
     }
+  }
+
+  componentDidMount() {
+    this.resize()
+    this.bindedResize = this.resize.bind(this)
+    window.addEventListener('resize', this.bindedResize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.bindedResize)
+  }
+
+  resize() {
+    const boardSize = this.table.parentElement.clientWidth
+    this.setState({boardSize})
   }
 
   move(moveString) {
@@ -259,6 +276,8 @@ export default class Board extends Component {
     const currentMove = this.getPosAsBlackPlayer(this.state.currentMove)
     const lastMove = this.state.lastMove.map(e => this.getPosAsBlackPlayer(e))
     
+    const pieceSize = this.state.boardSize / 12
+
     if (!this.state.viewAsBlackPlayer) {
       board = board.reverse()
     } else {
@@ -269,7 +288,7 @@ export default class Board extends Component {
       <div>
         {this.getPromotionButtons()}
 
-        <table className="board">
+        <table className="board" ref={r => this.table = r}>
           <tbody>
             {board.map((e, i) =>
               <tr key={i}>
@@ -294,6 +313,12 @@ export default class Board extends Component {
                         : ''
                       )
                     }
+
+                    style={{
+                      width: pieceSize,
+                      height: pieceSize
+                    }}
+
                     id={String.fromCharCode(65 + i) + j}
                     onClick={(e) => (this.state.allowMove) 
                       ? this.clickOnPiece(
@@ -327,6 +352,6 @@ export default class Board extends Component {
           }
         </table>
       </div>
-    );
+    )
   }
 }

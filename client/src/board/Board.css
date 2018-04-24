@@ -1,9 +1,11 @@
 .board table {
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .board td {
-  width: 51px;
+  min-height: 20px !important;
+  min-width: 20px !important;
   text-align: center;
   padding: 0px;
   border: none;
@@ -12,15 +14,11 @@
 .board .black {
   padding: 0px;
   background-color: #B58863;
-  min-width: 50px;
-  height: 50px;
 }
 
 .board .white {
   padding: 0px;
   background-color: #F0D9B5;
-  min-width: 50px;
-  height: 50px;
 }
 
 .board .rowName {
