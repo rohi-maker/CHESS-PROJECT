@@ -29,9 +29,9 @@
 }
 
 .board .white.highlight {
-  background: rgba(252, 170, 27, 0.42);
+  background: yellow;
 }
 
 .board .black.highlight {
-  background: rgba(177, 114, 6, 0.81);
+  background: yellow;
 }
