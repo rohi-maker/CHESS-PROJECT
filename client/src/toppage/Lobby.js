@@ -40,7 +40,7 @@ class Lobby extends Component {
           <thead>
             <tr>
               <th>Player</th>
-              <th>Rating</th>
+              {/* <th>Rating</th> */}
               <th>Time</th>
             </tr>
           </thead>
@@ -112,7 +112,7 @@ class Lobby extends Component {
     return (
       <tr key={idx} className={className} onClick={onClick}>
         <td>{color} {withoutGuest(creatorId)}</td>
-        <td>{rating}</td>
+        {/* <td>{rating}</td> */}
         <td>{tempo}</td>
       </tr>
     )
