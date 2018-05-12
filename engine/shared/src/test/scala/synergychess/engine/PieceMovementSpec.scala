@@ -169,4 +169,15 @@ class PieceMovementSpec extends FlatSpec with Matchers with BeforeAndAfter {
     board.getSquare("G1") should not be cPiece
     board.getSquare("F1").senString shouldBe cPiece.senString
   }
+
+  "Valid move" should "not cause exception" in {
+    val game = GameGenerator.loadFromSEN("3k5P2/3P6k1/1b10/10n1/2B9/2pN1b3P2/4n2R4/10R1/r6B4/12/5K1K4/6B5 b - - - 0 242")
+    val move = "A4A2___"
+
+    // Ensure that the move is valid
+    val possibleMoves = game.possibleMoves.map(_.toString)
+    possibleMoves.contains(move) shouldBe true
+
+    game.move(new MoveData(move)) should not be None
+  }
 }
