@@ -71,7 +71,7 @@ class EndConditions() {
       val pointsBtwn = new Point(king).pointsBetween(attacker)
       pointsBtwn.remove(pointsBtwn.length - 1)
 
-      !pointsBtwn.exists(pos => currTeamAtking(pos).exists(p => {
+      !pointsBtwn.exists(pos => currTeamAtking.contains(pos) && currTeamAtking(pos).exists(p => {
           moveData.from = p
           return board.getSquare(p).validMoves(moveData).contains(pos)
       }))
