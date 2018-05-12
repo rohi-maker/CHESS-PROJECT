@@ -170,7 +170,27 @@ class PieceMovementSpec extends FlatSpec with Matchers with BeforeAndAfter {
     board.getSquare("F1").senString shouldBe cPiece.senString
   }
 
-  "Valid move" should "not cause exception" in {
+  "Valid move" should "not cause exception, example 1" in {
+    val movesSet = Seq(
+      Seq("B4B6___"),
+      "B4B5___, J12H11___, I4I5___, F12G11___, G1H2___".split(", ").toSeq,
+      "I3H5___, G12H11___, A1A3___, H12G11___, L4L6___, C9C7___, G4G6___, L12L11___, A4A6___, C10C8___, H3D7___, I10H12___, D7E6___, H9H8___, C1E2___, E9E8___, H5I3___, F10E11___, E6F7___, C7C6___, G3F2___, C8C7___, I3G2___, J10I10___, D3C5___, J9J8___, G2I1___, C11C10___, F3G2___".split(", ").toSeq
+    )
+
+    for (moves <- movesSet) {
+      val game = GameGenerator.loadFromSEN(GameGenerator.startingSEN)
+
+      for (move <- moves) {
+        // Ensure that the move is valid
+        val possibleMoves = game.possibleMoves.map(_.toString)
+        possibleMoves.contains(move) shouldBe true
+
+        game.move(new MoveData(move)) should not be None
+      }
+    }
+  }
+
+  "Valid move" should "not cause exception, example 2" in {
     val game = GameGenerator.loadFromSEN("3k5P2/3P6k1/1b10/10n1/2B9/2pN1b3P2/4n2R4/10R1/r6B4/12/5K1K4/6B5 b - - - 0 242")
     val move = "A4A2___"
 
