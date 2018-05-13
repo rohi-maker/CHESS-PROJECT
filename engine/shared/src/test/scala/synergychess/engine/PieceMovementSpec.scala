@@ -170,14 +170,14 @@ class PieceMovementSpec extends FlatSpec with Matchers with BeforeAndAfter {
     board.getSquare("F1").senString shouldBe cPiece.senString
   }
 
-  "Valid move" should "not cause exception, example 1" in {
-    val movesSet = Seq(
-      Seq("B4B6___"),
-      "B4B5___, J12H11___, I4I5___, F12G11___, G1H2___".split(", ").toSeq,
-      "I3H5___, G12H11___, A1A3___, H12G11___, L4L6___, C9C7___, G4G6___, L12L11___, A4A6___, C10C8___, H3D7___, I10H12___, D7E6___, H9H8___, C1E2___, E9E8___, H5I3___, F10E11___, E6F7___, C7C6___, G3F2___, C8C7___, I3G2___, J10I10___, D3C5___, J9J8___, G2I1___, C11C10___, F3G2___".split(", ").toSeq
-    )
-
-    for (moves <- movesSet) {
+  for (moves <- Seq(
+    Seq("B4B6___"),
+    "B4B5___, J12H11___, I4I5___, F12G11___, G1H2___".split(", ").toSeq,
+    "G4G6___, F12F11___, H3E6___, H10I11___, F3H5___, H9H7___, H5H7___, L12K12___, H7H9___".split(", ").toSeq,
+    "G4G6___, A12A11___, I3H5___, A9A8___, H3E6___, C9C7___, H5F6___, K9K8___, F3H5___, F12F11___, H5H9___".split(", ").toSeq,
+    "I3H5___, G12H11___, A1A3___, H12G11___, L4L6___, C9C7___, G4G6___, L12L11___, A4A6___, C10C8___, H3D7___, I10H12___, D7E6___, H9H8___, C1E2___, E9E8___, H5I3___, F10E11___, E6F7___, C7C6___, G3F2___, C8C7___, I3G2___, J10I10___, D3C5___, J9J8___, G2I1___, C11C10___, F3G2___".split(", ").toSeq
+  )) {
+    "Valid move" should s"not cause exception, example 1, moves: $moves" in {
       val game = GameGenerator.loadFromSEN(GameGenerator.startingSEN)
 
       for (move <- moves) {
@@ -185,7 +185,10 @@ class PieceMovementSpec extends FlatSpec with Matchers with BeforeAndAfter {
         val possibleMoves = game.possibleMoves.map(_.toString)
         possibleMoves.contains(move) shouldBe true
 
-        game.move(new MoveData(move)) should not be None
+        val moveResultOpt = game.move(new MoveData(move))
+        moveResultOpt should not be None
+
+        checkGetNextBestMoveIfGameNotOver(game, moveResultOpt.get.mateData)
       }
     }
   }
@@ -198,6 +201,14 @@ class PieceMovementSpec extends FlatSpec with Matchers with BeforeAndAfter {
     val possibleMoves = game.possibleMoves.map(_.toString)
     possibleMoves.contains(move) shouldBe true
 
-    game.move(new MoveData(move)) should not be None
+    val moveResultOpt = game.move(new MoveData(move))
+    moveResultOpt should not be None
+
+    checkGetNextBestMoveIfGameNotOver(game, moveResultOpt.get.mateData)
+  }
+
+  private def checkGetNextBestMoveIfGameNotOver(game: Game, mateData: MateData) {
+    val gameNotOver = !mateData.trueCheckMate && !mateData.staleMate
+    if (gameNotOver) game.nextBestMove should not be None
   }
 }
