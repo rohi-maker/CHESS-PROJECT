@@ -177,30 +177,52 @@ case class Game() {
   def possibleMoves: Seq[MoveData] = {
     val ret = new ArrayBuffer[MoveData]()
 
-    // Reuse
-    val from = new MoveData()
-    from.board = board
-    from.castling = castling
-    from.enPassant = enPassant
+    def realPossibleMoves(kingChoice: String): Seq[MoveData] = {
+      val ret = new ArrayBuffer[MoveData]()
 
-    for (piece <- board.gameBoard) {
-      if (piece._2 != null && piece._2.color == teamToMove) {
-        from.from = piece._1
-        val validMoves = piece._2.validMoves(from)
+      // Reuse
+      val from = new MoveData()
+      from.board = board
+      if (kingChoice != "") from.board.gameBoard(kingChoice) = null
+      from.castling = castling
+      from.enPassant = enPassant
 
-        for (validMove <- validMoves) {
-          // Cannot reuse "from" above
-          val moveData = new MoveData()
-          moveData.from = from.from
-          moveData.to = validMove
-          moveData.board = board
-          moveData.castling = castling
-          moveData.enPassant = enPassant
+      for (piece <- board.gameBoard) {
+        if (piece._2 != null && piece._2.color == teamToMove) {
+          from.from = piece._1
+          val validMoves = piece._2.validMoves(from)
 
-          ret.append(moveData)
+          for (validMove <- validMoves) {
+            // Cannot reuse "from" above
+            val moveData = new MoveData()
+            moveData.from = from.from
+            moveData.to = validMove
+            moveData.board = board
+            moveData.castling = castling
+            moveData.enPassant = enPassant
+            moveData.kingChoice = kingChoice
+
+            ret.append(moveData)
+          }
+        }
+      }
+
+      ret
+    }
+
+    val mate = endConditions.getMateData(board, teamToMove, enPassant)
+    if (mate.checkMate) {
+      if (mate.kingsDead.nonEmpty) {
+        for (kingChoice <- mate.kingsDead) {
+          ret.appendAll(realPossibleMoves(kingChoice))
+        }
+      } else {
+        for (kingChoice <- mate.safeKings) {
+          ret.appendAll(realPossibleMoves(kingChoice))
         }
       }
     }
+    ret.appendAll(realPossibleMoves(""))
 
     ret
   }
