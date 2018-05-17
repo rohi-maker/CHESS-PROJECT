@@ -21,7 +21,6 @@ case class Game() {
   var endConditions = new EndConditions()
   var teamToMove = "white"
   var moveHistory: ArrayBuffer[MoveData] = ArrayBuffer[MoveData]()
-  var removedKingChoices: ArrayBuffer[String] = ArrayBuffer[String]()
   // OPS notation
   var moveArray: ArrayBuffer[String] = ArrayBuffer[String]()
   var moveNumber = 1
@@ -34,7 +33,8 @@ case class Game() {
     moveData.enPassant = enPassant
     moveData.castling = castling
 
-    if (removedKingChoices.contains(moveData.kingChoice)) {
+    val mate = endConditions.getMateData(board, teamToMove, enPassant)
+    if (mate.choices.contains(moveData.kingChoice)) {
       board.setSquare(moveData.kingChoice, null)
       moveHistory.append(moveData)
       val mate = endConditions.getMateData(board, teamToMove, enPassant)
@@ -183,11 +183,15 @@ case class Game() {
       // Reuse
       val from = new MoveData()
       from.board = board
-      if (kingChoice != "") from.board.gameBoard(kingChoice) = null
+      var savedKing: Option[King] = None
+      if (kingChoice != "") {
+        savedKing = Some(from.board.gameBoard(kingChoice).asInstanceOf[King])
+        from.board.gameBoard(kingChoice) = null
+      }
       from.castling = castling
       from.enPassant = enPassant
 
-      for (piece <- board.gameBoard) {
+      for (piece <- from.board.gameBoard) {
         if (piece._2 != null && piece._2.color == teamToMove) {
           from.from = piece._1
           val validMoves = piece._2.validMoves(from)
@@ -206,6 +210,7 @@ case class Game() {
           }
         }
       }
+      if (kingChoice != "") from.board.gameBoard(kingChoice) = savedKing.get
 
       ret
     }
@@ -217,12 +222,16 @@ case class Game() {
           ret.appendAll(realPossibleMoves(kingChoice))
         }
       } else {
-        for (kingChoice <- mate.safeKings) {
-          ret.appendAll(realPossibleMoves(kingChoice))
+        ret.appendAll(realPossibleMoves(""))
+        if (ret.isEmpty) {
+          for (kingChoice <- mate.safeKings) {
+            ret.appendAll(realPossibleMoves(kingChoice))
+          }
         }
       }
+    } else {
+      ret.appendAll(realPossibleMoves(""))
     }
-    ret.appendAll(realPossibleMoves(""))
 
     ret
   }

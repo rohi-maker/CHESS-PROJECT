@@ -76,10 +76,8 @@ case class Position() {
     val mateData = moveResult.get.mateData
 
     if (mateData == null) {
-      data.removedKingChoices = ArrayBuffer[String]()
       ""
     } else {
-      data.removedKingChoices = mateData.choices
       mateData.toString
     }
   }
@@ -96,10 +94,8 @@ case class Position() {
     val mateData = moveResult.get.mateData
 
     if (mateData == null) {
-      data.removedKingChoices = ArrayBuffer[String]()
       ""
     } else {
-      data.removedKingChoices = mateData.choices
       mateData.toString
     }
   }
