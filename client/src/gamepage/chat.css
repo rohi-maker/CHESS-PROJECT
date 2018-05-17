@@ -1,0 +1,12 @@
+.chat {
+  margin-top: 1em;
+}
+
+.chat-msgs {
+  width: 100%;
+  height: 300px;
+}
+
+.chat-input {
+  width: 100%;
+}

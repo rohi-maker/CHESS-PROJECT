@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Alert, Button, Col, Glyphicon, Row, Well} from 'react-bootstrap'
+import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs, Well} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
 import {MoveData} from 'synergychess-engine'
 
@@ -7,6 +7,7 @@ import Board from '../board/Board'
 import PlayerColor from '../gameconfig/PlayerColor'
 import State, {STATE_DESCS} from '../State'
 
+import Chat from './Chat'
 import PlayerInfo from './PlayerInfo'
 
 import SockJS from 'sockjs-client'
@@ -91,9 +92,15 @@ export default class GamePage extends Component {
             <br />
             <br />
 
-            <Well bsSize="small">
-              Game moves will be displayed here
-            </Well>
+            <Tabs defaultActiveKey={1}>
+              <Tab eventKey={1} title="Chat">
+                <Chat />
+              </Tab>
+
+              <Tab eventKey={2} title="Moves">
+                Game moves will be displayed here
+              </Tab>
+            </Tabs>
           </Col>
         </Row>
       </div>
