@@ -2,7 +2,9 @@ package synergychess.engine
 
 object TestBestMove {
   def main(args: Array[String]) {
-    loopUntilGameOver()
+    for (_ <- 1 to 100) {
+      loopUntilGameOver()
+    }
   }
 
   private def loopUntilGameOver() {
@@ -27,10 +29,10 @@ object TestBestMove {
 
               if (mateData.trueCheckMate) {
                 println("True check mate")
-                System.exit(0)
+                return
               } else if (mateData.staleMate) {
                 println("Stale mate")
-                System.exit(0)
+                return
               } else if (mateData.checkMate) {
                 println("Check mate")
               }
