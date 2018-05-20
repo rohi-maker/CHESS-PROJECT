@@ -270,12 +270,36 @@ export default class Board extends Component {
     return r
   }
 
+  getCellClassName(i, j, validMoves, currentMove, lastMove, sen) {
+    const color = (i + j) % 2 === 0 ? 'black' : 'white'
+
+    const hilightLegal =
+      this.state.showLegalMoves
+      && validMoves.length > 0
+      && validMoves.reduce((res, e) => res || (i === e[0] && j === e[1]), false)
+
+    const hilightCurrentMove =
+      i === currentMove[0] && j === currentMove[1]
+      && !this.castling
+      && Helper.getTeam(sen) === this.position.getTeamToMove
+
+    const hilightLastMove =
+      this.state.showLastMove
+      && lastMove.length > 0
+      && lastMove.reduce((res, e) => res || (i === e[0] && j === e[1]), false)
+
+    return color +
+      (hilightLegal ? ' highlight highlight-legal' : '') +
+      (hilightCurrentMove ? ' highlight highlight-current-move' : '') +
+      (hilightLastMove ? ' highlight highlight-last-move' : '')
+  }
+
   render() {
     let board = GameGenerator.loadFromSEN(this.state.sen)
     const validMoves = this.state.validMoves.map(e => this.getPosAsBlackPlayer(e))
     const currentMove = this.getPosAsBlackPlayer(this.state.currentMove)
     const lastMove = this.state.lastMove.map(e => this.getPosAsBlackPlayer(e))
-    
+
     const pieceSize = this.state.boardSize / 12
 
     if (!this.state.viewAsBlackPlayer) {
@@ -295,24 +319,7 @@ export default class Board extends Component {
                 {e.map((sen, j) =>
                   <td
                     key={j}
-                    className={
-                      ((i + j) % 2 === 0 ? "black" : "white") +
-                      ((this.state.showLegalMoves
-                          && validMoves.length > 0
-                          && validMoves.reduce(
-                            (res, e) => res || (i === e[0] && j === e[1]), false))
-                        || (i === currentMove[0] && j === currentMove[1]
-                          && !this.castling
-                          && Helper.getTeam(sen) === this.position.getTeamToMove)
-                        || (this.state.showLastMove
-                          && lastMove.length > 0
-                          && lastMove.reduce(
-                            (res, e) => res || (i === e[0] && j === e[1]), false
-                          ))
-                        ? ' highlight' 
-                        : ''
-                      )
-                    }
+                    className={this.getCellClassName(i, j, validMoves, currentMove, lastMove, sen)}
 
                     style={{
                       width: pieceSize,
@@ -320,9 +327,9 @@ export default class Board extends Component {
                     }}
 
                     id={String.fromCharCode(65 + i) + j}
-                    onClick={(e) => (this.state.allowMove) 
+                    onClick={(e) => (this.state.allowMove)
                       ? this.clickOnPiece(
-                          this.getLineAsBlackPlayer(i), 
+                          this.getLineAsBlackPlayer(i),
                           11 - this.getLineAsBlackPlayer(j)
                       )
                       : {}
