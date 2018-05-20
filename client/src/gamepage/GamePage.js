@@ -92,7 +92,7 @@ export default class GamePage extends Component {
             <br />
             <br />
 
-            <Tabs defaultActiveKey={1}>
+            <Tabs id="Chat" defaultActiveKey={1}>
               <Tab eventKey={1} title="Chat">
                 <Chat />
               </Tab>
