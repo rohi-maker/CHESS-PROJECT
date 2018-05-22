@@ -28,14 +28,14 @@
   padding-top: 5px;
 }
 
-.board .highlight {
-  background-color: yellow;
-}
-
 .board .highlight-legal {
-  border: 2px solid green;
+  border: 3px solid green;
 }
 
 .board .highlight-last-move {
-  border: 2px solid red;
+  border: 3px solid red;
+}
+
+.board .highlight:not(.highlight-legal):not(.highlight-last-move) {
+  background-color: yellow;
 }
