@@ -209,6 +209,9 @@ class PieceMovementSpec extends FlatSpec with Matchers with BeforeAndAfter {
 
   private def checkGetNextBestMoveIfGameNotOver(game: Game, mateData: MateData) {
     val gameNotOver = !mateData.trueCheckMate && !mateData.staleMate
-    if (gameNotOver) game.nextBestMove should not be None
+    if (gameNotOver) {
+      val move = game.nextBestMove(3)
+      move should not be None
+    }
   }
 }
