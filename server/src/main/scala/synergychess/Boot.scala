@@ -57,7 +57,7 @@ class SearchAdapter extends Search {
         onBestMove(None)
 
       case Some((game, _)) =>
-        game.nextBestMove match {
+        game.nextBestMove(level) match {
           case None =>
             onBestMove(None)
 
