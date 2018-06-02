@@ -94,7 +94,7 @@ export default class GamePage extends Component {
 
             <Tabs id="Chat" defaultActiveKey={1}>
               <Tab eventKey={1} title="Chat">
-                <Chat />
+                <Chat ref={r => this.chat = r} sendMsg={this.sendChatMsg} />
               </Tab>
 
               <Tab eventKey={2} title="Moves">
@@ -154,6 +154,11 @@ export default class GamePage extends Component {
         break
       }
 
+      case 'Chat': {
+        this.chat.onMsg(msg.username, msg.msg)
+        break
+      }
+
       case 'StateChanged': {
         const {state} = msg
         this.setState({state, status: STATE_DESCS[state]})
@@ -173,5 +178,12 @@ export default class GamePage extends Component {
   onThisBoardMove(move) {
     const moveString = moveToString(move)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
+  }
+
+  sendChatMsg = (msg) => {
+    this.sock.send(JSON.stringify({
+      type: 'Chat',
+      msg
+    }))
   }
 }
