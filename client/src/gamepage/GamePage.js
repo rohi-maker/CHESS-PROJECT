@@ -13,6 +13,12 @@ import PlayerInfo from './PlayerInfo'
 import SockJS from 'sockjs-client'
 import serverUrl from '../server'
 
+const fullscreenEnabled =
+  document.fullscreenEnabled ||
+  document.webkitFullscreenEnabled ||
+  document.mozFullScreenEnabled ||
+  document.msFullscreenEnabled
+
 const moveToString = (move) => {
   const moveData = new MoveData()
 
@@ -51,7 +57,7 @@ export default class GamePage extends Component {
     const allowMove = iAmPlayer && state === State.ALIVE
 
     return (
-      <div>
+      <div ref={r => this.container = r}>
         <Row>
           <Col md={8}>
             <Board
@@ -74,20 +80,19 @@ export default class GamePage extends Component {
 
             <PlayerInfo upper={false} iJoined={iJoined} />
 
+            {fullscreenEnabled &&
+              <React.Fragment>
+                <Button bsStyle="primary" onClick={this.toggleFullscreen}>
+                  <Glyphicon glyph="fullscreen" />{' '}
+                  Fullscreen
+                </Button>{' '}
+              </React.Fragment>
+            }
+
             <Button bsStyle="primary">
               <Glyphicon glyph="remove-circle" />{' '}
               Resign
             </Button>{' '}
-
-            <Button bsStyle="primary">
-              <Glyphicon glyph="arrow-left" />{' '}
-              Undo
-            </Button>{' '}
-
-            <Button bsStyle="primary">
-              <Glyphicon glyph="education" />{' '}
-              Hint
-            </Button>
 
             <br />
             <br />
@@ -185,5 +190,30 @@ export default class GamePage extends Component {
       type: 'Chat',
       msg
     }))
+  }
+
+  toggleFullscreen = () => {
+    const fullscreenElement =
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+
+    if (fullscreenElement) {
+      const exitFullscreen =
+        document.exitFullscreen ||
+        document.webkitExitFullscreen ||
+        document.mozCancelFullScreen ||
+        document.msExitFullscreen
+
+      if (exitFullscreen) exitFullscreen.call(document)
+    } else {
+      const requestFullscreen =
+        this.container.requestFullscreen ||
+        this.container.webkitRequestFullScreen ||
+        this.container.mozRequestFullScreen ||
+        this.container.msRequestFullscreen
+      requestFullscreen.call(this.container)
+    }
   }
 }
