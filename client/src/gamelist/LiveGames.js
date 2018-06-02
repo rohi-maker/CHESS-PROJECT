@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Col, Row} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import Board from '../board/Board'
@@ -22,11 +23,13 @@ export default class LiveGames extends Component {
     const {games} = this.state
 
     return (
-      <div>
+      <React.Fragment>
         <p>Live games:</p>
 
-        {Object.keys(games).map(gameRef => this.renderChessBoard(gameRef))}
-      </div>
+        <Row>
+          {Object.keys(games).map(gameRef => this.renderChessBoard(gameRef))}
+        </Row>
+      </React.Fragment>
     )
   }
 
@@ -94,7 +97,7 @@ export default class LiveGames extends Component {
       : [game.opponentId, game.creatorId]
 
     return (
-      <div key={game.id}>
+      <Col key={game.id} md={6}>
         <span className="gamelist-p2">
           <Link to={`/games/${game.id}`}>{p2Username}</Link>
         </span>
@@ -116,7 +119,7 @@ export default class LiveGames extends Component {
 
         <br />
         <br />
-      </div>
+      </Col>
     )
   }
 

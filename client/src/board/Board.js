@@ -6,6 +6,8 @@ import {Position, GameGenerator, MoveData} from 'synergychess-engine'
 
 import './Board.css'
 
+const COORDS_SIZE = 25
+
 const moveToString = (move) => {
   const moveData = new MoveData()
 
@@ -61,7 +63,7 @@ export default class Board extends Component {
   }
 
   resize() {
-    const boardSize = this.table.parentElement.clientWidth
+    const boardSize = Math.min(this.table.parentElement.clientWidth, window.innerHeight) - COORDS_SIZE
     this.setState({boardSize})
   }
 

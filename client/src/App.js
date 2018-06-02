@@ -32,21 +32,19 @@ export default class App extends Component {
             <Alert bsStyle="info" onDismiss={this.dismissFlash.bind(this)}>{window.$me.flash}</Alert>
           }
 
-          <Grid>
-            {TopPage.route}
-            {GamePage.route}
-            {UserPage.route}
+          {TopPage.route}
+          {GamePage.route}
+          {UserPage.route}
 
-            {LoginComboPage.loginRoute}
-            {LoginComboPage.registerRoute}
-            {LoginComboPage.forgotPasswordRoute}
+          {LoginComboPage.loginRoute}
+          {LoginComboPage.registerRoute}
+          {LoginComboPage.forgotPasswordRoute}
 
-            {SettingsPasswordPage.route}
-            {SettingsEmailPage.route}
+          {SettingsPasswordPage.route}
+          {SettingsEmailPage.route}
 
-            {ChessRulesPage.route}
-            {TermsAndConditionsPage.route}
-          </Grid>
+          {ChessRulesPage.route}
+          {TermsAndConditionsPage.route}
 
           <Footer />
         </Grid>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs, Well} from 'react-bootstrap'
+import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
 import {MoveData} from 'synergychess-engine'
 
@@ -33,6 +33,8 @@ const moveToString = (move) => {
   return moveData.toString()
 }
 
+const CONTAINER_FULLSCREEN_STYLE = {width: '100%', height: '100%'}
+
 export default class GamePage extends Component {
   static route = <Route exact path="/games/:gameId" component={GamePage}/>
 
@@ -56,8 +58,9 @@ export default class GamePage extends Component {
     const iAmPlayer = iJoined.myColor === PlayerColor.WHITE || iJoined.myColor === PlayerColor.BLACK
     const allowMove = iAmPlayer && state === State.ALIVE
 
+
     return (
-      <div ref={r => this.container = r}>
+      <div ref={r => this.container = r} style={CONTAINER_FULLSCREEN_STYLE}>
         <Row>
           <Col md={8}>
             <Board
