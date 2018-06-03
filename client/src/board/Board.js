@@ -140,7 +140,7 @@ export default class Board extends Component {
       const move = {
         castling: true,
         from: this.state.currentMove,
-        to: this.state.kingPlacement,
+        to: this.kingPlacement,
         rookPlacement: Helper.toSEN(row, col)
       }
       this.move(moveToString(move))
@@ -155,7 +155,7 @@ export default class Board extends Component {
       board[row][col] = board[x][y]
       board[x][y] = ""
       let sen = this.state.sen
-      sen = Helper.move(sen, row, col, board[x][y])
+      sen = Helper.move(sen, row, col, board[row][col])
       sen = Helper.move(sen, x, y, "")
 
       const validMoves = []
