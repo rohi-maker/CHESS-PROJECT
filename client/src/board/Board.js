@@ -132,7 +132,7 @@ export default class Board extends Component {
     // Castling
     if (this.castling) {
       if (!this.state.validMoves.reduce(
-          (res, e) => res || (row === e[0] && col === e[1]), false)
+        (res, e) => res || (row === e[0] && col === e[1]), false)
       ) {
         console.log("Invlid move")
         return
@@ -151,7 +151,7 @@ export default class Board extends Component {
     // Castling
     if (  this.state.currentMove !== ""
           && board[x][y].toUpperCase() === "K"
-          && Math.abs(y - col) > 1) {
+          && x === row) {
       board[row][col] = board[x][y]
       board[x][y] = ""
       let sen = this.state.sen
@@ -160,8 +160,17 @@ export default class Board extends Component {
 
       const validMoves = []
 
-      for (let i = Math.min(y, col) + 1; i < Math.max(y, col); i++) {
-        validMoves.push([row, i])
+      for (let i = Math.min(y, col); i <= Math.max(y, col); i++) {
+        if (i !== col) {
+          validMoves.push([row, i])
+        }
+      }
+
+      if (col - y === 1) {
+        validMoves.push([row, 11])
+      }
+      if (col - y === -1) {
+        validMoves.push([row, 0])
       }
 
       this.castling = true
