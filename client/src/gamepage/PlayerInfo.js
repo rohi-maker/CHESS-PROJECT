@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Well} from 'react-bootstrap'
 
 import PlayerColor from '../gameconfig/PlayerColor'
+import Clock from './Clock'
 
 export default class PlayerInfo extends Component {
   render() {
@@ -28,6 +29,8 @@ export default class PlayerInfo extends Component {
         <label>{colorName}:</label>{' '}
         {username}
         {username === window.$me.username && <p><b>(Me)</b></p>}
+
+        <Clock iJoined={iJoined} color={color} />
       </Well>
     )
   }
