@@ -66,7 +66,7 @@ export default class Clock extends Component {
     const {timeLimit, timeSum} = this.state
     const sum = timeSum + 1000
     if (sum >= timeLimit) {
-      stop()
+      this.stop()
       this.setState({timeSum: timeLimit})
     } else {
       this.setState({timeSum: sum})
