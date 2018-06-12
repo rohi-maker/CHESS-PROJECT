@@ -137,11 +137,20 @@ export default class Board extends Component {
         console.log("Invlid move")
         return
       }
-      const move = {
-        castling: true,
-        from: this.state.currentMove,
-        to: this.kingPlacement,
-        rookPlacement: Helper.toSEN(row, col)
+
+      let move
+      if (this.rookPos.length !== 0 && row === this.rookPos[0] && col === this.rookPos[1]) {
+        move = {
+          from: this.state.currentMove,
+          to: this.kingPlacement
+        }
+      } else {
+        move = {
+          castling: true,
+          from: this.state.currentMove,
+          to: this.kingPlacement,
+          rookPlacement: Helper.toSEN(row, col)
+        }
       }
       this.move(moveToString(move))
       this.props.onMove(move)
@@ -152,6 +161,19 @@ export default class Board extends Component {
     if (  this.state.currentMove !== ""
           && board[x][y].toUpperCase() === "K"
           && x === row) {
+      // Inner rank
+      if (row === 2 || row === 9) {
+        let move = {
+          from: this.state.currentMove,
+          to: Helper.toSEN(row, col)
+        }
+
+        this.move(moveToString(move))
+        this.props.onMove(move)
+        return
+      }
+
+      // Outer rank
       board[row][col] = board[x][y]
       board[x][y] = ""
       let sen = this.state.sen
@@ -167,10 +189,13 @@ export default class Board extends Component {
       }
 
       if (col - y === 1) {
+        this.rookPos = [row, 11]
         validMoves.push([row, 11])
-      }
-      if (col - y === -1) {
+      } else if (col - y === -1) {
+        this.rookPos = [row, 0]
         validMoves.push([row, 0])
+      } else {
+        this.rookPos = []
       }
 
       this.castling = true
