@@ -163,48 +163,50 @@ export default class Board extends Component {
           && x === row) {
       // Inner rank
       if (row === 2 || row === 9) {
-        let move = {
-          from: this.state.currentMove,
-          to: Helper.toSEN(row, col)
+        if (this.state.validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
+          let move = {
+            from: this.state.currentMove,
+            to: Helper.toSEN(row, col)
+          }
+
+          this.move(moveToString(move))
+          this.props.onMove(move)
+          return
+        }
+      } else {
+        // Outer rank
+        board[row][col] = board[x][y]
+        board[x][y] = ""
+        let sen = this.state.sen
+        sen = Helper.move(sen, row, col, board[row][col])
+        sen = Helper.move(sen, x, y, "")
+
+        const validMoves = []
+
+        for (let i = Math.min(y, col); i <= Math.max(y, col); i++) {
+          if (i !== col) {
+            validMoves.push([row, i])
+          }
         }
 
-        this.move(moveToString(move))
-        this.props.onMove(move)
+        if (col - y === 1) {
+          this.rookPos = [row, 11]
+          validMoves.push([row, 11])
+        } else if (col - y === -1) {
+          this.rookPos = [row, 0]
+          validMoves.push([row, 0])
+        } else {
+          this.rookPos = []
+        }
+
+        this.castling = true
+        this.kingPlacement = Helper.toSEN(row, col)
+        this.setState({
+          validMoves,
+          sen
+        })
         return
       }
-
-      // Outer rank
-      board[row][col] = board[x][y]
-      board[x][y] = ""
-      let sen = this.state.sen
-      sen = Helper.move(sen, row, col, board[row][col])
-      sen = Helper.move(sen, x, y, "")
-
-      const validMoves = []
-
-      for (let i = Math.min(y, col); i <= Math.max(y, col); i++) {
-        if (i !== col) {
-          validMoves.push([row, i])
-        }
-      }
-
-      if (col - y === 1) {
-        this.rookPos = [row, 11]
-        validMoves.push([row, 11])
-      } else if (col - y === -1) {
-        this.rookPos = [row, 0]
-        validMoves.push([row, 0])
-      } else {
-        this.rookPos = []
-      }
-
-      this.castling = true
-      this.kingPlacement = Helper.toSEN(row, col)
-      this.setState({
-        validMoves,
-        sen
-      })
-      return
     }
 
     let validMoves = this.state.validMoves
