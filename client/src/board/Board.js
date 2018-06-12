@@ -14,23 +14,23 @@ const moveToString = (move) => {
   moveData.init(
     move.from,
     move.to,
-    move.rookPlacement ? move.rookPlacement : "",
-    move.kingChoice ? move.kingChoice : "",
-    move.promotion ? move.promotion : ""
+    move.rookPlacement ? move.rookPlacement : '',
+    move.kingChoice ? move.kingChoice : '',
+    move.promotion ? move.promotion : ''
   )
 
   return moveData.toString()
 }
 
 export default class Board extends Component {
-  static startingSEN = "r1n1bkqb1n1r/2p6p2/1prnbqkbnrp1/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/1PRNBQKBNRP1/2P6P2/R1N1BKQB1N1R w KQkq KQkq - 0 0"
+  static startingSEN = 'r1n1bkqb1n1r/2p6p2/1prnbqkbnrp1/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/1PRNBQKBNRP1/2P6P2/R1N1BKQB1N1R w KQkq KQkq - 0 0'
 
   constructor(props) {
     super(props)
 
     this.position = Position()
     this.position.setSEN(props.sen)
-    this.kingChoice = ""
+    this.kingChoice = ''
     this.kingRemoveChoices = []
     this.castling = false
 
@@ -45,10 +45,10 @@ export default class Board extends Component {
       boardSize: 500,
 
       validMoves: [],
-      currentMove: "",
+      currentMove: '',
       lastMove: [],
       isPromoting: false,
-      value: ""
+      value: ''
     }
   }
 
@@ -107,10 +107,10 @@ export default class Board extends Component {
     const board = GameGenerator.loadFromSEN(this.state.sen)
 
     // Choose king to remove
-    if (this.kingRemoveChoices.length > 0 && this.kingChoice === "") {
+    if (this.kingRemoveChoices.length > 0 && this.kingChoice === '') {
       if (this.kingRemoveChoices.includes(Helper.toSEN(row, col))) {
         let sen = this.state.position.senString
-        sen = Helper.move(sen, row, col, "")
+        sen = Helper.move(sen, row, col, '')
         const position = Position()
         position.setSEN(sen)
 
@@ -118,13 +118,13 @@ export default class Board extends Component {
         this.position = position
         this.setState({
           sen,
-          currentMove: "",
-          lastMove: "",
+          currentMove: '',
+          lastMove: '',
           validMoves: []
         })
         return
       } else {
-        console.log("Invalid Move")
+        console.log('Invalid Move')
         return
       }
     }
@@ -154,13 +154,14 @@ export default class Board extends Component {
       }
       this.move(moveToString(move))
       this.props.onMove(move)
+      this.castling = false
       return
     }
 
     // Castling
-    if (  this.state.currentMove !== ""
-          && board[x][y].toUpperCase() === "K"
-          && x === row) {
+    if (  this.state.currentMove !== ''
+          && board[x][y].toUpperCase() === 'K'
+          && x === row && y !== col) {
       // Inner rank
       if (row === 2 || row === 9) {
         if (this.state.validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
@@ -176,10 +177,10 @@ export default class Board extends Component {
       } else {
         // Outer rank
         board[row][col] = board[x][y]
-        board[x][y] = ""
+        board[x][y] = ''
         let sen = this.state.sen
+        sen = Helper.move(sen, x, y, '')
         sen = Helper.move(sen, row, col, board[row][col])
-        sen = Helper.move(sen, x, y, "")
 
         const validMoves = []
 
@@ -217,16 +218,16 @@ export default class Board extends Component {
         to: Helper.toSEN(row, col)
       }
 
-      if (this.kingChoice && this.kingChoice !== "") {
+      if (this.kingChoice && this.kingChoice !== '') {
         move.kingChoice = this.kingChoice
       }
 
-      if (board[x][y].toUpperCase() === "P"
-          && ((Helper.getTeam(board[x][y]) === "white" && row === 11)
-              || (Helper.getTeam(board[x][y]) === "black" && row === 0)
+      if (board[x][y].toUpperCase() === 'P'
+          && ((Helper.getTeam(board[x][y]) === 'white' && row === 11)
+              || (Helper.getTeam(board[x][y]) === 'black' && row === 0)
           )
       ) {
-        if (this.state.value === "") {
+        if (this.state.value === '') {
           this.row = row
           this.col = col
           this.setState({isPromoting: true})
@@ -255,7 +256,7 @@ export default class Board extends Component {
       }
     }
 
-    result["validMoves"] = []
+    result['validMoves'] = []
 
     return result
   }
@@ -268,7 +269,7 @@ export default class Board extends Component {
         {availablePieces.map(e =>
           <Button
             key={Helper.getPieceName(e)}
-            bsStyle={this.state.value === Helper.getPieceName(e) ? "success" : "default"}
+            bsStyle={this.state.value === Helper.getPieceName(e) ? 'success' : 'default'}
             onClick={f => {
               this.setState({
                 value: e,
