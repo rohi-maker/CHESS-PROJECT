@@ -16,7 +16,7 @@ const moveToString = (move) => {
     move.to,
     move.rookPlacement ? move.rookPlacement : '',
     move.kingChoice ? move.kingChoice : '',
-    move.promotion ? move.promotion : ''
+    move.promotion ? move.promotion.toLowerCase() : ''
   )
 
   return moveData.toString()
@@ -212,8 +212,7 @@ export default class Board extends Component {
 
     let validMoves = this.state.validMoves
     if (validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
-      let move = {}
-      move = {
+      const move = {
         from: this.state.currentMove,
         to: Helper.toSEN(row, col)
       }
@@ -222,10 +221,11 @@ export default class Board extends Component {
         move.kingChoice = this.kingChoice
       }
 
-      if (board[x][y].toUpperCase() === 'P'
+      if ((board[x][y].toUpperCase() === 'P' || board[x][y].toUpperCase() === 'I')
           && ((Helper.getTeam(board[x][y]) === 'white' && row === 11)
               || (Helper.getTeam(board[x][y]) === 'black' && row === 0)
           )
+          && (Helper.getAvailablePieces(this.state.sen, this.position.getTeamToMove).length != 0)
       ) {
         if (this.state.value === '') {
           this.row = row
@@ -236,6 +236,7 @@ export default class Board extends Component {
         move.promotion = this.state.value
       }
 
+      console.log(moveToString(move))
       this.move(moveToString(move))
       this.props.onMove(move)
       return
