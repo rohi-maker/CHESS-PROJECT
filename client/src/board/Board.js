@@ -225,7 +225,7 @@ export default class Board extends Component {
           && ((Helper.getTeam(board[x][y]) === 'white' && row === 11)
               || (Helper.getTeam(board[x][y]) === 'black' && row === 0)
           )
-          && (Helper.getAvailablePieces(this.state.sen, this.position.getTeamToMove).length != 0)
+          && (Helper.getAvailablePieces(this.state.sen, this.position.getTeamToMove).length > 0)
       ) {
         if (this.state.value === '') {
           this.row = row
