@@ -104,8 +104,9 @@ case class Game() {
 
   def validPromotions(color: String, to: String): (ArrayBuffer[String], ArrayBuffer[String]) = {
     val valids = ArrayBuffer[String]()
+
+    // Temporary remove promoted piece
     val promoSqValue: Piece = Piece.newPiece(board.getSquare(to), to)
-    
     if (promoSqValue != null) board.setSquare(to, null)
     
     val captured = piecesCaptured(teamToMove)
@@ -115,10 +116,11 @@ case class Game() {
       if (captured(p) != 0) {
         // KING not valid promotion if no safe Squares
         if (safeSqs.isEmpty && p == "king") return null
-        if (p != "pawn") valids.append(p)
+        if (p != "pawn" && p != "king") valids.append(p)
       }
     }
 
+    // Set board back to the state before removing
     if (promoSqValue != null) board.setSquare(to, promoSqValue)
 
     (safeSqs, valids)
