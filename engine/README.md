@@ -1,3 +1,5 @@
+# Synergy Chess Engine
+
 ## Build for JVM
 
 ```sh
