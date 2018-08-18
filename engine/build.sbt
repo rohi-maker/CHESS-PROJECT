@@ -1,6 +1,6 @@
 // https://www.scala-js.org/doc/project/cross-build.html
 
-scalaVersion in ThisBuild := "2.12.6"
+scalaVersion in ThisBuild := "2.12.4"
 
 lazy val root = project.in(file(".")).
   aggregate(engineJS, engineJVM).
