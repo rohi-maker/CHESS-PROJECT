@@ -4,24 +4,29 @@ import {Well} from 'react-bootstrap'
 import PlayerColor from '../gameconfig/PlayerColor'
 import Clock from './Clock'
 
+const getColor = (iJoined, upper) => {
+  const {creatorId, creatorColor, opponentId} = iJoined
+  const opponentColor = 1 - creatorColor
+
+  const iAmPlayer =
+    window.$me.username === creatorId ||
+    window.$me.username === opponentId
+
+  const creatorIsUpper = iAmPlayer
+    ? (window.$me.username !== creatorId)
+    : creatorColor === PlayerColor.BLACK
+
+  const [color, username] = upper
+    ? (creatorIsUpper ? [creatorId, creatorColor] : [opponentColor, opponentId])
+    : (creatorIsUpper ? [opponentId, opponentColor] : [creatorColor, creatorId])
+
+  return {color, username}
+}
+
 export default class PlayerInfo extends Component {
   render() {
-    const {upper, iJoined} = this.props
-    const {creatorId, creatorColor, opponentId} = iJoined
-    const opponentColor = 1 - creatorColor
-
-    const iAmPlayer =
-      window.$me.username === creatorId ||
-      window.$me.username === opponentId
-
-    const creatorIsUpper = iAmPlayer
-      ? (window.$me.username !== creatorId)
-      : creatorColor === PlayerColor.BLACK
-
-    const [username, color] = upper
-      ? (creatorIsUpper ? [creatorId, creatorColor] : [opponentId, opponentColor])
-      : (creatorIsUpper ? [opponentId, opponentColor] : [creatorId, creatorColor])
-
+    const {iJoined, upper} = this.props
+    const {color, username} = getColor(iJoined, upper)
     const colorName = color === PlayerColor.BLACK ? 'Black' : 'White'
 
     return (
