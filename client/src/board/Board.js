@@ -71,7 +71,7 @@ export default class Board extends Component {
     const moveData = new MoveData()
     const move = moveData.getDataFromString(moveString)
     const position = this.position
-    let [mateData, notation] = position.updatePositionFromString(moveString)
+    const [mateData, notation] = position.updatePositionFromString(moveString)
 
     // Check checkmate
     let kingRemoveChoices = []
