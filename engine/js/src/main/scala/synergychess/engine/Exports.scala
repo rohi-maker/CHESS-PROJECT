@@ -87,7 +87,7 @@ case class Position() {
   }
 
   @JSExport
-  def updatePositionFromString(moveDataString: String): String = {
+  def updatePositionFromString(moveDataString: String): js.Array[String] = {
     val moveData = new MoveData(moveDataString)
 
     moveData.enPassant = data.enPassant
@@ -98,9 +98,9 @@ case class Position() {
     val mateData = moveResult.get.mateData
 
     if (mateData == null) {
-      ""
+      Array("", moveResult.get.toNotation(data).getNotation).toJSArray
     } else {
-      mateData.toString
+      Array(mateData.toString, moveResult.get.toNotation(data).getNotation).toJSArray
     }
   }
 
