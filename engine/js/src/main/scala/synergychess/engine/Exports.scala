@@ -57,7 +57,12 @@ case class Position() {
   }
 
   @JSExport
-  def updatePosition(from: String, to: String, rookPlacement: String, promotion: String, kingChoice: String): String = {
+  def updatePosition(
+    from: String,
+    to: String,
+    rookPlacement: String,
+    promotion: String,
+    kingChoice: String): js.Array[String] = {
     val moveData = MoveData()
 
     moveData.from = from
@@ -75,9 +80,9 @@ case class Position() {
     val mateData = moveResult.get.mateData
 
     if (mateData == null) {
-      ""
+      Array("", moveResult.get.toNotation(data).getNotation).toJSArray
     } else {
-      mateData.toString
+      Array(mateData.toString, moveResult.get.toNotation(data).getNotation).toJSArray
     }
   }
 
