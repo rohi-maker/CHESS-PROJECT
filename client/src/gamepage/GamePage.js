@@ -92,10 +92,12 @@ export default class GamePage extends Component {
               </React.Fragment>
             }
 
-            <Button bsStyle="primary">
-              <Glyphicon glyph="remove-circle" />{' '}
-              Resign
-            </Button>{' '}
+            {iAmPlayer && state === State.ALIVE &&
+              <Button bsStyle="primary" onClick={this.resign}>
+                <Glyphicon glyph="remove-circle" />{' '}
+                Resign
+              </Button>
+            }
 
             <br />
             <br />
@@ -218,5 +220,11 @@ export default class GamePage extends Component {
         this.container.msRequestFullscreen
       requestFullscreen.call(this.container)
     }
+  }
+
+  resign = () => {
+    this.sock.send(JSON.stringify({
+      type: 'Resign'
+    }))
   }
 }

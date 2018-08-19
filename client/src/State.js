@@ -41,10 +41,10 @@ export const STATE_DESCS = [
   'Draw (agreement)',
 
   'White resigned',
-  'Red resigned',
+  'Black resigned',
 
   'White canceled game',
-  'Red canceled game',
+  'Black canceled game',
 
   'White won (black was out of time)',
   'Black won (white was out of time)',

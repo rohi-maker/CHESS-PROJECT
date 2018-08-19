@@ -17,8 +17,8 @@ const getColor = (iJoined, upper) => {
     : creatorColor === PlayerColor.BLACK
 
   const [color, username] = upper
-    ? (creatorIsUpper ? [creatorId, creatorColor] : [opponentColor, opponentId])
-    : (creatorIsUpper ? [opponentId, opponentColor] : [creatorColor, creatorId])
+    ? (creatorIsUpper ? [creatorColor, creatorId] : [opponentColor, opponentId])
+    : (creatorIsUpper ? [opponentColor, opponentId] : [creatorColor, creatorId])
 
   return {color, username}
 }
