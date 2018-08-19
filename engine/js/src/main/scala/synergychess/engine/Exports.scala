@@ -1,9 +1,8 @@
 package synergychess.engine
 
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.annotation._
-import js.JSConverters._
-import scala.collection.mutable.ArrayBuffer
 
 @JSExportTopLevel("GameGenerator")
 object GameGeneratorJs {
@@ -47,7 +46,7 @@ case class Position() {
       return js.Array[String]()
     }
 
-    val moveData = new MoveData()
+    val moveData = MoveData()
     moveData.from = from
     moveData.enPassant = data.enPassant
     moveData.castling = data.castling
@@ -59,7 +58,7 @@ case class Position() {
 
   @JSExport
   def updatePosition(from: String, to: String, rookPlacement: String, promotion: String, kingChoice: String): String = {
-    val moveData = new MoveData()
+    val moveData = MoveData()
 
     moveData.from = from
     moveData.to = to
@@ -103,6 +102,12 @@ case class Position() {
   @JSExport
   def senString: String = {
     data.senString
+  }
+
+  @JSExport
+  def piecesCaptured(color: String): js.Dictionary[Int] = {
+    val captures = data.piecesCaptured(color)
+    captures.toJSDictionary
   }
 }
 
@@ -152,7 +157,7 @@ case class MoveDataJs() {
 
   @JSExport
   override def toString: String = {
-    val moveData = new MoveData()
+    val moveData = MoveData()
     moveData.from = from
     moveData.to = to
     moveData.rookPlacement = rookPlacement
