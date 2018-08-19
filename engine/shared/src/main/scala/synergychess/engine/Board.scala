@@ -181,7 +181,6 @@ class Board {
   def checkDoubleThreat(attackingPieceName: String, to: String, from: String, board: Board, color: String): Notation = {
     // Checks if a square is threatened by two of the same type pieces
     // So notation can represent the move correctly
-    // Returns true or false
 
     val orthogs = ArrayBuffer(Array(1, 0), Array(-1, 0), Array(0, 1), Array(0, -1))
     val diags = ArrayBuffer(Array(1, 1), Array(-1, 1), Array(1, -1), Array(-1, -1))
@@ -198,22 +197,25 @@ class Board {
     )
 
     val target = to
+    val fromPoint = new Point(from)
+    val toPoint = new Point(to)
     var foundPiece: Piece = null
-    val notation = new Notation()
+    val notation: Notation = Notation()
 
-    // Pawns - doublethreat calcs not needed as pawns show file when taking by default
+    // Pawns - double threat disambiguating not needed as pawn can only attack one square or en passant
 
-    //  KNIGHT Doublethreats
-    if (attackingPieceName == "knight") {  // If attackingpiece is a knight
+    //  KNIGHT double threats
+    if (attackingPieceName == "knight") {
       // Check the target square for any other knights threatening it
+      var isDoubleThreat = false
+
       for (nSq <- knightSquares) {
         val adj = Point(new Point(target).x + nSq.x, new Point(target).y + nSq.y)
-        val foundPiece = board.getSquare(adj)
 
-        // Don't process for "adjacent" squares which are out of bounds (x or y <= 0 -> undefined ), or empty squares (foundPiece = 0)
-        if (foundPiece != null) {
-          if (foundPiece.isInstanceOf[Knight] && foundPiece.color == color) {
-            // Val adjKnightPos = adj.toString()
+        if (adj.inBounds) {
+          val foundPiece = board.getSquare(adj)
+
+          if (foundPiece != null && foundPiece.isInstanceOf[Knight] && foundPiece.color == color) {
             notation.isDoubleThreat = true
 
             // Compare file, if the same, then
@@ -226,40 +228,39 @@ class Board {
               notation.fileNeeded = true
             }
 
-            // If a doublethreat with no common rank or file
-            if ((from.charAt(0) != adj.toString.charAt(0)) && (from.charAt(1) != adj.toString().charAt(1))) {
-              if (!notation.fileNeeded) notation.fileNeeded = true
-              // and it's the last square looked at (nSq from knightSquares()) not distinguished already by a prior piece found
-              if (nSq.x == -2 && nSq.y == -1 && !notation.rankNeeded && !notation.fileNeeded) {
-                notation.fileNeeded = true
-              }
+            // If a double threat with no common rank or file => either rank or file is okay
+            // => save it till the end of the loop to choose
+            if (from.charAt(0) != adj.toString.charAt(0) && from.charAt(1) != adj.toString().charAt(1)) {
+              isDoubleThreat = true
             }
           }
         }
       }
-      // If so, of the two knights
-      // If x is the same then show the file
-      // If y is the same then show the rank
+
+      // If is double threat but neither rank nor file is selected
+      if (isDoubleThreat && !notation.rankNeeded && !notation.fileNeeded) {
+        notation.fileNeeded = true
+      }
     }
 
 
     // DIAGONALS - queens and bishops
-    if (attackingPieceName == "queen" || attackingPieceName == "Q" || attackingPieceName == "bishop" || attackingPieceName == "B") {
+    if (attackingPieceName == "queen" || attackingPieceName == "bishop") {
       // Check diagonals
       val diagPieces = ArrayBuffer[String]()
 
       // Inline diagonals case where the piece is moving away from another behind it
       // Filter out the direction the piece came *from* by removing that directional element in the diags array.
       // Refer val diags = ((1,1),(-1,1),(1,-1),(-1,-1))
-      if (new Point(from).x < new Point(to).x && new Point(from).y < new Point(to).y) diags.remove(3,1)  // -1 -1 case
-      if (new Point(from).x < new Point(to).x && new Point(from).y > new Point(to).y) diags.remove(1,1)  // -1 +1 case
-      if (new Point(from).x > new Point(to).x && new Point(from).y < new Point(to).y) diags.remove(2,1)  // +1 -1 case
-      if (new Point(from).x > new Point(to).x && new Point(from).y > new Point(to).y) diags.remove(0,1)  // +1 +1 case
+      if (fromPoint.x < toPoint.x && fromPoint.y < toPoint.y) diags.remove(3,1)  // -1 -1 case
+      if (fromPoint.x < toPoint.x && fromPoint.y > toPoint.y) diags.remove(1,1)  // -1 +1 case
+      if (fromPoint.x > toPoint.x && fromPoint.y < toPoint.y) diags.remove(2,1)  // +1 -1 case
+      if (fromPoint.x > toPoint.x && fromPoint.y > toPoint.y) diags.remove(0,1)  // +1 +1 case
 
 
       // For each direction have a look diagonally and record the last square found
       for (offset <- diags) {
-        val diagSquares = board.getSquare(target).ownTeamStep(board, new Point(target), offset(0), offset(1))
+        val diagSquares = board.getSquare(target).ownTeamStep(board, toPoint, offset(0), offset(1))
         // Add last square found may or may not be a piece (ie could be board edge empty square)
         val lastSquare = board.getSquare(diagSquares(diagSquares.length - 1))
 
@@ -295,18 +296,20 @@ class Board {
       // Before looking along those lines...
       // Refer val orthogs = ((1,0),(-1,0),(0,1),(0,-1))
 
-      if (new Point(from).x < new Point(to).x && new Point(from).y == new Point(to).y) orthogs.remove(1,1)  // Moves to right
-      if (new Point(from).x > new Point(to).x && new Point(from).y == new Point(to).y) orthogs.remove(0,1)  // Moves to left
-      if (new Point(from).x == new Point(to).x && new Point(from).y < new Point(to).y) orthogs.remove(3,1)  // Moves up (rel to x,y scale)
-      if (new Point(from).x == new Point(to).x && new Point(from).y > new Point(to).y) orthogs.remove(2,1)  // Moves down (rel to x,y scale)
+      if (fromPoint.x < toPoint.x && fromPoint.y == toPoint.y) orthogs.remove(1,1)  // Moves to right
+      if (fromPoint.x > toPoint.x && fromPoint.y == toPoint.y) orthogs.remove(0,1)  // Moves to left
+      if (fromPoint.x == toPoint.x && fromPoint.y < toPoint.y) orthogs.remove(3,1)  // Moves up (rel to x,y scale)
+      if (fromPoint.x == toPoint.x && fromPoint.y > toPoint.y) orthogs.remove(2,1)  // Moves down (rel to x,y scale)
 
       for (offset <- orthogs) {
-        val orthogSquares = board.getSquare(target).ownTeamStep(board, new Point(target), offset(0), offset(1))
-        val lastSquare = board.getSquare(orthogSquares(orthogSquares.length - 1))
+        val orthogSquares = board.getSquare(target).ownTeamStep(board, toPoint, offset(0), offset(1))
+        if (orthogSquares.nonEmpty) {
+          val lastSquare = board.getSquare(orthogSquares(orthogSquares.length - 1))
 
-        // Add last square found may or may not be a piece (ie could be board edge empty square)
-        if (lastSquare != null) {  // Filter empty and undefined squares
-          orthogPieces.append(orthogSquares(orthogSquares.length - 1))  // Record the square
+          // Add last square found may or may not be a piece (ie could be board edge empty square)
+          if (lastSquare != null) { // Filter empty and undefined squares
+            orthogPieces.append(orthogSquares(orthogSquares.length - 1)) // Record the square
+          }
         }
       }
 
@@ -335,7 +338,7 @@ class Board {
       }
     }
 
-    // KING doublethreats
+    // KING double threats
     if (attackingPieceName == "king" && !notation.isOuterKingCastle && !notation.isOuterQueenCastle) {
 
       val kingSquares = Array(
@@ -370,9 +373,9 @@ class Board {
               notation.fileNeeded = true
             }
 
-            // Doublethreat no common rank or file
+            // Double threat no common rank or file
             if ((kingFrom.charAt(0) != adjKingPos.charAt(0)) && (kingFrom.charAt(1) != adjKingPos.charAt(1))) {
-              notation.fileNeeded = true  // Still a doublethreat and need to identify the king moving
+              notation.fileNeeded = true  // Still a double threat and need to identify the king moving
             }
           }
         }

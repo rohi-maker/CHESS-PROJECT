@@ -3,30 +3,16 @@ package synergychess.engine
 import scala.collection.mutable.ArrayBuffer
 
 case class MoveData (
-  var board: Board,
-  var enPassant: String,
-  var from: String,
-  var to: String,
-  var moveList: ArrayBuffer[String],
-  var castling: Castling,
-  var rookPlacement: String,
-  var kingChoice: String,
-  var promotionData: PromotionData
+  var board: Board = new Board(),
+  var enPassant: String = "",
+  var from: String = "",
+  var to: String = "",
+  var moveList: ArrayBuffer[String] = ArrayBuffer[String](),
+  var castling: Castling = new Castling(),
+  var rookPlacement: String = "",
+  var kingChoice: String = "",
+  var promotionData: PromotionData = null
 ) {
-  def this() {
-    this(
-      new Board(),
-      "",
-      "",
-      "",
-      ArrayBuffer[String](),
-      new Castling(),
-      "",
-      "",
-      null
-    )
-  }
-
   def this(another: MoveData) {
     this(
       another.board,

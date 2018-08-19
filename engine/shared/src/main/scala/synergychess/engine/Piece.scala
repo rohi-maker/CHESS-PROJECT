@@ -99,17 +99,12 @@ class Piece(val color: String, val basePos: Point) {
   }
 
   def move (moveData: MoveData): MoveResult = {
+    val isCapturing = moveData.board.getSquare(moveData.to) != null
     MoveResult(
-      ArrayBuffer(Tuple2(moveData.from, null), Tuple2(moveData.to, this)),
-      "",
-      moveData.from,
-      moveData.to,
-      "",
-      false,
-      "",
-      null,
-      null,
-      false
+      sq = ArrayBuffer(Tuple2(moveData.from, null), Tuple2(moveData.to, this)),
+      from = moveData.from,
+      to = moveData.to,
+      isCapturing = isCapturing
     )
   }
 
@@ -117,7 +112,7 @@ class Piece(val color: String, val basePos: Point) {
     val board = moveData.board
     val validMoves = moveData.moveList
 
-    val testMove = new MoveData()
+    val testMove = MoveData()
     testMove.board = moveData.board
     testMove.from = moveData.from
 

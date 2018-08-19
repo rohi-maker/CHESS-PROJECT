@@ -94,7 +94,8 @@ class Pawn(override val color: String, override val basePos: Point) extends Piec
   }
 
   override def move(moveData: MoveData): MoveResult = {
-    val result = new MoveResult()
+    val result: MoveResult = MoveResult()
+    result.isCapturing = moveData.board.getSquare(moveData.to) != null
     result.sq = ArrayBuffer((moveData.from, null), (moveData.to, this))
     result.enPassant = ""
     result.from = moveData.from
@@ -111,12 +112,14 @@ class Pawn(override val color: String, override val basePos: Point) extends Piec
     if (moveData.to == moveData.enPassant) {
       val p3 = new Point(moveData.enPassant)
       p3.y += (if (color == "white") -1 else 1)
+      result.enPassant = moveData.enPassant
       result.sq.append((p3.toString, null))
     }
 
     if (moveData.promotionData != null) {
       val newPiece = PieceFactory.newPiece(moveData.promotionData.name, color, basePos)
       moveData.board.setSquare(basePos, newPiece)
+      result.pawnPromotion = true
       if (moveData.promotionData.kingPlacement != null && moveData.promotionData.kingPlacement != "") {
         result.sq = ArrayBuffer((moveData.from, null), (moveData.to, null), (moveData.promotionData.kingPlacement, newPiece))
       } else {

@@ -6,8 +6,8 @@ class NotationSpec extends FlatSpec with Matchers with BeforeAndAfter {
   var startingSEN = "r1n1bkqb1n1r/2p6p2/1prnbqkbnrp1/pppppppppppp/12/12/12/12/PPPPPPPPPPPP/1PRNBQKBNRP1/2P6P2/R1N1BKQB1N1R w KQkq KQkq - 0 0"
   var game: Game = Game()
   var board: Board = new Board()
-  var moveData: MoveData = new MoveData()
-  var notation: Notation = new Notation()
+  var moveData: MoveData = MoveData()
+  var notation: Notation = Notation()
 
   before {
     notation.resetNotation()

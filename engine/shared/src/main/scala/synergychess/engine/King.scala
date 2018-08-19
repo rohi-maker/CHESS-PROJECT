@@ -159,11 +159,11 @@ class King(override val color: String, override val basePos: Point) extends Piec
   }
 
   override def move(moveData: MoveData): MoveResult = {
-    val result = new MoveResult()
+    val result = MoveResult()
     result.sq = ArrayBuffer[(String, Piece)]()
     result.from = moveData.from
     result.to = moveData.to
-
+    result.isCapturing = moveData.board.getSquare(moveData.to) != null
 
     val p1 = new Point(moveData.from)
     val p2 = new Point(moveData.to)

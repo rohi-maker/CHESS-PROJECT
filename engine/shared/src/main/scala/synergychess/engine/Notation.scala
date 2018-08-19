@@ -1,46 +1,35 @@
 package synergychess.engine
 
-import scala.collection.mutable.ArrayBuffer
-
 case class Notation (
-  var currentMove: String,
-  var moveArray: ArrayBuffer[String],   // Notation object moves Array for connected games
-  var piece: String,                    // Get piece
-  var moveFrom: String,                 // Board ref e.g J2
-  var moveTo: String,                    // Board ref e.g.j2
+  var piece: String = "",     // Get piece
+  var moveFrom: String = "",  // Board ref e.g J2
+  var moveTo: String = "",    // Board ref e.g.j2
 
-  var kingPos: String,
-  var kingRemoved: String,
-  var rookLocation: String,
+  var kingPos: String = "",
+  var kingRemoved: String = "",
+  var rookLocation: String = "",
 
-  var isTaken: Boolean,
-  var attPiece: String, //attacking piece
-  var isDoubleThreat: Boolean,
-  var rankNeeded: Boolean,
-  var fileNeeded: Boolean,
+  var isTaken: Boolean = false,
+  var enPassant: Boolean = false,
+  var attPiece: String = "", //attacking piece
+  var isDoubleThreat: Boolean = false,
+  var rankNeeded: Boolean = false,
+  var fileNeeded: Boolean = false,
 
-  var isInCheck: Boolean,
-  var isInDoubleCheck: Boolean,
-  var isCheckmate: Boolean,
-  var isDoubleCheckMate: Boolean,
+  var isInCheck: Boolean = false,
+  var isInDoubleCheck: Boolean = false,
+  var isCheckmate: Boolean = false,
+  var isDoubleCheckMate: Boolean = false,
 
-  var isInnerKingCastle: Boolean,
-  var isInnerQueenCastle: Boolean,
-  var isOuterKingCastle: Boolean,
-  var isOuterQueenCastle: Boolean,
+  var isInnerKingCastle: Boolean = false,
+  var isInnerQueenCastle: Boolean = false,
+  var isOuterKingCastle: Boolean = false,
+  var isOuterQueenCastle: Boolean = false,
 
-  var isPromotion: Boolean,
-  var promoPiece: String
+  var isPromotion: Boolean = false,
+  var promoPiece: String = ""
 ) {
-  def this() {
-    this(
-      "", ArrayBuffer[String](), "", "", "", "", "", "",
-      false, "", false, false, false, false, false, false,
-      false, false, false, false, false, false, ""
-    )
-  }
-  
-  def resetNotation(): Unit = {
+  def resetNotation() {
     moveFrom = ""
     moveTo = ""
     piece = ""
@@ -121,10 +110,12 @@ case class Notation (
 
   def getNotation: String = {
     var notationString = ""
-    // Originating rank and file
+
     // TODO check for charAt() (10,11,12)
+    // Originating rank and file, no ambiguity
     var rankFrom = ""
     var fileFrom = ""
+
     if (moveFrom != null && moveFrom != "") {  // During back rank castle
       rankFrom = if (moveFrom.length > 2) moveFrom.substring(1, 3) else moveFrom.charAt(1).toString
       fileFrom = moveFrom.charAt(0).toString.toLowerCase
@@ -133,12 +124,15 @@ case class Notation (
     // Construct the mainNotation
     var mainNotation = ""
     if (isPromotion)
-      mainNotation = moveTo + "=" + promoPiece
+      mainNotation = moveTo.toLowerCase + "=" + pChar(promoPiece)
     else
-      mainNotation = piece + (if (isTaken) if (attPiece == "pawn") fileFrom + "x" else "x" else "") + moveTo.toLowerCase
+      mainNotation = pChar(piece) +
+        (if (isTaken) if (piece == "pawn") fileFrom + "x" else "x" else "") +
+        moveTo.toLowerCase +
+        (if (enPassant) "e.p." else "")
 
     if (isDoubleThreat) { //threatened by another of the same type of piece
-      mainNotation = piece + (if (fileNeeded) fileFrom else "") //so need file or rank extra inf
+      mainNotation = pChar(piece) + (if (fileNeeded) fileFrom else "") //so need file or rank extra inf
       mainNotation += (if (rankNeeded) rankFrom else "")
       mainNotation += (if (isTaken) "x" else "") + moveTo.toLowerCase()
     }
@@ -165,7 +159,10 @@ case class Notation (
         notationString += (if (isInnerQueenCastle) "O-O-O" else "")
         notationString += (if (isOuterKingCastle) "O-" + kingPos.charAt(0) + "-" + rookLoc else "")
         notationString += (if (isOuterQueenCastle) "O-" + kingPos.charAt(0) + "-" + rookLoc else "")
-        notationString += (if (isInCheck) "+" else "") // feasible rook can put opp King in check after castling + (if (isInDoubleCheck)  { "++"}
+
+        // feasible rook can put opp King in check after castling + (if (isInDoubleCheck)  { "++"}
+        notationString += (if (isInCheck) "+" else "")
+
         notationString += (if (isInDoubleCheck) "++" else "")
         notationString += (if (isCheckmate) "#" else "")
         notationString += (if (isDoubleCheckMate) "##" else "")

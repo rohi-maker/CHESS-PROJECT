@@ -28,15 +28,20 @@ case class Game() {
   var validMoves: ArrayBuffer[String] = ArrayBuffer[String]()
 
   def move(moveData: MoveData): Option[MoveResult] = {
-    var result = new MoveResult()
+    var result: MoveResult = MoveResult()
     moveData.board = board
     moveData.enPassant = enPassant
     moveData.castling = castling
 
     val mate = endConditions.getMateData(board, teamToMove, enPassant)
+
+    // If check mate and king choice occurs in the valid king to remove list
     if (mate.choices.contains(moveData.kingChoice)) {
+      // Remove the selected king
       board.setSquare(moveData.kingChoice, null)
+
       moveHistory.append(moveData)
+
       val mate = endConditions.getMateData(board, teamToMove, enPassant)
       result.completed = false
       result.mateData = mate
@@ -44,14 +49,18 @@ case class Game() {
     }
 
     val pMoved = board.getSquare(moveData.from)
+
+    // If no piece at from square
     if (pMoved == null) return None
+
     validMoves = pMoved.validMoves(moveData)
 
     // VALIDATE PROMOTION MOVE
-    var legalMove = validMoves.contains(moveData.to)
+    var isLegalMove = validMoves.contains(moveData.to)
 
-    val notation = new Notation()
-    if (moveData.promotionData != null){
+    val notation = Notation()
+
+    if (moveData.promotionData != null) {
       val kingSq: String = moveData.promotionData.kingPlacement
 
       val vDs = validPromotions(teamToMove, moveData.to)
@@ -62,13 +71,13 @@ case class Game() {
 
       notation.isPromotion = true
       if (moveData.promotionData.name != "" && !valids.contains(moveData.promotionData.name)) return None
-      if (kingSq != "") legalMove = safeSqs.contains(kingSq)
+      if (kingSq != "") isLegalMove = safeSqs.contains(kingSq)
     }
 
     // VALIDATE CASTLING MOVE
     // !!needs to be added
 
-    if (legalMove) {
+    if (isLegalMove) {
       moveHistory.append(moveData)
       result = pMoved.move(moveData)
       enPassant = result.enPassant
