@@ -160,7 +160,10 @@ export default class GamePage extends Component {
 
       case 'Move': {
         const {move} = msg
-        if (move) this.board.move(move)
+        if (move) {
+          const notation = this.board.move(move)
+          console.log('notation', notation)
+        }
         break
       }
 
@@ -188,6 +191,8 @@ export default class GamePage extends Component {
   onThisBoardMove(move) {
     const moveString = moveToString(move)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
+
+    // TODO Get notation and display
   }
 
   sendChatMsg = (msg) => {
