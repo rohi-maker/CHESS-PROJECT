@@ -219,18 +219,18 @@ class Board {
             notation.isDoubleThreat = true
 
             // Compare file, if the same, then
-            if (from.charAt(0) == adj.toString.charAt(0)) {
+            if (fromPoint.y == adj.y) {
               notation.rankNeeded = true
             }
 
             // Compare rank, if the same, then
-            if (from.charAt(1) == adj.toString.charAt(1)) {
+            if (fromPoint.x == adj.x) {
               notation.fileNeeded = true
             }
 
             // If a double threat with no common rank or file => either rank or file is okay
             // => save it till the end of the loop to choose
-            if (from.charAt(0) != adj.toString.charAt(0) && from.charAt(1) != adj.toString().charAt(1)) {
+            if (fromPoint.x != adj.x && fromPoint.y != adj.y) {
               isDoubleThreat = true
             }
           }
@@ -261,26 +261,29 @@ class Board {
       // For each direction have a look diagonally and record the last square found
       for (offset <- diags) {
         val diagSquares = board.getSquare(target).ownTeamStep(board, toPoint, offset(0), offset(1))
-        // Add last square found may or may not be a piece (ie could be board edge empty square)
-        val lastSquare = board.getSquare(diagSquares(diagSquares.length - 1))
+        if (diagSquares.nonEmpty) {
+          // Add last square found may or may not be a piece (ie could be board edge empty square)
+          val lastSquare = board.getSquare(diagSquares(diagSquares.length - 1))
 
-        // Filter undefined (square against edge) and empty squares
-        if (lastSquare != null) {
-          diagPieces.append(diagSquares(diagSquares.length - 1))
+          // Filter undefined (square against edge) and empty squares
+          if (lastSquare != null) {
+            diagPieces.append(diagSquares(diagSquares.length - 1))
+          }
         }
       }
 
       // Check those squares for the same type of piece
       for (pos <- diagPieces) {
+        val posPoint = new Point(pos)
         foundPiece = board.getSquare(pos)
 
         if (foundPiece.name == attackingPieceName && foundPiece.color == color) {
           notation.isDoubleThreat = true
           // If the found piece has the same rank as where the attacking piece is coming from
           // Tell notation to show the file
-          if ((from.charAt(1) == pos.charAt(1)) && (from.charAt(2) == pos.charAt(2))) notation.fileNeeded = true
-          if (from.charAt(0) == pos.charAt(0)) notation.rankNeeded = true//ditto file
-          if (from.charAt(0)!= pos.charAt(0) && from.charAt(1)!= pos.charAt(1)) notation.fileNeeded = true
+          if (fromPoint.y == posPoint.y) notation.fileNeeded = true
+          if (fromPoint.x == posPoint.x) notation.rankNeeded = true//ditto file
+          if (fromPoint.x != posPoint.x && fromPoint.y != posPoint.y) notation.fileNeeded = true
           return notation
         }
       }
@@ -315,6 +318,7 @@ class Board {
 
       // Check those squares for the same type of piece
       for (pos <- orthogPieces) {
+        val posPoint = new Point(pos)
         val foundPiece = board.getSquare(pos.toString)
         if (foundPiece.name == attackingPieceName && foundPiece.color == color) {
           notation.isDoubleThreat = true
@@ -323,15 +327,15 @@ class Board {
 
           // Inline moves
           // The moving rook and the found rook are on the same rank, file needed
-          if (from.charAt(1) == pos.charAt(1)) notation.fileNeeded = true
+          if (fromPoint.y == posPoint.y) notation.fileNeeded = true
           // The moving rook and the found rook are on the same file, rank needed
-          if (from.charAt(0) == pos.charAt(0)) notation.rankNeeded = true
+          if (fromPoint.x == posPoint.x) notation.rankNeeded = true
 
           // Intersecting moves
           // The rook is moving along a rank, and another rook is threatening the target square along it's file
-          if (from.charAt(0) != target.charAt(0) && target.charAt(0) == pos.charAt(0)) notation.fileNeeded = true
+          if (fromPoint.y != toPoint.y && toPoint.y == posPoint.y) notation.fileNeeded = true
           // The rook is moving along a file, and another rook is threatening the target square along it's rank
-          if (from.charAt(1)!= target.charAt(1) && target.charAt(1) == pos.charAt(1)) notation.rankNeeded = true
+          if (fromPoint.x != toPoint.x && toPoint.x == posPoint.x) notation.rankNeeded = true
 
           return notation
         }
@@ -355,27 +359,27 @@ class Board {
       // Look adjacent to the target square for another king of the same color
       for (kSq <- kingSquares) {
         val adj = Point(new Point(target).x + kSq.x, new Point(target).y + kSq.y)
-        val cPiece = board.getSquare(adj)
-        // Wrap this in if cPiece !=0 to avoid processing for no piece found
-        if (cPiece != null) {
-          val kingFrom = from
+        if (adj.inBounds) {
+          val cPiece = board.getSquare(adj)
+          // Wrap this in if cPiece !=0 to avoid processing for no piece found
+          if (cPiece != null) {
 
-          if (cPiece.name == "king" && cPiece.color == color) {
-            val adjKingPos = adj.toString()
-            notation.isDoubleThreat = true
+            if (cPiece.name == "king" && cPiece.color == color) {
+              notation.isDoubleThreat = true
 
-            // Compare file, if the same, then
-            if (kingFrom.charAt(0) == adjKingPos.charAt(0)) {
-              notation.rankNeeded = true
-            }
-            // Compare rank, if the same, then
-            if (kingFrom.charAt(1) == adjKingPos.charAt(1)) {
-              notation.fileNeeded = true
-            }
+              // Compare file, if the same, then
+              if (fromPoint.y == adj.y) {
+                notation.rankNeeded = true
+              }
+              // Compare rank, if the same, then
+              if (fromPoint.x == adj.x) {
+                notation.fileNeeded = true
+              }
 
-            // Double threat no common rank or file
-            if ((kingFrom.charAt(0) != adjKingPos.charAt(0)) && (kingFrom.charAt(1) != adjKingPos.charAt(1))) {
-              notation.fileNeeded = true  // Still a double threat and need to identify the king moving
+              // Double threat no common rank or file
+              if ((fromPoint.y != adj.y) && (fromPoint.x != adj.x)) {
+                notation.fileNeeded = true // Still a double threat and need to identify the king moving
+              }
             }
           }
         }
