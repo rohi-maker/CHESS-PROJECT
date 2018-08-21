@@ -14,7 +14,7 @@ import queen_w from './imgs/queen_w.svg'
 import rook_b from './imgs/rook_b.svg'
 import rook_w from './imgs/rook_w.svg'
 
-const IMGS = {
+export const IMGS = {
   bishop_b,
   bishop_w,
   king_b,

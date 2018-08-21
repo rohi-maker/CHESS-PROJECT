@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {Well} from 'react-bootstrap'
 
-import PlayerColor from '../gameconfig/PlayerColor'
 import Clock from './Clock'
+import PlayerColor from '../gameconfig/PlayerColor'
+import PiecesCaptured from './PiecesCaptured'
 
 const getColor = (iJoined, upper) => {
   const {creatorId, creatorColor, opponentId} = iJoined
@@ -25,9 +26,11 @@ const getColor = (iJoined, upper) => {
 
 export default class PlayerInfo extends Component {
   render() {
-    const {iJoined, upper} = this.props
+    const {iJoined, upper, wPiecesCaptured, bPiecesCaptured} = this.props
     const {color, username} = getColor(iJoined, upper)
-    const colorName = color === PlayerColor.BLACK ? 'Black' : 'White'
+    const [colorName, piecesCaptured] = color === PlayerColor.BLACK ?
+      ['Black', bPiecesCaptured] :
+      ['White', wPiecesCaptured]
 
     return (
       <Well bsSize="small">
@@ -36,6 +39,8 @@ export default class PlayerInfo extends Component {
         {username === window.$me.username && <p><b>(Me)</b></p>}
 
         <Clock iJoined={iJoined} color={color} />
+
+        <PiecesCaptured color={color} piecesCaptured={piecesCaptured} />
       </Well>
     )
   }

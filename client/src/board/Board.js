@@ -70,8 +70,7 @@ export default class Board extends Component {
   move(moveString) {
     const moveData = new MoveData()
     const move = moveData.getDataFromString(moveString)
-    const position = this.position
-    let [mateData, notation] = position.updatePositionFromString(moveString)
+    let [mateData, notation] = this.position.updatePositionFromString(moveString)
 
     // Check checkmate
     let kingRemoveChoices = []
@@ -86,7 +85,6 @@ export default class Board extends Component {
     }
 
     this.kingRemoveChoices = kingRemoveChoices
-    this.position = position
 
     const lastMove = [move[0], move[1]]
     this.setState({
@@ -96,7 +94,11 @@ export default class Board extends Component {
       lastMove
     })
 
-    return notation
+    return [
+      notation,
+      this.position.piecesCaptured('white'),
+      this.position.piecesCaptured('black')
+    ]
   }
 
   clickOnPiece(r, c) {

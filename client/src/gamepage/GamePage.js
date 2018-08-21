@@ -46,12 +46,14 @@ export default class GamePage extends Component {
       iJoined: undefined,
       state: undefined,
       status: 'Loading...',
-      notations: []
+      notations: [],
+      wPiecesCaptured: {},
+      bPiecesCaptured: {}
     }
   }
 
   render() {
-    const {iJoined, state, status, notations} = this.state
+    const {iJoined, state, status, notations, wPiecesCaptured, bPiecesCaptured} = this.state
 
     if (!iJoined) return status
 
@@ -81,9 +83,19 @@ export default class GamePage extends Component {
           <Col md={4}>
             <Alert>{status}</Alert>
 
-            <PlayerInfo upper={true} iJoined={iJoined} />
+            <PlayerInfo
+              upper={true}
+              iJoined={iJoined}
+              wPiecesCaptured={wPiecesCaptured}
+              bPiecesCaptured={bPiecesCaptured}
+            />
 
-            <PlayerInfo upper={false} iJoined={iJoined} />
+            <PlayerInfo
+              upper={false}
+              iJoined={iJoined}
+              wPiecesCaptured={wPiecesCaptured}
+              bPiecesCaptured={bPiecesCaptured}
+            />
 
             {fullscreenEnabled &&
               <React.Fragment>
@@ -154,8 +166,9 @@ export default class GamePage extends Component {
           () => {
             const {moves} = msg
             for (const move of moves) {
-              const notation = this.board.move(move)
+              const [notation, wPiecesCaptured, bPiecesCaptured] = this.board.move(move)
               this.appendMoveHistory(notation)
+              this.setState({wPiecesCaptured, bPiecesCaptured})
             }
           }
         )
@@ -166,8 +179,9 @@ export default class GamePage extends Component {
       case 'Move': {
         const {move} = msg
         if (move) {
-          const notation = this.board.move(move)
+          const [notation, wPiecesCaptured, bPiecesCaptured] = this.board.move(move)
           this.appendMoveHistory(notation)
+          this.setState({wPiecesCaptured, bPiecesCaptured})
         }
         break
       }
@@ -193,10 +207,12 @@ export default class GamePage extends Component {
     this.setState({boardOptions})
   }
 
-  onThisBoardMove(move, notation) {
+  onThisBoardMove(move, [notation, wPiecesCaptured, bPiecesCaptured]) {
     const moveString = moveToString(move)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
+
     this.appendMoveHistory(notation)
+    this.setState({wPiecesCaptured, bPiecesCaptured})
   }
 
   sendChatMsg = (msg) => {
