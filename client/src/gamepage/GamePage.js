@@ -8,6 +8,7 @@ import PlayerColor from '../gameconfig/PlayerColor'
 import State, {STATE_DESCS} from '../State'
 
 import Chat from './Chat'
+import MoveHistory from './MoveHistory'
 import PlayerInfo from './PlayerInfo'
 
 import SockJS from 'sockjs-client'
@@ -44,12 +45,13 @@ export default class GamePage extends Component {
     this.state = {
       iJoined: undefined,
       state: undefined,
-      status: 'Loading...'
+      status: 'Loading...',
+      notations: []
     }
   }
 
   render() {
-    const {iJoined, state, status} = this.state
+    const {iJoined, state, status, notations} = this.state
 
     if (!iJoined) return status
 
@@ -108,7 +110,7 @@ export default class GamePage extends Component {
               </Tab>
 
               <Tab eventKey={2} title="Moves">
-                Game moves will be displayed here
+                <MoveHistory notations={notations} />
               </Tab>
             </Tabs>
           </Col>
@@ -151,7 +153,10 @@ export default class GamePage extends Component {
           {iJoined: msg, state: msg.state, status: STATE_DESCS[msg.state]},
           () => {
             const {moves} = msg
-            for (const move of moves) this.board.move(move)
+            for (const move of moves) {
+              const notation = this.board.move(move)
+              this.appendMoveHistory(notation)
+            }
           }
         )
 
@@ -162,7 +167,7 @@ export default class GamePage extends Component {
         const {move} = msg
         if (move) {
           const notation = this.board.move(move)
-          console.log('notation', notation)
+          this.appendMoveHistory(notation)
         }
         break
       }
@@ -191,9 +196,7 @@ export default class GamePage extends Component {
   onThisBoardMove(move, notation) {
     const moveString = moveToString(move)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
-
-    // TODO Get notation and display
-    console.log('notation: ', notation)
+    this.appendMoveHistory(notation)
   }
 
   sendChatMsg = (msg) => {
@@ -232,5 +235,11 @@ export default class GamePage extends Component {
     this.sock.send(JSON.stringify({
       type: 'Resign'
     }))
+  }
+
+  appendMoveHistory(notation) {
+    const {notations} = this.state
+    notations.push(notation)
+    this.setState({notations})
   }
 }
