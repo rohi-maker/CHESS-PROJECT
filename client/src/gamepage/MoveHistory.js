@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Table} from 'react-bootstrap'
 
+import './MoveHistory.css'
+
 const halfMovesToFullMoves = (halfMoves) => {
   const ret = []
   var fullMove = []
@@ -27,7 +29,7 @@ export default class MoveHistory extends Component {
 
     const fullMoves = halfMovesToFullMoves(notations)
     return (
-      <div style={{height: 220, overflow: 'auto'}}>
+      <div className="move-history">
         <Table striped bordered condensed hover>
           <thead>
             <tr>
