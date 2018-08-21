@@ -188,11 +188,12 @@ export default class GamePage extends Component {
     this.setState({boardOptions})
   }
 
-  onThisBoardMove(move) {
+  onThisBoardMove(move, notation) {
     const moveString = moveToString(move)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
 
     // TODO Get notation and display
+    console.log('notation: ', notation)
   }
 
   sendChatMsg = (msg) => {

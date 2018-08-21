@@ -154,8 +154,7 @@ export default class Board extends Component {
           rookPlacement: Helper.toSEN(row, col)
         }
       }
-      this.move(moveToString(move))
-      this.props.onMove(move)
+      this.props.onMove(move, this.move(moveToString(move)))
       this.castling = false
       return
     }
@@ -172,8 +171,7 @@ export default class Board extends Component {
             to: Helper.toSEN(row, col)
           }
 
-          this.move(moveToString(move))
-          this.props.onMove(move)
+          this.props.onMove(move, this.move(moveToString(move)))
           return
         }
       } else {
@@ -238,9 +236,7 @@ export default class Board extends Component {
         move.promotion = this.state.value
       }
 
-      console.log(moveToString(move))
-      this.move(moveToString(move))
-      this.props.onMove(move)
+      this.props.onMove(move, this.move(moveToString(move)))
       return
     }
 
