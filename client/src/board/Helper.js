@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {GameGenerator} from 'synergychess-engine'
 
 import bishop_b from './imgs/bishop_b.svg'
@@ -29,7 +29,7 @@ const IMGS = {
   rook_w
 }
 
-export default class Helper extends Component {
+export default class Helper {
   static getImageFilename(sen) {
     let result = this.getPieceName(sen)
     if (sen === sen.toUpperCase()) {
