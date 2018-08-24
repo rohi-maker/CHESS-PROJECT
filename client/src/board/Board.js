@@ -252,7 +252,7 @@ export default class Board extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const result = {}
     for (const prop in nextProps) {
-      if (nextProps[prop] !== prevState[prop]) {
+      if (nextProps[prop] !== prevState[prop] && prop !== 'sen') {
         result[prop] = nextProps[prop]
       }
     }
