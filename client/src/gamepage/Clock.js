@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 
+import State from '../State'
 import './Clock.css'
 
 const formatTime = (ms) => {
@@ -21,7 +22,6 @@ export default class Clock extends Component {
       : [timeLimit2, timeSum2]
 
     this.state = {timeLimit, timeSum}
-    this.start()
   }
 
   render() {
@@ -32,6 +32,18 @@ export default class Clock extends Component {
 
   componentWillUnmount() {
     this.stop()
+  }
+
+  onStateChanged(state) {
+    if (state === State.ALIVE)
+      this.start()
+    else
+      this.stop()
+  }
+
+  onMove(timeSum) {
+    console.log('timeSum', timeSum)
+    this.toggle(timeSum)
   }
 
   toggle(timeSum) {

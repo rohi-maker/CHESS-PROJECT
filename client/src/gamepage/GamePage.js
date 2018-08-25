@@ -87,6 +87,7 @@ export default class GamePage extends Component {
             <TimeConfig timeLimitSecs={timeLimitSecs} timeBonusSecs={timeBonusSecs} />
 
             <PlayerInfo
+              ref={r => this.upperPlayerInfo = r}
               upper={true}
               iJoined={iJoined}
               wPiecesCaptured={wPiecesCaptured}
@@ -94,6 +95,7 @@ export default class GamePage extends Component {
             />
 
             <PlayerInfo
+              ref={r => this.lowerPlayerInfo = r}
               upper={false}
               iJoined={iJoined}
               wPiecesCaptured={wPiecesCaptured}
@@ -180,11 +182,14 @@ export default class GamePage extends Component {
       }
 
       case 'Move': {
-        const {move} = msg
+        const {move, timeSum} = msg
         if (move) {
           const [notation, wPiecesCaptured, bPiecesCaptured] = this.board.move(move)
           this.appendMoveHistory(notation)
           this.setState({wPiecesCaptured, bPiecesCaptured})
+
+          this.upperPlayerInfo.onMove(timeSum)
+          this.lowerPlayerInfo.onMove(timeSum)
         }
         break
       }
@@ -197,6 +202,10 @@ export default class GamePage extends Component {
       case 'StateChanged': {
         const {state} = msg
         this.setState({state, status: STATE_DESCS[state]})
+
+        this.upperPlayerInfo.onStateChanged(state)
+        this.lowerPlayerInfo.onStateChanged(state)
+
         break
       }
 

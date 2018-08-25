@@ -38,10 +38,18 @@ export default class PlayerInfo extends Component {
         {username}
         {username === window.$me.username && <p><b>(Me)</b></p>}
 
-        <Clock iJoined={iJoined} color={color} />
+        <Clock ref={r => this.clock = r} iJoined={iJoined} color={color} />
 
         <PiecesCaptured color={color} piecesCaptured={piecesCaptured} />
       </Well>
     )
+  }
+
+  onStateChanged(state) {
+    this.clock.onStateChanged(state)
+  }
+
+  onMove(timeSum) {
+    this.clock.onMove(timeSum)
   }
 }
