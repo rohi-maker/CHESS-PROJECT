@@ -73,7 +73,7 @@ case class MoveData (
     if (moveDataString(start) == '_') {
       promotionData = null
     } else {
-      promotionData.name = moveDataString(start) match {
+      promotionData.name = moveDataString(start).toLower match {
         case 'r' => "rook"
         case 'b' => "bishop"
         case 'q' => "queen"
