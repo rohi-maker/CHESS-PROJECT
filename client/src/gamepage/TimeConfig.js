@@ -4,11 +4,11 @@ import {Well} from 'react-bootstrap'
 const formatSecs = (secs) => {
   if (secs <= 0) return 'none'
 
-  if (secs < 60) return `${secs} seconds`
+  if (secs < 60) return `${secs}"`
 
   const remSecs = secs % 60
   const minutes = (secs - remSecs) / 60
-  return remSecs === 0 ? `${minutes} minutes` : `${remSecs} seconds`
+  return remSecs === 0 ? `${minutes}'` : `${remSecs}"`
 }
 
 export default function TimeConfig({timeLimitSecs, timeBonusSecs}) {
