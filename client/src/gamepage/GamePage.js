@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs} from 'react-bootstrap'
+import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs, Well} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
 import {MoveData} from 'synergychess-engine'
 
@@ -10,6 +10,7 @@ import State, {STATE_DESCS} from '../State'
 import Chat from './Chat'
 import MoveHistory from './MoveHistory'
 import PlayerInfo from './PlayerInfo'
+import TimeConfig from './TimeConfig'
 
 import SockJS from 'sockjs-client'
 import serverUrl from '../server'
@@ -57,7 +58,7 @@ export default class GamePage extends Component {
 
     if (!iJoined) return status
 
-    const {myColor} = iJoined
+    const {myColor, timeLimitSecs, timeBonusSecs} = iJoined
     const viewAsBlackPlayer = myColor === PlayerColor.BLACK
     const iAmPlayer = iJoined.myColor === PlayerColor.WHITE || iJoined.myColor === PlayerColor.BLACK
     const allowMove = iAmPlayer && state === State.ALIVE
@@ -82,6 +83,8 @@ export default class GamePage extends Component {
 
           <Col md={4}>
             <Alert>{status}</Alert>
+
+            <TimeConfig timeLimitSecs={timeLimitSecs} timeBonusSecs={timeBonusSecs} />
 
             <PlayerInfo
               upper={true}
