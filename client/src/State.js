@@ -46,8 +46,8 @@ export const STATE_DESCS = [
   'White canceled game',
   'Black canceled game',
 
-  'White won (black was out of time)',
   'Black won (white was out of time)',
+  'White won (black was out of time)',
 
   'Waiting for players'
 ]
