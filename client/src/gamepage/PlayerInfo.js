@@ -45,8 +45,8 @@ export default class PlayerInfo extends Component {
     )
   }
 
-  onStateChanged(state) {
-    this.clock.onStateChanged(state)
+  onStateGameChanged(gameState) {
+    this.clock.onStateGameChanged(gameState)
   }
 
   onMove(timeSum) {

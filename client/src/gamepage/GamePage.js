@@ -183,14 +183,17 @@ export default class GamePage extends Component {
 
       case 'Move': {
         const {move, timeSum} = msg
+
+        // When self move is echoed back, there's only timeSum info
         if (move) {
           const [notation, wPiecesCaptured, bPiecesCaptured] = this.board.move(move)
           this.appendMoveHistory(notation)
           this.setState({wPiecesCaptured, bPiecesCaptured})
-
-          this.upperPlayerInfo.onMove(timeSum)
-          this.lowerPlayerInfo.onMove(timeSum)
         }
+
+        this.upperPlayerInfo.onMove(timeSum)
+        this.lowerPlayerInfo.onMove(timeSum)
+
         break
       }
 
@@ -203,8 +206,8 @@ export default class GamePage extends Component {
         const {state} = msg
         this.setState({state, status: STATE_DESCS[state]})
 
-        this.upperPlayerInfo.onStateChanged(state)
-        this.lowerPlayerInfo.onStateChanged(state)
+        this.upperPlayerInfo.onStateGameChanged(state)
+        this.lowerPlayerInfo.onStateGameChanged(state)
 
         break
       }

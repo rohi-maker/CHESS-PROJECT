@@ -16,12 +16,16 @@ export default class Clock extends Component {
     super(props)
 
     const {iJoined, color} = this.props
-    const {timeLimit1, timeSum1, timeLimit2, timeSum2} = iJoined
+    const {timeLimit1, timeSum1, timeLimit2, timeSum2, moves} = iJoined
     const [timeLimit, timeSum] = color === 0
       ? [timeLimit1, timeSum1]
       : [timeLimit2, timeSum2]
 
     this.state = {timeLimit, timeSum}
+
+    this.gameState = iJoined.state
+    this.numMoves = moves.length
+    this.checkAndStart()
   }
 
   render() {
@@ -34,43 +38,54 @@ export default class Clock extends Component {
     this.stop()
   }
 
-  onStateChanged(state) {
-    if (state === State.ALIVE)
-      this.start()
-    else
-      this.stop()
+  onStateGameChanged(gameState) {
+    this.stop()
+    this.gameState = gameState
+    this.checkAndStart()
   }
 
   onMove(timeSum) {
-    console.log('timeSum', timeSum)
-    this.toggle(timeSum)
+    this.stop()
+
+    // Need to call updateTime first, then increase numMoves later
+    this.updateTime(timeSum)
+    this.numMoves++
+
+    this.checkAndStart()
   }
 
-  toggle(timeSum) {
-    const {timeBonusSecs} = this.props
+  updateTime(timeSum) {
+    if (!this.isMyColor()) return
+
+    const {iJoined} = this.props
+    const {timeBonusSecs} = iJoined
     const {timeLimit} = this.state
 
-    if (this.stop()) {
-      this.setState({
-        timeLimit: timeLimit + timeBonusSecs * 1000,
-        timeSum
-      })
-    } else {
-      this.start()
+    this.setState({
+      timeLimit: timeLimit + timeBonusSecs * 1000,
+      timeSum
+    })
+  }
+
+  checkAndStart() {
+    if (this.shouldCountDown()) {
+      this.interval = setInterval(this.countDown, 1000)
     }
   }
 
-  start() {
-    this.interval = setInterval(this.countDown, 1000)
+  isMyColor() {
+    const {color} = this.props
+    return this.numMoves % 2 === color
+  }
+
+  shouldCountDown() {
+    return this.isMyColor() && this.gameState === State.ALIVE && this.numMoves >= 2
   }
 
   stop() {
     if (this.interval) {
       clearTimeout(this.interval)
       this.interval = null
-      return true
-    } else {
-      return false
     }
   }
 
