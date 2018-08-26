@@ -21,10 +21,10 @@ export default class Clock extends Component {
       ? [timeLimit1, timeSum1]
       : [timeLimit2, timeSum2]
 
-    this.state = {timeLimit, timeSum}
-
-    this.gameState = iJoined.state
     this.numMoves = moves.length
+    this.gameState = iJoined.state
+
+    this.state = {timeLimit, timeSum: this.isNoTime() ? timeLimit : timeSum}
     this.checkAndStart()
   }
 
@@ -41,7 +41,13 @@ export default class Clock extends Component {
   onStateGameChanged(gameState) {
     this.stop()
     this.gameState = gameState
-    this.checkAndStart()
+
+    if (this.isNoTime()) {
+      const {timeLimit} = this.state
+      this.setState({timeSum: timeLimit})
+    } else {
+      this.checkAndStart()
+    }
   }
 
   onMove(timeSum) {
@@ -55,7 +61,7 @@ export default class Clock extends Component {
   }
 
   updateTime(timeSum) {
-    if (!this.isMyColor()) return
+    if (!this.isMyTurn()) return
 
     const {iJoined} = this.props
     const {timeBonusSecs} = iJoined
@@ -73,13 +79,19 @@ export default class Clock extends Component {
     }
   }
 
-  isMyColor() {
+  isNoTime() {
+    const {color} = this.props
+    return (this.gameState === State.WHITE_NO_TIME && color === 0) ||
+           (this.gameState === State.BLACK_NO_TIME && color === 1)
+  }
+
+  isMyTurn() {
     const {color} = this.props
     return this.numMoves % 2 === color
   }
 
   shouldCountDown() {
-    return this.isMyColor() && this.gameState === State.ALIVE && this.numMoves >= 2
+    return this.isMyTurn() && this.gameState === State.ALIVE && this.numMoves >= 2
   }
 
   stop() {
