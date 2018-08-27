@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs, Well} from 'react-bootstrap'
+import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
 import {MoveData} from 'synergychess-engine'
 
