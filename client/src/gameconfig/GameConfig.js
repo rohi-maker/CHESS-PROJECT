@@ -64,7 +64,7 @@ export default class GameConfig extends Component {
           {this.playerColorSelect(PlayerColor.BLACK)}{' '}
           {this.playerColorSelect(PlayerColor.RANDOM)}<br />
 
-          {/* {!this.props.withComputer &&
+          {!this.props.withComputer &&
             <div>
               <br />
               <label>Rate game:</label>{' '}
@@ -88,7 +88,7 @@ export default class GameConfig extends Component {
                 </span>
               }
             </div>
-          } */}
+          }
         </Modal.Body>
 
         <Modal.Footer>
