@@ -56,22 +56,6 @@ class PromotionSpec extends FlatSpec with Matchers with BeforeAndAfter {
     board.getSquare("K12").color shouldBe "white"
   }
 
-  "" should "be able to promote to King" in {
-    val bPos = board.getSquare("J11").basePos
-    moveData.from = "J11"
-    moveData.to = "J12"
-    moveData.promotionData = new PromotionData()
-    moveData.promotionData.name = "king"
-    moveData.promotionData.kingPlacement = "L4"
-    game.move(moveData)
-
-    board.getSquare("J11") shouldBe null
-    board.getSquare("J12") shouldBe null
-    board.getSquare("L4").name shouldBe "king"
-    board.getSquare("L4").color shouldBe "white"
-    board.getSquare("L4").basePos shouldBe bPos
-  }
-
   "" should "not be able to promote to dangerous square" in {
     board = game.board
     val pawn = board.getSquare("J11")

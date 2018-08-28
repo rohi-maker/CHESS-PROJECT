@@ -38,7 +38,7 @@ class EndConditions() {
 
     // Have to check for singleCheckMate
     def singleKingMated(board: Board, king: String): Boolean = {
-      val moveData = new MoveData()
+      val moveData = MoveData()
       moveData.board = board
       moveData.from = king
       val kValids = board.getSquare(king).validMoves(moveData)
@@ -72,8 +72,8 @@ class EndConditions() {
       pointsBtwn.remove(pointsBtwn.length - 1)
 
       !pointsBtwn.exists(pos => currTeamAtking.contains(pos) && currTeamAtking(pos).exists(p => {
-          moveData.from = p
-          return board.getSquare(p).validMoves(moveData).contains(pos)
+        moveData.from = p
+        board.getSquare(p).validMoves(moveData).contains(pos)
       }))
     }
 

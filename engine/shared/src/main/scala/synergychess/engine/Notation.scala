@@ -108,8 +108,29 @@ case class Notation (
     }
   }
 
+  def reversePChar(pieceName: String): String = {
+    piece match {
+      case "" => "pawn"
+      case "N" => "knight"
+      case "B" => "bishop"
+      case "R" => "rook"
+      case "Q" => "queen"
+      case "K" => "king"
+    }
+  }
+
   def getNotation: String = {
     var notationString = ""
+
+    if (piece == "") {
+      piece = "pawn"
+    } else if (piece.charAt(0).toUpper == piece.charAt(0)) {
+      piece = reversePChar(piece)
+    }
+
+    if (isPromotion && promoPiece.charAt(0).toUpper != promoPiece.charAt(0)) {
+      promoPiece = reversePChar(promoPiece)
+    }
 
     // TODO check for charAt() (10,11,12)
     // Originating rank and file, no ambiguity
@@ -124,7 +145,7 @@ case class Notation (
     // Construct the mainNotation
     var mainNotation = ""
     if (isPromotion)
-      mainNotation = moveTo.toLowerCase + "=" + pChar(promoPiece)
+      mainNotation = moveTo.toLowerCase + "=" + promoPiece
     else
       mainNotation = pChar(piece) +
         (if (isTaken) if (piece == "pawn") fileFrom + "x" else "x" else "") +
@@ -170,6 +191,4 @@ case class Notation (
     }
     notationString
   }
-
-
 }
