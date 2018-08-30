@@ -160,11 +160,17 @@ case class Notation (
 
     // Normal moves or Promotion, not castling
     if (!isInnerKingCastle && !isInnerQueenCastle && !isOuterKingCastle && !isOuterQueenCastle) {
-      notationString = mainNotation + (if (isInCheck) "+" else "")
-      notationString += (if (isInDoubleCheck) "++" else "")
-      notationString += (if (kingRemoved != "") ", " + kingRemoved else "")
-      notationString += (if (isCheckmate) "#" else "")
-      notationString += (if (isDoubleCheckMate) "##" else "")
+      if (isDoubleCheckMate) {
+        notationString = mainNotation + "##"
+      } else {
+        if (isCheckmate) {
+          notationString = mainNotation + "#"
+        } else {
+          notationString = mainNotation + (if (isInCheck) "+" else "")
+          notationString += (if (isInDoubleCheck) "++" else "")
+          notationString += (if (kingRemoved != "") ", " + kingRemoved else "")
+        }
+      }
     } else { // Castling
       if (isInnerKingCastle || isInnerQueenCastle || isOuterKingCastle || isOuterQueenCastle) {
         var rookLoc = ""

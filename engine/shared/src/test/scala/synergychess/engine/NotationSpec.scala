@@ -46,7 +46,7 @@ class NotationSpec extends FlatSpec with Matchers with BeforeAndAfter {
     notation.piece = ""  // pawn
     notation.isTaken = true
 
-    notation.getNotation shouldBe "xi5"
+    notation.getNotation shouldBe "hxi5"
   }
 
   "" should " for a major piece" in {
