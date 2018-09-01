@@ -11,7 +11,7 @@ const renderPiece = (color, pieceName, num) => {
   const c = color === PlayerColor.BLACK ? 'b' : 'w'
   const src = IMGS[`${pieceName}_${c}`]
   return (
-    <span class="piece-captured-group">
+    <span key={pieceName} className="piece-captured-group">
       {[...Array(num).keys()].map(idx =>
         <img key={`${pieceName}-${idx}`} alt={pieceName} src={src} className="piece-captured" />,
       )}

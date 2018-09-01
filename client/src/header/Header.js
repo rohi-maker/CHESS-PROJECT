@@ -20,6 +20,14 @@ class Header extends Component {
 
         <Navbar.Collapse>
           <Nav>
+            <NavItem eventKey={1} href="/ended-games" onClick={this.goTo.bind(this)}>
+              Ended games
+            </NavItem>
+
+            <NavItem eventKey={2} href="/ranking" onClick={this.goTo.bind(this)}>
+              Ranking
+            </NavItem>
+
             {userType === USER_GUEST &&
               <NavItem eventKey={4} href="/login" onClick={this.goTo.bind(this)}>
                 Login | {username}

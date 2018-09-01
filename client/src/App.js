@@ -7,8 +7,12 @@ import Footer from './footer/Footer'
 
 import TopPage from './toppage/TopPage'
 import GamePage from './gamepage/GamePage'
-import UserPage from './userpage/UserPage'
+import EndedGamesPage from './gamelist/EndedGamesPage'
+
 import LoginComboPage from './loginpage/LoginComboPage'
+
+import RankingPage from './user/RankingPage'
+import UserPage from './user/UserPage'
 
 import SettingsPasswordPage from './settings/SettingsPasswordPage'
 import SettingsEmailPage from './settings/SettingsEmailPage'
@@ -34,11 +38,15 @@ export default class App extends Component {
 
           {TopPage.route}
           {GamePage.route}
-          {UserPage.route}
+
+          {EndedGamesPage.route}
 
           {LoginComboPage.loginRoute}
           {LoginComboPage.registerRoute}
           {LoginComboPage.forgotPasswordRoute}
+
+          {RankingPage.route}
+          {UserPage.route}
 
           {SettingsPasswordPage.route}
           {SettingsEmailPage.route}
