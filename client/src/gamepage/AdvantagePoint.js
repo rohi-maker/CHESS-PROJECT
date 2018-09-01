@@ -1,5 +1,3 @@
-import React from 'react'
-
 const points = {
   pawn: 1,
   knight: 3,
