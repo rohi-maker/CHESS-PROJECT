@@ -10,6 +10,7 @@ class Pawn(override val color: String, override val basePos: Point) extends Piec
 
   def this(another: Pawn) {
     this(another.color, another.basePos)
+    this.doubleJump = another.doubleJump
   }
 
   def this(color: String, basePos: Point, doubleJump: Boolean) {
