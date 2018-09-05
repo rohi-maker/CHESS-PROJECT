@@ -12,8 +12,8 @@ libraryDependencies += "tv.cntt" %% "nchess-server" % "1.0.0-SNAPSHOT"
 libraryDependencies += "net.synergychess" %% "synergychess-engine" % "1.0.0-SNAPSHOT"
 
 // Put config directory in classpath for easier development
-unmanagedClasspath in Compile += Attributed.blank(baseDirectory.value / "config")
-unmanagedClasspath in Runtime += Attributed.blank(baseDirectory.value / "config")
+unmanagedClasspath in Compile += baseDirectory.value / "config"
+unmanagedClasspath in Runtime += baseDirectory.value / "config"
 
 mainClass in (Compile, run) := Some("synergychess.Boot")
 
