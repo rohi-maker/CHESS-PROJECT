@@ -35,7 +35,8 @@ case class MoveResult(
       isPromotion = pawnPromotion,
       promoPiece = if (pawnPromotion) sq(1)._2.name else "",
       isTaken = isCapturing,
-      enPassant = enPassant != "" && enPassant != null && enPassant == to
+      enPassant = enPassant != "" && enPassant != null && enPassant == to,
+      kingRemoved = mInfo.kingChoice
     )
 
     notation.castleWhichWay(mInfo)
