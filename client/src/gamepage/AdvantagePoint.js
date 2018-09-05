@@ -9,9 +9,12 @@ const points = {
 
 export default function AdvantagePoint({myCapturedPieces, enemyCapturedPieces}) {
   let diff = 0
+
   Object.keys(points).forEach(piece => {
-    diff += (enemyCapturedPieces[piece] - myCapturedPieces[piece]) * points[piece]
+    const numEnemy = enemyCapturedPieces[piece] || 0
+    const numMe = myCapturedPieces[piece] || 0
+    diff += (numEnemy - numMe) * points[piece]
   })
 
-  return diff < 0 ? null : `+${diff}`
+  return diff <= 0 ? null : `+${diff}`
 }
