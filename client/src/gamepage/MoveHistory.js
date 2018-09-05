@@ -3,6 +3,26 @@ import {Table} from 'react-bootstrap'
 
 import './MoveHistory.css'
 
+// Example move with self king removal: xa1, Nxk4
+// This method brings xa1 to the previous move of the opponent.
+const adjustKingRemovals = (moves) => {
+  const ret = []
+
+  for (let i = 0; i < moves.length; i++) {
+    const move = moves[i]
+    const ms = move.split(', ')
+
+    if (ms.length == 2) {
+      ret[i - 1] += ms[0]
+      ret.push(ms[1])
+    } else {
+      ret.push(move)
+    }
+  }
+
+  return ret
+}
+
 const halfMovesToFullMoves = (halfMoves) => {
   const ret = []
   var fullMove = []
@@ -27,7 +47,8 @@ export default class MoveHistory extends Component {
     const {notations} = this.props
     if (notations.length === 0) return null
 
-    const fullMoves = halfMovesToFullMoves(notations)
+    const adjustedMoves = adjustKingRemovals(notations)
+    const fullMoves = halfMovesToFullMoves(adjustedMoves)
     return (
       <div className="move-history">
         <Table striped bordered condensed hover>
@@ -39,11 +60,11 @@ export default class MoveHistory extends Component {
             </tr>
           </thead>
           <tbody>
-            {fullMoves.map((fullMove, idx) => (
+            {fullMoves.map(([whiteMove, blackMove], idx) => (
               <tr key={idx}>
                 <td>{idx + 1}</td>
-                <td>{fullMove[0]}</td>
-                <td>{fullMove[1]}</td>
+                <td>{whiteMove}</td>
+                {blackMove && <td>{blackMove}</td>}
               </tr>
             ))}
           </tbody>
