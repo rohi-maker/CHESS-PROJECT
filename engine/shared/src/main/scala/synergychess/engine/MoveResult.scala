@@ -17,10 +17,16 @@ case class MoveResult(
    var completed: Boolean = false
 ) {
   def toNotation(game: Game): Notation = {
+    var movedPieceName = ""
+    if (sq.length == 2) {
+      movedPieceName = sq(1)._2.name
+    } else {
+      movedPieceName = sq(2)._2.name
+    }
     val doubleThreat =
-      game.board.checkDoubleThreat(sq(1)._2.name, to, from, game.board, game.negateTurn(game.teamToMove))
+      game.board.checkDoubleThreat(movedPieceName, to, from, game.board, game.negateTurn(game.teamToMove))
 
-    val piece = if (pawnPromotion) "pawn" else sq(1)._2.name
+    val piece = if (pawnPromotion) "pawn" else movedPieceName
 
     val notation = Notation(
       piece = piece,
@@ -33,7 +39,7 @@ case class MoveResult(
       isCheckmate = mateData.checkMate,
       isDoubleCheckMate = mateData.trueCheckMate,
       isPromotion = pawnPromotion,
-      promoPiece = if (pawnPromotion) sq(1)._2.name else "",
+      promoPiece = if (pawnPromotion) movedPieceName else "",
       isTaken = isCapturing,
       enPassant = enPassant != "" && enPassant != null && enPassant == to,
       kingRemoved = mInfo.kingChoice

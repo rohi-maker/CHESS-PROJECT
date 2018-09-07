@@ -66,14 +66,14 @@ case class Notation (
     val innerQueenside = Array("E3", "E10")
 
     // It's a king starting kings base position and is to a king side castling move target
-    if ((kingsBase.indexOf(moveData.from) != -1) && (outerKingside.indexOf(moveData.to) != -1)) {
+    if ((kingsBase.indexOf(moveData.from) != -1) && (outerKingside.indexOf(moveData.to) != -1) && moveData.rookPlacement != "") {
       kingPos = moveData.to
       rookLocation = moveData.rookPlacement
       isOuterKingCastle = true
       isOuterQueenCastle = false //there can be only one
     }
     // If to is one of outer Queen side AND piece is King (K)
-    if ((kingsBase.indexOf(moveData.from) != -1) && (outerQueenside.indexOf(moveData.to) != -1)) {
+    if ((kingsBase.indexOf(moveData.from) != -1) && (outerQueenside.indexOf(moveData.to) != -1) && moveData.rookPlacement != "") {
       kingPos = moveData.to
       rookLocation = moveData.rookPlacement
       isOuterQueenCastle = true

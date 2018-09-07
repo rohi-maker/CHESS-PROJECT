@@ -81,7 +81,7 @@ class EndConditions() {
     if (doubleCheck) {
       def doubleCheckMate(): Boolean = {
         // If double check only valid move is to capture piece, can't block or move
-        val moveData = new MoveData()
+        val moveData = MoveData()
         moveData.board = board
         val sqsAtkdBy = board.squaresAttackedBy
         val oppTeam = if (color == "white") "black" else "white"
@@ -103,7 +103,7 @@ class EndConditions() {
           atkingAtker = atkingAtker.filter(k => {
             // Check if the attackers are pinned
             moveData.from = k
-            return board.getSquare(k).validMoves(moveData).nonEmpty
+            board.getSquare(k).validMoves(moveData).nonEmpty
           })
           if (atkingAtker.nonEmpty) return false
         }
