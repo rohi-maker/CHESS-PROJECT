@@ -27,6 +27,7 @@ case class MoveResult(
       game.board.checkDoubleThreat(movedPieceName, to, from, game.board, game.negateTurn(game.teamToMove))
 
     val piece = if (pawnPromotion) "pawn" else movedPieceName
+    val countKingInCheck = game.board.countKingInCheck(game.teamToMove)
 
     val notation = Notation(
       piece = piece,
@@ -35,7 +36,8 @@ case class MoveResult(
       isDoubleThreat = doubleThreat.isDoubleThreat,
       rankNeeded = doubleThreat.rankNeeded,
       fileNeeded = doubleThreat.fileNeeded,
-      isInCheck = game.board.inCheck(game.teamToMove),
+      isInCheck = countKingInCheck == 1,
+      isInDoubleCheck = countKingInCheck == 2,
       isCheckmate = mateData.checkMate,
       isDoubleCheckMate = mateData.trueCheckMate,
       isPromotion = pawnPromotion,

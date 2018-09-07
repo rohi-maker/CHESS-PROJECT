@@ -88,94 +88,111 @@ class Board {
     ).toArray
   }
 
-  def inCheck(color: String): Boolean = {
+  def inCheck(color: String, kingPos: String): Boolean = {
     // Checks if color given is in check
     var inCheck = false
-    val kings = this.getKingPositions(color)
     val orthogs = Array(Array(1, 0), Array(-1, 0), Array(0, 1), Array(0, -1))
     val diags = Array(Array(1, 1), Array(-1, 1), Array(1, -1), Array(-1, -1))
+    val pos = kingPos
 
-    for (pos <- kings) {
-      val king = getSquare(pos)
-      val kPoint = new Point(pos)
+    val king = getSquare(pos)
+    val kPoint = new Point(pos)
 
-      // ORTHOGANAL
-      for (offset <- orthogs) {
-        val cDir = king.step(this, new Point(pos), offset(0), offset(1))
-        if (cDir.nonEmpty) {
-          // target object found at end of steps function (orig code)
-          val target = getSquare(cDir.last)
-          cDir.remove(cDir.length - 1)
-          if (target.isInstanceOf[Queen] || target.isInstanceOf[Rook]) {
-            return true
-          }
+    // ORTHOGANAL
+    for (offset <- orthogs) {
+      val cDir = king.step(this, new Point(pos), offset(0), offset(1))
+      if (cDir.nonEmpty) {
+        // target object found at end of steps function (orig code)
+        val target = getSquare(cDir.last)
+        cDir.remove(cDir.length - 1)
+        if (target.isInstanceOf[Queen] || target.isInstanceOf[Rook]) {
+          return true
         }
-      }
-
-      // DIAGONAL
-      for (offset <- diags) {
-        breakable {
-          val cDir = king.step(this, new Point(pos), offset(0), offset(1))
-          if (cDir.isEmpty) break()
-
-          // Target object found at end of steps function (orig code)
-          val target = getSquare(cDir(cDir.length - 1))
-          val kingColor = king.color
-
-          // If a pawn and diag one step away
-          if (target.isInstanceOf[Pawn] && cDir.length == 1) {
-
-            // OPS SOLUTION to "reverse check" issue
-            // Filter by offset to only allow "pawn forward" diagonal threats
-            // Only need to look at y direction (offset(1)) NB is from the KING's perspective
-
-            // y-Axis offset value
-            val threatDirection = offset(1)
-
-            if (kingColor == "black" && threatDirection == 1) {  // black king looking "up" at target pawn
-              break
-            } else if (kingColor == "white" && threatDirection == -1) {  // white king looking "down" at target pawn
-              break
-            } else {  // pawn is a threat
-              return true
-            }
-          }
-
-          // Check for Queen or Bishop
-          if (target.isInstanceOf[Queen] || target.isInstanceOf[Bishop]) {
-            return true
-          }
-        }
-      }
-
-      // KNIGHT
-      val knightSquares = Array(  // Squares *around the king* which if a knight was there, would result in check
-        Point(-1, 2),
-        Point(-1, -2),
-        Point(1, 2),
-        Point(1, -2),
-        Point(-2, 1),
-        Point(2, 1),
-        Point(2, -1),
-        Point(-2, -1)
-      )
-
-      for (nSq <- knightSquares) {
-        val adj = Point(kPoint.x + nSq.x, kPoint.y + nSq.y)
-        if (adj.inBounds) {
-          val cPiece = getSquare(adj)
-          if (cPiece != null) {
-            inCheck = inCheck || (cPiece.color != color && cPiece.isInstanceOf[Knight])
-          }
-        }
-      }
-
-      if (inCheck) {
-        return true
       }
     }
 
+    // DIAGONAL
+    for (offset <- diags) {
+      breakable {
+        val cDir = king.step(this, new Point(pos), offset(0), offset(1))
+        if (cDir.isEmpty) break()
+
+        // Target object found at end of steps function (orig code)
+        val target = getSquare(cDir(cDir.length - 1))
+        val kingColor = king.color
+
+        // If a pawn and diag one step away
+        if (target.isInstanceOf[Pawn] && cDir.length == 1) {
+
+          // OPS SOLUTION to "reverse check" issue
+          // Filter by offset to only allow "pawn forward" diagonal threats
+          // Only need to look at y direction (offset(1)) NB is from the KING's perspective
+
+          // y-Axis offset value
+          val threatDirection = offset(1)
+
+          if (kingColor == "black" && threatDirection == 1) {  // black king looking "up" at target pawn
+            break
+          } else if (kingColor == "white" && threatDirection == -1) {  // white king looking "down" at target pawn
+            break
+          } else {  // pawn is a threat
+            return true
+          }
+        }
+
+        // Check for Queen or Bishop
+        if (target.isInstanceOf[Queen] || target.isInstanceOf[Bishop]) {
+          return true
+        }
+      }
+    }
+
+    // KNIGHT
+    val knightSquares = Array(  // Squares *around the king* which if a knight was there, would result in check
+      Point(-1, 2),
+      Point(-1, -2),
+      Point(1, 2),
+      Point(1, -2),
+      Point(-2, 1),
+      Point(2, 1),
+      Point(2, -1),
+      Point(-2, -1)
+    )
+
+    for (nSq <- knightSquares) {
+      val adj = Point(kPoint.x + nSq.x, kPoint.y + nSq.y)
+      if (adj.inBounds) {
+        val cPiece = getSquare(adj)
+        if (cPiece != null) {
+          inCheck = inCheck || (cPiece.color != color && cPiece.isInstanceOf[Knight])
+        }
+      }
+    }
+
+    if (inCheck) {
+      return true
+    }
+
     inCheck
+  }
+
+  def inCheck(color: String): Boolean = {
+    val kings = this.getKingPositions(color)
+
+    for (pos <- kings) {
+      if (inCheck(color, pos)) return true
+    }
+    false
+  }
+
+  def countKingInCheck(color: String): Int = {
+    val kings = this.getKingPositions(color)
+    var count = 0
+
+    for (pos <- kings) {
+      if (inCheck(color, pos)) count += 1
+    }
+    count
   }
 
   def checkDoubleThreat(attackingPieceName: String, to: String, from: String, board: Board, color: String): Notation = {
