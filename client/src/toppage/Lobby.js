@@ -9,12 +9,23 @@ import PlayerColor from '../gameconfig/PlayerColor'
 
 import serverUrl from '../server'
 import {withoutGuest} from '../username'
+import {USER_GUEST} from '../userType'
 
 import './Lobby.css'
 
-const tooltip = (msg) => (
-  <Tooltip id={msg}>{msg}</Tooltip>
-);
+const tooltip = (msg, id) => (
+  <Tooltip id={id || msg}>{msg}</Tooltip>
+)
+
+const ratedGameTooltip = (rated, elem, id) => (
+  rated && window.$me.userType === USER_GUEST
+  ? (
+    <OverlayTrigger placement="top" overlay={tooltip('Login to play rated game', id)}>
+      {elem}
+    </OverlayTrigger>
+  ) : elem
+  : elem
+)
 
 class Lobby extends Component {
   constructor() {
@@ -40,8 +51,7 @@ class Lobby extends Component {
           <thead>
             <tr>
               <th>Player</th>
-              <th>Rating</th>
-              <th>Time</th>
+              <th>Game</th>
             </tr>
           </thead>
 
@@ -95,25 +105,33 @@ class Lobby extends Component {
     this.sock.close()
   }
 
-  renderGameConfig({creatorId, creatorColor, creatorPoint, timeLimitSecs, timeBonusSecs}, idx) {
+  renderGameConfig({creatorId, creatorColor, creatorPoint, timeLimitSecs, timeBonusSecs, rated}, idx) {
     const color = <PlayerColor color={creatorColor} />
 
-    const rating = (creatorPoint === 0) ? 'Guest' : creatorPoint
+    const rating =
+      creatorPoint > 0
+      ? creatorPoint
+      : 'guest'
 
     const tempo =
       timeLimitSecs >= 0
       ? `${timeLimitSecs / 60}'+${timeBonusSecs}"`
       : '∞'
 
+    const className =
+      creatorId === window.$me.username
+      ? 'bg-danger'
+      : ''
 
-    const className = creatorId === window.$me.username ? 'bg-danger' : ''
-    const onClick = () => creatorId === window.$me.username ? this.removeOffer() : this.startGame(creatorId)
+    const onClick = () =>
+      creatorId === window.$me.username
+      ? this.removeOffer()
+      : this.startGame(creatorId, creatorPoint > 0)
 
     return (
       <tr key={idx} className={className} onClick={onClick}>
-        <td>{color} {withoutGuest(creatorId)}</td>
-        <td>{rating}</td>
-        <td>{tempo}</td>
+        <td>{ratedGameTooltip(rated, <div>{color} {withoutGuest(creatorId)} ({rating})</div>, 'login-player')}</td>
+        <td>{ratedGameTooltip(rated, <div>{tempo} {rated && ' (rated)'}</div>, 'login-game')}</td>
       </tr>
     )
   }
@@ -189,7 +207,9 @@ class Lobby extends Component {
     }))
   }
 
-  startGame(creatorId) {
+  startGame(creatorId, rated) {
+    if (rated && window.$me.userType === USER_GUEST) return
+
     this.sock.send(JSON.stringify({
       type: 'StartGame',
       creatorId
