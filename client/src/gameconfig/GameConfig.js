@@ -3,6 +3,7 @@ import {Button, Modal} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import PlayerColor from './PlayerColor'
+import {USER_GUEST} from '../userType'
 
 export default class GameConfig extends Component {
   static MODE_HUMAN_LISTED             = 0
@@ -24,35 +25,40 @@ export default class GameConfig extends Component {
   }
 
   render() {
+    const {show, title, withComputer, onOk, onCancel} = this.props
+    const {limit, bonus, level, rated} = this.state
+
+    const loggedIn = window.$me.userType !== USER_GUEST
+
     return (
-      <Modal bsSize="small" show={this.props.show}>
+      <Modal bsSize="small" show={show}>
         <Modal.Header>
-          <Modal.Title>{this.props.title}</Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <label>Time per side: {this.state.limit} minutes</label><br />
+          <label>Time per side: {limit} minutes</label><br />
           <input
             type="range" min="5" max="90" step="5"
-            value={this.state.limit}
+            value={limit}
             onChange={e => this.setState({limit: parseInt(e.target.value, 10)})}
           />
           <br />
 
-          <label>Bonus time per move: {this.state.bonus} seconds</label><br />
+          <label>Bonus time per move: {bonus} seconds</label><br />
           <input
             type="range" min="0" max="120" step="10"
-            value={this.state.bonus}
+            value={bonus}
             onChange={e => this.setState({bonus: parseInt(e.target.value, 10)})}
           />
           <br />
 
-          {this.props.withComputer &&
+          {withComputer &&
             <div>
-              <label>Computer level: {this.state.level}</label><br />
+              <label>Computer level: {level}</label><br />
               <input
                 type="range" min="1" max="5"
-                value={this.state.level}
+                value={level}
                 onChange={e => this.setState({level: parseInt(e.target.value, 10)})}
               />
               <br />
@@ -64,20 +70,20 @@ export default class GameConfig extends Component {
           {this.playerColorSelect(PlayerColor.BLACK)}{' '}
           {this.playerColorSelect(PlayerColor.RANDOM)}<br />
 
-          {!this.props.withComputer &&
+          {!withComputer &&
             <div>
               <br />
               <label>Rate game:</label>{' '}
 
-              {this.props.loggedIn &&
+              {loggedIn &&
                 <input
                   type="checkbox"
-                  checked={this.state.rated}
-                  onChange={e => this.setState({rated: !this.state.rated})}
+                  checked={rated}
+                  onChange={e => this.setState({rated: !rated})}
                 />
               }
 
-              {!this.props.loggedIn &&
+              {!loggedIn &&
                 <span>
                   <input
                     type="checkbox"
@@ -92,8 +98,8 @@ export default class GameConfig extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button bsStyle="primary" onClick={() => this.props.onOk(this.state)}>OK</Button>
-          <Button onClick={this.props.onCancel}>Cancel</Button>
+          <Button bsStyle="primary" onClick={() => onOk(this.state)}>OK</Button>
+          <Button onClick={onCancel}>Cancel</Button>
         </Modal.Footer>
       </Modal>
     )
