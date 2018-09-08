@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
-import {Col, Jumbotron, Row} from 'react-bootstrap'
+import {Col, Jumbotron, Panel, Row} from 'react-bootstrap'
 import {Link, Route} from 'react-router-dom'
 
 import EndedGames from '../gamelist/EndedGames'
-import {USER_GUEST} from '../userType'
+import {USER_GUEST, USER_ADMIN} from '../userType'
+
+import AdminChangeUsername from './AdminChangeUsername'
 
 import serverUrl from '../server'
 
@@ -39,6 +41,18 @@ export default class UserPage extends Component {
               }
 
               {myPage && <Link to="/settings/password">Settings</Link>}
+
+              <br />
+              <br />
+
+              {window.$me.userType === USER_ADMIN &&
+                <Panel>
+                  <Panel.Heading>Admin</Panel.Heading>
+                  <Panel.Body>
+                    <AdminChangeUsername username={username} />
+                  </Panel.Body>
+                </Panel>
+              }
             </Jumbotron>
           </Col>
 

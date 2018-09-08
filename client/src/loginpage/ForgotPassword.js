@@ -17,12 +17,13 @@ export default class ForgotPassword extends Component {
   }
 
   render() {
+    const {email, sending, status} = this.state
     const emailValidationState = this.emailValidationState()
     const submitDisabled = emailValidationState !== null
 
     return (
       <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse.bind(this), e)}>
-        {this.state.status && <Alert bsStyle="info">{this.state.status}</Alert>}
+        {status && <Alert bsStyle="info">{status}</Alert>}
 
         <FormGroup validationState={emailValidationState}>
           <Col componentClass={ControlLabel} sm={4}>
@@ -32,7 +33,7 @@ export default class ForgotPassword extends Component {
             <FormControl
               type="email"
               placeholder="Email"
-              value={this.state.email}
+              value={email}
               onChange={e => this.setState({email: e.target.value.trim()})}
             />
           </Col>
@@ -40,7 +41,7 @@ export default class ForgotPassword extends Component {
 
         <FormGroup>
           <Col smOffset={4} sm={8}>
-            <Button type="submit" disabled={submitDisabled || this.state.sending}>
+            <Button type="submit" disabled={submitDisabled || sending}>
               Reset password
             </Button>
           </Col>

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Nav, Navbar, NavItem} from 'react-bootstrap'
 import {Link, withRouter} from 'react-router-dom'
 
-import {USER_GUEST, USER_ADMIN} from '../userType'
+import {USER_GUEST} from '../userType'
 import serverUrl from '../server'
 
 import logo from './logo.png'
@@ -37,12 +37,6 @@ class Header extends Component {
             {userType !== USER_GUEST &&
               <NavItem eventKey={4} href={`/users/${username}`} onClick={this.goTo.bind(this)}>
                 {username}
-              </NavItem>
-            }
-
-            {userType === USER_ADMIN &&
-              <NavItem eventKey={4} href="/admin" onClick={this.goTo.bind(this)}>
-                Admin
               </NavItem>
             }
 
