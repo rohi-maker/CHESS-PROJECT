@@ -21,13 +21,16 @@ export default class LiveGames extends Component {
 
   render() {
     const {games} = this.state
+    const gameRefs = Object.keys(games)
 
     return (
       <React.Fragment>
         <p>Live games:</p>
 
+        {gameRefs.length === 0 && 'Loading...'}
+
         <Row>
-          {Object.keys(games).map(gameRef => this.renderChessBoard(gameRef))}
+          {gameRefs.map(gameRef => this.renderChessBoard(gameRef))}
         </Row>
       </React.Fragment>
     )
