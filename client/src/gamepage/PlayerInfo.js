@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import {Well} from 'react-bootstrap'
 
 import Clock from './Clock'
@@ -7,7 +8,7 @@ import PiecesCaptured from './PiecesCaptured'
 import AdvantagePoint from './AdvantagePoint'
 
 const getColor = (iJoined, upper) => {
-  const {creatorId, creatorColor, opponentId} = iJoined
+  const {creatorColor, creatorId, creatorPoint, opponentId, opponentPoint} = iJoined
   const opponentColor = 1 - creatorColor
 
   const iAmPlayer =
@@ -18,17 +19,17 @@ const getColor = (iJoined, upper) => {
     ? (window.$me.username !== creatorId)
     : creatorColor === PlayerColor.BLACK
 
-  const [color, username] = upper
-    ? (creatorIsUpper ? [creatorColor, creatorId] : [opponentColor, opponentId])
-    : (creatorIsUpper ? [opponentColor, opponentId] : [creatorColor, creatorId])
+  const [color, username, point] = upper
+    ? (creatorIsUpper ? [creatorColor, creatorId, creatorPoint] : [opponentColor, opponentId, opponentPoint])
+    : (creatorIsUpper ? [opponentColor, opponentId, opponentPoint] : [creatorColor, creatorId, creatorPoint])
 
-  return {color, username}
+  return {color, username, point}
 }
 
 export default class PlayerInfo extends Component {
   render() {
     const {iJoined, upper, wPiecesCaptured, bPiecesCaptured} = this.props
-    const {color, username} = getColor(iJoined, upper)
+    const {color, username, point} = getColor(iJoined, upper)
     const [colorName, myCapturedPieces, enemyCapturedPieces] = color === PlayerColor.BLACK ?
       ['Black', bPiecesCaptured, wPiecesCaptured] :
       ['White', wPiecesCaptured, bPiecesCaptured]
@@ -36,7 +37,7 @@ export default class PlayerInfo extends Component {
     return (
       <Well bsSize="small">
         <label>{colorName}:</label>{' '}
-        {username}
+        {point > 0 ? <Link to={`/users/${username}`}>{username} {` (${point})`}</Link> : username}
         {username === window.$me.username && <p><b>(Me)</b></p>}
 
         <Clock ref={r => this.clock = r} iJoined={iJoined} color={color} />
