@@ -14,7 +14,7 @@ export default class UserPage extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {point: undefined, rank: undefined, trend: undefined}
+    this.state = {point: undefined, rank: undefined}
   }
 
   render() {
@@ -23,7 +23,7 @@ export default class UserPage extends Component {
       window.$me.username === username &&
       window.$me.userType !== USER_GUEST
 
-    const {point, rank, trend} = this.state
+    const {point, rank} = this.state
 
     return (
       <div>
@@ -36,7 +36,6 @@ export default class UserPage extends Component {
                 <ul>
                   <li>Point: {point}</li>
                   <li>Rank: {rank}</li>
-                  <li>Trend: {trend}</li>
                 </ul>
               }
 
