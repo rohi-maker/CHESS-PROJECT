@@ -7,18 +7,18 @@ import PlayerColor from '../gameconfig/PlayerColor'
 
 export default function EndedGame({game}) {
   const {id, fen, creatorId, creatorColor, creatorPoint, opponentId, opponentPoint} = game
-  const [blackUsername, redUsername, blackPoint, redPoint] = creatorColor === PlayerColor.BLACK
+  const [p2Username, p1Username, p2Point, p1Point] = creatorColor === PlayerColor.BLACK
       ? [creatorId, opponentId, creatorPoint, opponentPoint]
       : [opponentId, creatorId, opponentPoint, creatorPoint]
 
   return (
     <Col key={id} md={6}>
-      <div className="gamelist-black">
+      <span className="gamelist-p2">
         <Link to={`/games/${id}`}>
-          {blackUsername}
-          {blackPoint > 0 && <React.Fragment> ({blackPoint})</React.Fragment>}
+          {p2Username}
+          {p2Point > 0 && <React.Fragment> ({p2Point})</React.Fragment>}
         </Link>
-      </div>
+      </span>
 
       <div className="gamelist-board">
         <Link to={`/games/${id}`}>
@@ -34,12 +34,15 @@ export default function EndedGame({game}) {
         </Link>
       </div>
 
-      <div className="gamelist-red">
+      <span className="gamelist-p1">
         <Link to={`/games/${id}`}>
-          {redUsername}
-          {redPoint > 0 && <React.Fragment> ({redPoint})</React.Fragment>}
+          {p1Username}
+          {p1Point > 0 && <React.Fragment> ({p1Point})</React.Fragment>}
         </Link>
-      </div>
+      </span>
+
+      <br />
+      <br />
     </Col>
   )
 }

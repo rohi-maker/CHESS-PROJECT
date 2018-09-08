@@ -92,14 +92,18 @@ export default class LiveGames extends Component {
     const {games} = this.state
     const game = games[gameRef]
 
-    const [p1Username, p2Username] = game.creatorColor === PlayerColor.WHITE
-      ? [game.creatorId, game.opponentId]
-      : [game.opponentId, game.creatorId]
+    const {id, creatorId, creatorColor, creatorPoint, opponentId, opponentPoint} = game
+    const [p2Username, p1Username, p2Point, p1Point] = creatorColor === PlayerColor.BLACK
+      ? [creatorId, opponentId, creatorPoint, opponentPoint]
+      : [opponentId, creatorId, opponentPoint, creatorPoint]
 
     return (
-      <Col key={game.id} md={6}>
+      <Col key={id} md={6}>
         <span className="gamelist-p2">
-          <Link to={`/games/${game.id}`}>{p2Username}</Link>
+          <Link to={`/games/${id}`}>
+            {p2Username}
+            {p2Point > 0 && <React.Fragment> ({p2Point})</React.Fragment>}
+          </Link>
         </span>
 
         <Board
@@ -114,7 +118,10 @@ export default class LiveGames extends Component {
         />
 
         <span className="gamelist-p1">
-          <Link to={`/games/${game.id}`}>{p1Username}</Link>
+          <Link to={`/games/${id}`}>
+            {p1Username}
+            {p1Point > 0 && <React.Fragment> ({p1Point})</React.Fragment>}
+          </Link>
         </span>
 
         <br />
