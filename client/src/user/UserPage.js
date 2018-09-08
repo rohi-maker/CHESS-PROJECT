@@ -3,10 +3,11 @@ import {Col, Jumbotron, Panel, Row} from 'react-bootstrap'
 import {Link, Route} from 'react-router-dom'
 
 import EndedGames from '../gamelist/EndedGames'
-import {USER_GUEST, USER_ADMIN} from '../userType'
 
 import AdminChangeUsername from './AdminChangeUsername'
+import AdminSetUserPoint from './AdminSetUserPoint'
 
+import {USER_GUEST, USER_ADMIN} from '../userType'
 import serverUrl from '../server'
 
 export default class UserPage extends Component {
@@ -49,6 +50,8 @@ export default class UserPage extends Component {
                   <Panel.Heading>Admin</Panel.Heading>
                   <Panel.Body>
                     <AdminChangeUsername username={username} />
+                    <hr />
+                    {point && <AdminSetUserPoint username={username} point={point} />}
                   </Panel.Body>
                 </Panel>
               }

@@ -4,16 +4,16 @@ import qs from 'qs'
 
 import serverUrl from '../server'
 
-export default class AdminChangeUsername extends Component {
+export default class AdminSetUserPoint extends Component {
   constructor(props) {
     super(props)
 
-    const {username} = props
-    this.state = {status: '', newUsername: username, sending: false}
+    const {point} = props
+    this.state = {status: '', point, sending: false}
   }
 
   render() {
-    const {status, newUsername, sending} = this.state
+    const {status, point, sending} = this.state
 
     return (
       <Form horizontal onSubmit={this.rename}>
@@ -21,22 +21,22 @@ export default class AdminChangeUsername extends Component {
 
         <FormGroup>
           <Col componentClass={ControlLabel} sm={4}>
-            Rename username
+            Set user point
           </Col>
           <Col sm={8}>
             <FormControl
               type="text"
-              placeholder="New username"
-              value={newUsername}
-              onChange={e => this.setState({newUsername: e.target.value.trim()})}
+              placeholder="point"
+              value={point}
+              onChange={e => this.setState({point: e.target.value.trim()})}
             />
           </Col>
         </FormGroup>
 
         <FormGroup>
           <Col smOffset={4} sm={8}>
-            <Button type="submit" bsStyle="primary" disabled={newUsername.length === 0 || sending}>
-              Rename
+            <Button type="submit" bsStyle="primary" disabled={point.length === 0 || sending}>
+              Set
             </Button>
           </Col>
         </FormGroup>
@@ -47,15 +47,21 @@ export default class AdminChangeUsername extends Component {
   rename = (e) => {
     e.preventDefault()
 
-    const {newUsername} = this.state
-    if (newUsername.length === 0) return
+    const {point} = this.state
 
-    this.setState({sending: true, status: 'Renaming...'})
+    // Check NaN
+    const pointInt = parseInt(point, 10)
+    if (!pointInt) {
+      this.setState({status: 'Invalid number'})
+      return
+    }
+
+    this.setState({sending: true, status: 'Setting point...'})
 
     const {username} = this.props
-    const body = qs.stringify({newUsername})
+    const body = qs.stringify({point: '' + pointInt})
 
-    fetch(serverUrl('/api/admin/rename-username/' + username), {
+    fetch(serverUrl('/api/admin/set-user-point/' + username), {
       credentials: 'include',
       method: 'PATCH',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -63,6 +69,6 @@ export default class AdminChangeUsername extends Component {
     })
     .then(res => res.text())
     .then(text => this.setState({sending: false, status: text}))
-    .catch(e => this.setState({sending: false, status: 'Could not rename username'}))
+    .catch(e => this.setState({sending: false, status: 'Could not set user point'}))
   }
 }
