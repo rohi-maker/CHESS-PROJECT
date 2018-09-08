@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Row} from 'react-bootstrap'
+import {Alert, Row} from 'react-bootstrap'
 
 import UltimatePagination from '../UltimatePagination'
 import EndedGame from './EndedGame'
@@ -17,6 +17,8 @@ export default class EndedGames extends Component {
 
     return (
       <React.Fragment>
+        {Object.keys(games).length === 0 && <Alert bsStyle="info">This user hasn't played any game yet.</Alert>}
+
         <Row>
           {games.map(game => <EndedGame key={game.id} game={game} />)}
         </Row>
