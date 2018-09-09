@@ -252,29 +252,6 @@ case class Game() {
   }
 
   def nextBestMove(level: Int): Option[MoveData] = {
-    val moves = possibleMoves
-    if (moves.isEmpty) return None
-    if (level == 1) {
-       Some(moves(Random.nextInt(moves.length)))
-    } else if (level == 2) {
-      val filteredMoves = moves.filter(move => {
-        move.board.getSquare(move.to) != null
-      })
-      if (filteredMoves.nonEmpty) Some(filteredMoves(Random.nextInt(filteredMoves.length)))
-      else Some(moves(Random.nextInt(moves.length)))
-    } else {
-      val move: MoveData = moves.reduce((result, move) => {
-        if (result == null || result.board.getSquare(result.to) == null) {
-          move
-        } else {
-          if (move.board.getSquare(move.to) == null) result
-          else if (move.board.getSquare(move.to).value > result.board.getSquare(result.to).value) move
-          else result
-        }
-      })
-
-      if (move.board.getSquare(move.to) != null) Some(move)
-      else Some(moves(Random.nextInt(moves.length)))
-    }
+    NegamaxBestMove.getBestMove(this, level)
   }
 }

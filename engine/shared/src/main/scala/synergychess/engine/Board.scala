@@ -27,7 +27,7 @@ class Board {
       if (v != null) {
         val color = v.color
         val sqsAtk = v.squaresAttacking(this, pos.toString)
-        val moveData = new MoveData()
+        val moveData = MoveData()
         moveData.from = v.basePos.toString
         moveData.board = this
         moveData.moveList = sqsAtk.distinct

@@ -4,7 +4,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.control.Breaks._
 
 class King(override val color: String, override val basePos: Point) extends Piece(color, basePos) {
-  override val value = 0
+  override val value = 100
   override val name = "king"
 
   val rank: String = if (basePos.toString == "F1" || basePos.toString == "F12") "back" else "inner"
