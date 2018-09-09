@@ -57,7 +57,10 @@ class SearchAdapter extends Search {
         onBestMove(None)
 
       case Some((game, _)) =>
-        game.nextBestMove(level) match {
+        // First moves should be fast.
+        // Limit level to 2; 3+ is too slow for now.
+        val limit = if (moves.length < 2) 1 else 2
+        game.nextBestMove(Math.min(limit, level)) match {
           case None =>
             onBestMove(None)
 
