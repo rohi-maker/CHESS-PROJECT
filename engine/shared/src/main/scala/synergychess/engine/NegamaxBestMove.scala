@@ -8,8 +8,7 @@ object NegamaxBestMove {
   def getBestMove(game: Game, depth: Int): Option[MoveData] =
     getBestMove(game, depth, -INF, INF)._2
 
-  private def getBestMove(pGame: Game, depth: Int, alpha: Int, beta: Int): (Int, Option[MoveData]) = {
-    var game = pGame
+  private def getBestMove(game: Game, depth: Int, alpha: Int, beta: Int): (Int, Option[MoveData]) = {
     val moves = game.possibleMoves
 
     if (depth == 0 || moves.isEmpty) {
@@ -24,10 +23,10 @@ object NegamaxBestMove {
     val currSEN = game.senString
 
     for (move <- listOfMoves) {
-      game = GameGenerator.loadFromSEN(currSEN)
-      game.move(move)
+      val newGame = GameGenerator.loadFromSEN(currSEN)
+      newGame.move(move)
 
-      val child = -getBestMove(game, depth - 1, -beta, -a)._1
+      val child = -getBestMove(newGame, depth - 1, -beta, -a)._1
       if (value < child) {
         value = child
         bestMove = Some(move)
