@@ -16,7 +16,7 @@ export default class GameConfig extends Component {
     super()
 
     this.state = {
-      limit: 5,
+      limit: 25,
       bonus: 10,
       level: 1,
       color: PlayerColor.WHITE,
