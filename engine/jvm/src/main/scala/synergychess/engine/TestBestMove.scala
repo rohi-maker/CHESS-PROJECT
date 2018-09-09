@@ -13,7 +13,7 @@ object TestBestMove {
     while (true) {
       println(game.senString)
 
-      game.nextBestMove match {
+      game.nextBestMove(1) match {
         case None =>
           throw new RuntimeException("Could not get next best move")
 

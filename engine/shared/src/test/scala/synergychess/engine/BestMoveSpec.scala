@@ -7,7 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 class BestMoveSpec extends FlatSpec with Matchers with BeforeAndAfter {
   "Best move" should "be valid" in {
     val game = GameGenerator.loadFromSEN(GameGenerator.startingSEN)
-    val moveDataOpt = game.nextBestMove
+    val moveDataOpt = game.nextBestMove(1)
     moveDataOpt should not be None
 
     val moveData = moveDataOpt.get
@@ -41,7 +41,7 @@ class BestMoveSpec extends FlatSpec with Matchers with BeforeAndAfter {
     mateData.checkMate shouldBe true
 
     // Ensure that we can still get next move because the game is not over
-    game.nextBestMove should not be None
+    game.nextBestMove(1) should not be None
   }
 
   "possible moves" should "not contain remove king if not necessary" in {

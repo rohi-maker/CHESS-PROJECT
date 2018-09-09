@@ -247,10 +247,6 @@ case class Game() {
     ret
   }
 
-  def nextBestMove: Option[MoveData] = {
-    nextBestMove(1)
-  }
-
   def nextBestMove(level: Int): Option[MoveData] = {
     NegamaxBestMove.getBestMove(this, level)
   }
