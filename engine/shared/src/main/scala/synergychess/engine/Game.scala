@@ -1,7 +1,6 @@
 package synergychess.engine
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 
 case class Game() {
   val maxPieces = Map(
@@ -111,6 +110,47 @@ case class Game() {
     } else None
   }
 
+  def move(moveData: MoveData, isGuarantee: Boolean): Option[MoveResult] = {
+    if (!isGuarantee) return move(moveData)
+
+    var result: MoveResult = MoveResult()
+    moveData.board = board
+    moveData.enPassant = enPassant
+    moveData.castling = castling
+
+    val pMoved = board.getSquare(moveData.from)
+
+    moveHistory.append(moveData)
+    result = pMoved.move(moveData)
+    enPassant = result.enPassant
+    // Update board using move result
+    for (sq <- result.sq) {
+      val pos = sq._1
+      val value = sq._2
+
+      if(value != null && value.name == "pawn"){
+        value.asInstanceOf[Pawn].doubleJump = false
+      }
+      val newPos = new Point(pos)
+      if (value != null) {
+        value.basePos.x = newPos.x
+        value.basePos.y = newPos.y
+      }
+      board.setSquare(pos, value)
+    }
+
+    if (teamToMove == "black") moveNumber += 1
+    teamToMove = negateTurn(teamToMove)
+    castling.trigger(moveData.from)
+    castling.trigger(moveData.to)
+    validMoves = null
+    val mate = endConditions.getMateData(board, teamToMove, enPassant)
+    result.completed = true
+    result.mateData = mate
+    result.mInfo = moveData
+    Some(result)
+  }
+
   def validPromotions(color: String, to: String): (ArrayBuffer[String], ArrayBuffer[String]) = {
     val valids = ArrayBuffer[String]()
 
@@ -192,7 +232,7 @@ case class Game() {
       val ret = new ArrayBuffer[MoveData]()
 
       // Reuse
-      val from = new MoveData()
+      val from = MoveData()
       from.board = board
       var savedKing: Option[King] = None
       if (kingChoice != "") {
@@ -209,7 +249,7 @@ case class Game() {
 
           for (validMove <- validMoves) {
             // Cannot reuse "from" above
-            val moveData = new MoveData()
+            val moveData = MoveData()
             moveData.from = from.from
             moveData.to = validMove
             moveData.board = board
