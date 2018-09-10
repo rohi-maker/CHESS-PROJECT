@@ -1,7 +1,6 @@
 package synergychess.engine
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.control.Breaks._
 
 class Piece(val color: String, val basePos: Point) {
   val value: Int = 0
@@ -25,7 +24,8 @@ class Piece(val color: String, val basePos: Point) {
     val result = ArrayBuffer[String]()
     val tempP = Point(pos.x + xOff, pos.y + yOff)
 
-    breakable { while (tempP.inBounds) {
+    var broke = false
+    while (tempP.inBounds && !broke) {
       val str = tempP.toString
       if (board.getSquare(str) == null) {
         result.append(str)
@@ -33,12 +33,12 @@ class Piece(val color: String, val basePos: Point) {
         if (board.getSquare(str).color != color) {
           result.append(str)
         }
-        break
+        broke = true
       }
 
       tempP.x += xOff
       tempP.y += yOff
-    }}
+    }
 
     result
   }
@@ -55,17 +55,18 @@ class Piece(val color: String, val basePos: Point) {
     val result = ArrayBuffer[String]()
     val tempP = Point(pos.x + xOff, pos.y + yOff)
 
-    breakable { while (tempP.inBounds) {
+    var broke = false
+    while (tempP.inBounds && !broke) {
       val str = tempP.toString()
       result.append(str)
 
       if (board.getSquare(str) != null) {
-        break
+        broke = true
       }
 
       tempP.x += xOff
       tempP.y += yOff
-    }}
+    }
 
     result
   }

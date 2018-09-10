@@ -1,7 +1,6 @@
 package synergychess.engine
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.control.Breaks._
 
 class Board {
   val gameBoard: scala.collection.mutable.Map[String, Piece] = scala.collection.mutable.Map[String, Piece]()
@@ -113,10 +112,9 @@ class Board {
 
     // DIAGONAL
     for (offset <- diags) {
-      breakable {
-        val cDir = king.step(this, new Point(pos), offset(0), offset(1))
-        if (cDir.isEmpty) break()
-
+      var broke = false
+      val cDir = king.step(this, new Point(pos), offset(0), offset(1))
+      if (cDir.nonEmpty) {
         // Target object found at end of steps function (orig code)
         val target = getSquare(cDir(cDir.length - 1))
         val kingColor = king.color
@@ -131,17 +129,17 @@ class Board {
           // y-Axis offset value
           val threatDirection = offset(1)
 
-          if (kingColor == "black" && threatDirection == 1) {  // black king looking "up" at target pawn
-            break
-          } else if (kingColor == "white" && threatDirection == -1) {  // white king looking "down" at target pawn
-            break
-          } else {  // pawn is a threat
+          if (kingColor == "black" && threatDirection == 1) { // black king looking "up" at target pawn
+            broke = true
+          } else if (kingColor == "white" && threatDirection == -1) { // white king looking "down" at target pawn
+            broke = true
+          } else { // pawn is a threat
             return true
           }
         }
 
         // Check for Queen or Bishop
-        if (target.isInstanceOf[Queen] || target.isInstanceOf[Bishop]) {
+        if (!broke && (target.isInstanceOf[Queen] || target.isInstanceOf[Bishop])) {
           return true
         }
       }

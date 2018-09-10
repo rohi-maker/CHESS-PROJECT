@@ -139,12 +139,13 @@ class King(override val color: String, override val basePos: Point) extends Piec
 
             var pointsBtwn = points.clone()
 
-            breakable { for (i <- points.indices) {
+            for (i <- points.indices) {
               if (board.underAttack(color, points(i)) || board.getSquare(points(i)) != null && !targets.contains(points(i))) {
                 pointsBtwn = points.dropRight(points.length - i)
-                break
+                valids.appendAll(pointsBtwn)
+                return
               }
-            }}
+            }
             valids.appendAll(pointsBtwn)
           }
 
