@@ -1,5 +1,7 @@
 package synergychess.engine
 
+import java.util.Date
+
 object TestBestMove {
   def main(args: Array[String]) {
     for (_ <- 1 to 100) {
@@ -11,9 +13,9 @@ object TestBestMove {
     val game = GameGenerator.loadFromSEN(GameGenerator.startingSEN)
 
     while (true) {
-      println(game.senString)
+      println(new Date().toString + " " + game.senString)
 
-      game.nextBestMove(1) match {
+      game.nextBestMove(2) match {
         case None =>
           throw new RuntimeException("Could not get next best move")
 

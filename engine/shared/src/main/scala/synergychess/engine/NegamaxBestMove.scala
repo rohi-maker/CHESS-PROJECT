@@ -24,7 +24,7 @@ object NegamaxBestMove {
 
     for (move <- listOfMoves) {
       val newGame = GameGenerator.loadFromSEN(currSEN)
-      newGame.move(move)
+      newGame.move(move, true)
 
       val child = -getBestMove(newGame, depth - 1, -beta, -a)._1
       if (value < child) {
