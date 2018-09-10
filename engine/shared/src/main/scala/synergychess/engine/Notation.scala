@@ -168,7 +168,7 @@ case class Notation (
         } else {
           notationString = mainNotation + (if (isInCheck) "+" else "")
           notationString += (if (isInDoubleCheck) "++" else "")
-          notationString = (if (kingRemoved != "") "x" + kingRemoved + ", " else "") + notationString
+          notationString = (if (kingRemoved != "") "x" + kingRemoved.toLowerCase + ", " else "") + notationString
         }
       }
     } else { // Castling
