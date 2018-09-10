@@ -1,7 +1,7 @@
 ## Build for production mode
 
 ```sh
-sbt xitrum-package
+sbt xitrumPackage
 ```
 
 The project will be built and packaged to directory:
