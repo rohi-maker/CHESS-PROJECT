@@ -1,7 +1,6 @@
 package synergychess.engine
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.control.Breaks._
 
 class King(override val color: String, override val basePos: Point) extends Piece(color, basePos) {
   override val value = 100
