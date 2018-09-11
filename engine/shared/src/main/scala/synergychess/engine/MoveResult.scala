@@ -18,7 +18,7 @@ case class MoveResult(
 ) {
   def toNotation(game: Game): Notation = {
     var movedPieceName = ""
-    if (sq.length == 2) {
+    if (sq.length < 4) {
       movedPieceName = sq(1)._2.name
     } else {
       movedPieceName = sq(2)._2.name
