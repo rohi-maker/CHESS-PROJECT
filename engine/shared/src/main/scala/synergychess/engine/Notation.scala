@@ -129,7 +129,9 @@ case class Notation (
     }
 
     if (isPromotion && promoPiece.charAt(0).toUpper != promoPiece.charAt(0)) {
-      promoPiece = reversePChar(promoPiece)
+      if (piece.charAt(0).toUpper != piece.charAt(0)) {
+        promoPiece = pChar(promoPiece)
+      }
     }
 
     // TODO check for charAt() (10,11,12)
