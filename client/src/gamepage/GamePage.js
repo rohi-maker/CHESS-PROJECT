@@ -5,6 +5,7 @@ import {MoveData} from 'synergychess-engine'
 
 import Board from '../board/Board'
 import GameConfig from '../gameconfig/GameConfig'
+import GameOverDlg from './GameOverDlg'
 import PlayerColor from '../gameconfig/PlayerColor'
 import State, {STATE_DESCS} from '../State'
 
@@ -59,11 +60,12 @@ export default class GamePage extends Component {
 
     if (!iJoined) return status
 
+    const gameOver = state !== State.ALIVE && state !== State.NOT_STARTED
+
     const {myColor, timeLimitSecs, timeBonusSecs} = iJoined
     const viewAsBlackPlayer = myColor === PlayerColor.BLACK
     const iAmPlayer = iJoined.myColor === PlayerColor.WHITE || iJoined.myColor === PlayerColor.BLACK
     const allowMove = iAmPlayer && state === State.ALIVE
-
 
     return (
       <div ref={r => this.container = r} style={CONTAINER_FULLSCREEN_STYLE}>
@@ -137,6 +139,8 @@ export default class GamePage extends Component {
             </Tabs>
           </Col>
         </Row>
+
+        {gameOver && <GameOverDlg status={status} />}
       </div>
     )
   }
