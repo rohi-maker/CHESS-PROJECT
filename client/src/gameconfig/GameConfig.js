@@ -3,6 +3,7 @@ import {Button, Modal} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import PlayerColor from './PlayerColor'
+import {isBot} from '../username'
 import {USER_GUEST} from '../userType'
 
 export default class GameConfig extends Component {
@@ -11,6 +12,21 @@ export default class GameConfig extends Component {
   static MODE_HUMAN_UNLISTED_CHALLENGE = 2
   static MODE_HUMAN_VS_BOT             = 3
   static MODE_BOT_VS_BOT               = 4
+
+  /**
+   * The first move of both players is limited to Timed.FIRST_MOVE_TIME (see server), excluding:
+   * - Games with bot
+   * - Invite games
+   */
+  static isAbusable({creatorId, opponentId, mode}) {
+    if (process.env.NODE_ENV !== 'production') return false
+
+    const vsBot = isBot(creatorId) || isBot(opponentId)
+    if (vsBot) return false
+
+    const invite = mode === GameConfig.MODE_HUMAN_UNLISTED_INVITE
+    return !invite
+  }
 
   constructor() {
     super()

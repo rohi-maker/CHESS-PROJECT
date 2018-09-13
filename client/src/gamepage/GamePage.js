@@ -4,6 +4,7 @@ import {Route} from 'react-router-dom'
 import {MoveData} from 'synergychess-engine'
 
 import Board from '../board/Board'
+import GameConfig from '../gameconfig/GameConfig'
 import PlayerColor from '../gameconfig/PlayerColor'
 import State, {STATE_DESCS} from '../State'
 
@@ -83,6 +84,10 @@ export default class GamePage extends Component {
 
           <Col md={4}>
             <Alert>{status}</Alert>
+
+            {notations.length < 2 && GameConfig.isAbusable(iJoined) &&
+              <Alert>Game will be automatically canceled if first moves are not made within 30"</Alert>
+            }
 
             <TimeConfig timeLimitSecs={timeLimitSecs} timeBonusSecs={timeBonusSecs} />
 
