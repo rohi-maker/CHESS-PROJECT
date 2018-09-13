@@ -20,11 +20,15 @@ class Header extends Component {
 
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} href="/ended-games" onClick={this.goTo.bind(this)}>
+            <NavItem eventKey={1} href="/" onClick={this.goTo.bind(this)}>
+              Home
+            </NavItem>
+
+            <NavItem eventKey={2} href="/ended-games" onClick={this.goTo.bind(this)}>
               Ended games
             </NavItem>
 
-            <NavItem eventKey={2} href="/ranking" onClick={this.goTo.bind(this)}>
+            <NavItem eventKey={3} href="/ranking" onClick={this.goTo.bind(this)}>
               Ranking
             </NavItem>
 
@@ -41,7 +45,7 @@ class Header extends Component {
             }
 
             {userType !== USER_GUEST &&
-              <NavItem eventKey={4} onClick={this.logout}>
+              <NavItem eventKey={5} onClick={this.logout}>
                 Logout
               </NavItem>
             }
