@@ -49,6 +49,7 @@ export default class GamePage extends Component {
       iJoined: undefined,
       state: undefined,
       status: 'Loading...',
+      flipBoard: false,
       notations: [],
       wPiecesCaptured: {},
       bPiecesCaptured: {}
@@ -56,7 +57,7 @@ export default class GamePage extends Component {
   }
 
   render() {
-    const {iJoined, state, status, notations, wPiecesCaptured, bPiecesCaptured} = this.state
+    const {iJoined, state, status, flipBoard, notations, wPiecesCaptured, bPiecesCaptured} = this.state
 
     if (!iJoined) return status
 
@@ -78,10 +79,15 @@ export default class GamePage extends Component {
               showCoords={true}
               showLegalMoves={true}
               showLastMove={true}
-              viewAsBlackPlayer={viewAsBlackPlayer}
+              viewAsBlackPlayer={flipBoard ? !viewAsBlackPlayer : viewAsBlackPlayer}
               allowMove={allowMove}
               onMove={this.onThisBoardMove.bind(this)}
             />
+
+            <Button bsStyle="primary" onClick={() => this.setState({flipBoard: !flipBoard})}>
+              <Glyphicon glyph="refresh" />{' '}
+              Flip board
+            </Button>
           </Col>
 
           <Col md={4}>
