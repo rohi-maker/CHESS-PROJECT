@@ -164,6 +164,7 @@ export default class Board extends Component {
     // Castling
     if (  this.state.currentMove !== ''
           && board[x][y].toUpperCase() === 'K'
+          && this.state.validMoves.includes(Helper.toSEN(row, col))
           && x === row && y !== col) {
       // Inner rank
       if (row === 2 || row === 9) {
