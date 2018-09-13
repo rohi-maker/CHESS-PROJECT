@@ -117,9 +117,9 @@ export default class GamePage extends Component {
             }
 
             {iAmPlayer && state === State.ALIVE &&
-              <Button bsStyle="primary" onClick={this.resign}>
+              <Button bsStyle="primary" onClick={this.quit}>
                 <Glyphicon glyph="remove-circle" />{' '}
-                Resign
+                {notations.length < 2 ? 'Cancel' : 'Resign'}
               </Button>
             }
 
@@ -267,9 +267,9 @@ export default class GamePage extends Component {
     }
   }
 
-  resign = () => {
+  quit = () => {
     this.sock.send(JSON.stringify({
-      type: 'Resign'
+      type: this.state.notations.length < 2 ? 'Cancel' : 'Resign'
     }))
   }
 
