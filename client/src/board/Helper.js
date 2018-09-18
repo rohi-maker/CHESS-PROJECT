@@ -127,7 +127,7 @@ export default class Helper {
 
     const result = []
     for (const piece in pieces) {
-      let pieceName = (team === "white") ? piece : piece.toLowercase()
+      let pieceName = (team === "white") ? piece : piece.toLowerCase()
       let count = (board.match(new RegExp(pieceName, "g")) || []).length
       if (count < pieces[piece]) {
         result.push(piece)
