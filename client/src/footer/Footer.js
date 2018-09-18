@@ -12,6 +12,7 @@ export default class Footer extends Component {
           <ul>
             <li><Link to="/rules">Chess rules</Link></li>
             <li> | <Link to="/terms">Terms and conditions</Link></li>
+            <li> | <Link to="/faq">FAQ</Link></li>
             <li> | <a href="http://synergychess.net/">About</a></li>
             <li> | <a href="http://synergychess.net/contact/">Contact</a></li>
           </ul>

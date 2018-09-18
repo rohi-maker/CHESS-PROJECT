@@ -19,6 +19,7 @@ import SettingsEmailPage from './settings/SettingsEmailPage'
 
 import ChessRulesPage from './pages/ChessRulesPage'
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage'
+import FaqPage from './pages/FaqPage'
 
 export default class App extends Component {
   constructor() {
@@ -53,6 +54,7 @@ export default class App extends Component {
 
           {ChessRulesPage.route}
           {TermsAndConditionsPage.route}
+          {FaqPage.route}
 
           <Footer />
         </Grid>
