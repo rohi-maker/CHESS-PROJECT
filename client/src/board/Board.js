@@ -33,6 +33,7 @@ export default class Board extends Component {
     this.kingChoice = ''
     this.kingRemoveChoices = []
     this.castling = false
+    this.myColor = props.myColor
 
     this.state = {
       sen: this.position.senString,
@@ -102,6 +103,10 @@ export default class Board extends Component {
   }
 
   clickOnPiece(r, c) {
+    if (this.myColor !== (this.position.getColor() === "white" ? 0 : 1)) {
+      return
+    }
+
     if (this.state.isPromoting) return
 
     let row = r, col = c

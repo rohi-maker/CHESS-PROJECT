@@ -105,6 +105,11 @@ case class Position() {
   }
 
   @JSExport
+  def getColor() = {
+    data.teamToMove
+  }
+
+  @JSExport
   def senString: String = {
     data.senString
   }

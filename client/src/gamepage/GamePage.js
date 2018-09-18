@@ -81,6 +81,7 @@ export default class GamePage extends Component {
               showLastMove={true}
               viewAsBlackPlayer={flipBoard ? !viewAsBlackPlayer : viewAsBlackPlayer}
               allowMove={allowMove}
+              myColor={iJoined.myColor}
               onMove={this.onThisBoardMove.bind(this)}
             />
 
