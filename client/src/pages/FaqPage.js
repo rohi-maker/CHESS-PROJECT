@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import {Route} from 'react-router-dom'
 
 export default class FaqPage extends Component {
@@ -19,7 +20,7 @@ export default class FaqPage extends Component {
         <h3>Are the Rules different?</h3>
         <p>Some. All rules that apply to chess apply to Synergy Chess. There are
           some extra rules needed for Castling on lines 1 & 12, Pawn
-          Promotion, First checkmate, and Double check. Click here to learn
+          Promotion, First checkmate, and Double check. <Link to="/rules">Click here</Link> to learn
           extra rules.</p>
 
         <h3>Are there any special moves?</h3>
