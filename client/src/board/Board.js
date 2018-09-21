@@ -118,7 +118,7 @@ export default class Board extends Component {
     // Choose king to remove
     if (this.kingRemoveChoices.length > 0 && this.kingChoice === '') {
       if (this.kingRemoveChoices.includes(Helper.toSEN(row, col))) {
-        let sen = this.state.position.senString
+        let sen = this.position.senString
         sen = Helper.move(sen, row, col, '')
         const position = Position()
         position.setSEN(sen)
@@ -128,7 +128,7 @@ export default class Board extends Component {
         this.setState({
           sen,
           currentMove: '',
-          lastMove: '',
+          lastMove: [],
           validMoves: []
         })
         return
@@ -182,7 +182,7 @@ export default class Board extends Component {
           this.props.onMove(move, this.move(moveToString(move)))
           return
         }
-      } else {
+      } else if (row === 0 || row === 11) {
         // Outer rank
         board[row][col] = board[x][y]
         board[x][y] = ''
