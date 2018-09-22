@@ -185,8 +185,7 @@ export default class GamePage extends Component {
         this.setState(
           {iJoined: msg, state: msg.state, status: STATE_DESCS[msg.state]},
           () => {
-            // const {moves} = msg
-            const moves = ["J4J6___","B9B7___","I4I6___","C9C7___","K4K6___","A9A7___","L4L6___","D9D7___","J3J5___","C10C8___","H4H6___","C8E8___","J5G5___","C11C9___","J2J4___","B10B8___","K3K5___","C7C6___","J6J7___","C9C8___","J4J5___","C8C7___","J5J6___","B7B6___","K6K7___","B8B7___","K5K6___","C6C5___","J7J8___","C5D4___","J8I9___","D4E3___","J6J7___","C7C6___","J7J8___","C6C5___","K7K8___","B6B5___","J8K9___","C5B4___","K8J9___","B5C4___","K6K7___","B7B6___","K7K8___","B6B5___","K8L9___","B5A4___","L6L7___","A7A6___","L7L8___","A6A5___","L9K10___","A4B3___","L8L9___","A5A4___","I9H10___","C4D3___","J9I10___","B4C3___","K9J10___","G9G7___","G5G7___","F10G9___","G7G9___","G10F10___","G9G12___","F12G12F12__","G4G6___","F12F11___","H3E6___","E8E6___","F3G4___","F11G11___","H6H7___","G11G6___","I3H5___","G6G4___","G3G4___","E6G6___","G4H4___","G6G1___","F1G1F1__","E3E2___","G1H2___","E2F1__Q","I10I11___","G12F11___","I11H12__Q","F10E11___","K10J11___","J12I10___","J11J12__Q","F1H3___","H4H3___","D3D2___","C1D3___","D2E1__Q","D3B2___","C3B2___"]//,"H12F12___"]
+            const {moves} = msg
             for (const move of moves) {
               const [notation, wPiecesCaptured, bPiecesCaptured] = this.board.move(move)
               this.appendMoveHistory(notation)
