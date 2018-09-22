@@ -81,6 +81,15 @@ export default class Board extends Component {
     } else if (mateData[1] === "true") {
       console.log("Checkmate")
       kingRemoveChoices = mateData[3].split(" ")
+      if (kingRemoveChoices.length === 1) {
+        this.kingChoice = kingRemoveChoices[0]
+        const [row, col] = Helper.toPos(this.kingChoice)
+        let sen = this.position.senString
+        sen = Helper.move(sen, row, col, '')
+        const position = Position()
+        position.setSEN(sen)
+        this.position = position
+      }
     } else if (mateData[2] === "true") {
       console.log("Stalemate")
     }
