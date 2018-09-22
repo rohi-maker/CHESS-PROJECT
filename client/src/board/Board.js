@@ -101,6 +101,7 @@ export default class Board extends Component {
       sen: this.position.senString,
       currentMove: '',
       validMoves: [],
+      value: '',
       lastMove
     })
 
