@@ -103,7 +103,7 @@ export default class Board extends Component {
   }
 
   clickOnPiece(r, c) {
-    If this is not player turn, disable clicking on piece
+    // If this is not player turn, disable clicking on piece
     if (this.myColor !== (this.position.getColor() === "white" ? 0 : 1)) {
       return
     }
