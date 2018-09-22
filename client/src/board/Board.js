@@ -103,16 +103,20 @@ export default class Board extends Component {
   }
 
   clickOnPiece(r, c) {
+    If this is not player turn, disable clicking on piece
     if (this.myColor !== (this.position.getColor() === "white" ? 0 : 1)) {
       return
     }
 
+    // If player needs to select piece to promote to, disable clciking on piece
     if (this.state.isPromoting) return
 
     let row = r, col = c
 
+    // x, y is the position of the clicked piece
     let x, y
     [x, y] = Helper.toPos(this.state.currentMove)
+
     const board = GameGenerator.loadFromSEN(this.state.sen)
 
     // Choose king to remove
@@ -199,11 +203,15 @@ export default class Board extends Component {
         }
 
         if (col - y === 1) {
-          this.rookPos = [row, 11]
-          validMoves.push([row, 11])
+          if (window.confirm('Do you wish to castle?')) {
+            this.rookPos = [row, 11]
+            validMoves.push([row, 11])
+          }
         } else if (col - y === -1) {
-          this.rookPos = [row, 0]
-          validMoves.push([row, 0])
+          if (window.confirm('Do you wish to castle?')) {
+            this.rookPos = [row, 0]
+            validMoves.push([row, 0])
+          }
         } else {
           this.rookPos = []
         }

@@ -57,6 +57,21 @@ case class Position() {
   }
 
   @JSExport
+  def castlings: js.Dictionary[Int] = {
+    val cas = new Castling()
+    cas.status = scala.collection.mutable.Map(
+      "F1"  -> Array(true, false),
+      "G3"  -> Array(true, true),
+      "G10" -> Array(false, true),
+      "F12" -> Array(true, true)
+    )
+    val castlings = cas.status.map {
+      e => (e._1, (if (e._2(0)) 1 else 0) + (if (e._2(1)) 2 else 0))
+    }
+    castlings.toJSDictionary
+  }
+
+  @JSExport
   def updatePosition(
     from: String,
     to: String,
