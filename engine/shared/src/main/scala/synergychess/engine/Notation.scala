@@ -165,12 +165,11 @@ case class Notation (
       if (isDoubleCheckMate) {
         notationString = mainNotation + "##"
       } else {
-        if (isCheckmate) {
+        notationString = mainNotation + (if (isInCheck) "+" else "")
+        notationString += (if (isInDoubleCheck) "++" else "")
+        notationString = (if (kingRemoved != "") "x" + kingRemoved.toLowerCase + ", " else "") + notationString
+        if (!isInDoubleCheck && isCheckmate) {
           notationString = mainNotation + "#"
-        } else {
-          notationString = mainNotation + (if (isInCheck) "+" else "")
-          notationString += (if (isInDoubleCheck) "++" else "")
-          notationString = (if (kingRemoved != "") "x" + kingRemoved.toLowerCase + ", " else "") + notationString
         }
       }
     } else { // Castling
