@@ -184,6 +184,7 @@ export default class Board extends Component {
     if (  this.state.currentMove !== ''
           && board[x][y].toUpperCase() === 'K'
           && this.state.validMoves.map(e => Helper.toSEN(e[0], e[1])).includes(Helper.toSEN(row, col))
+          && (Math.abs(col - y) > 1 || this.state.validMoves.map(e => Helper.toSEN(e[0], e[1])).includes(Helper.toSEN(x, col + (col - y))))
           && x === row && y !== col) {
       // Inner rank
       if (row === 2 || row === 9) {
