@@ -1,5 +1,6 @@
 package synergychess.engine
 
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 case class Game() {
@@ -11,6 +12,7 @@ case class Game() {
     "king" -> 2,
     "queen" -> 2
   )
+  private val positionOccurrence = new mutable.HashMap[String, Int]()
 
   val pieceNames = Array("pawn", "king", "queen", "king", "rook", "bishop", "knight")
 
@@ -74,7 +76,6 @@ case class Game() {
     }
 
     // VALIDATE CASTLING MOVE
-    // !!needs to be added
 
     if (isLegalMove) {
       moveHistory.append(moveData)
@@ -106,6 +107,17 @@ case class Game() {
       result.completed = true
       result.mateData = mate
       result.mInfo = moveData
+
+      // Check Threefold repetition
+      val boardsSEN = board.senString
+      if (!positionOccurrence.contains(boardsSEN)) {
+        positionOccurrence.update(boardsSEN, 0)
+      }
+      positionOccurrence(boardsSEN) += 1
+      if (positionOccurrence(boardsSEN) == 3) {
+        result.mateData.staleMate = true
+      }
+
       Some(result)
     } else None
   }
