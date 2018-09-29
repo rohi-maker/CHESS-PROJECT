@@ -109,12 +109,12 @@ case class Game() {
       result.mInfo = moveData
 
       // Check Threefold repetition
-      val boardsSEN = board.senString
-      if (!positionOccurrence.contains(boardsSEN)) {
-        positionOccurrence.update(boardsSEN, 0)
+      val boardSEN = board.senString // boardSEN only contains the current position of board
+      if (!positionOccurrence.contains(boardSEN)) {
+        positionOccurrence.update(boardSEN, 0)
       }
-      positionOccurrence(boardsSEN) += 1
-      if (positionOccurrence(boardsSEN) == 3) {
+      positionOccurrence(boardSEN) += 1
+      if (positionOccurrence(boardSEN) == 3) {
         result.mateData.staleMate = true
       }
 
@@ -160,6 +160,17 @@ case class Game() {
     result.completed = true
     result.mateData = mate
     result.mInfo = moveData
+
+    // Check Threefold repetition
+    val boardSEN = board.senString // boardSEN only contains the current position of board
+    if (!positionOccurrence.contains(boardSEN)) {
+      positionOccurrence.update(boardSEN, 0)
+    }
+    positionOccurrence(boardSEN) += 1
+    if (positionOccurrence(boardSEN) == 3) {
+      result.mateData.staleMate = true
+    }
+
     Some(result)
   }
 
