@@ -14,14 +14,10 @@ import MoveHistory from './MoveHistory'
 import PlayerInfo from './PlayerInfo'
 import TimeConfig from './TimeConfig'
 
+import FullscreenButton, {FULLSCREEN_STYLE} from '../FullscreenButton'
+
 import SockJS from 'sockjs-client'
 import serverUrl from '../server'
-
-const fullscreenEnabled =
-  document.fullscreenEnabled ||
-  document.webkitFullscreenEnabled ||
-  document.mozFullScreenEnabled ||
-  document.msFullscreenEnabled
 
 const moveToString = (move) => {
   const moveData = new MoveData()
@@ -36,8 +32,6 @@ const moveToString = (move) => {
 
   return moveData.toString()
 }
-
-const CONTAINER_FULLSCREEN_STYLE = {width: '100%', height: '100%'}
 
 export default class GamePage extends Component {
   static route = <Route exact path="/games/:gameId" component={GamePage}/>
@@ -69,7 +63,7 @@ export default class GamePage extends Component {
     const allowMove = iAmPlayer && state === State.ALIVE
 
     return (
-      <div ref={r => this.container = r} style={CONTAINER_FULLSCREEN_STYLE}>
+      <div ref={r => this.container = r} style={FULLSCREEN_STYLE}>
         <Row>
           <Col md={8}>
             <Board
@@ -89,16 +83,8 @@ export default class GamePage extends Component {
               <Glyphicon glyph="refresh" />{' '}
               Flip board
             </Button>
-
-            {fullscreenEnabled &&
-              <React.Fragment>
-                {' '}
-                <Button bsStyle="primary" onClick={this.toggleFullscreen}>
-                  <Glyphicon glyph="fullscreen" />{' '}
-                  Fullscreen
-                </Button>
-              </React.Fragment>
-            }
+            {' '}
+            <FullscreenButton getContainer={() => this.container} />
           </Col>
 
           <Col md={4}>
@@ -252,31 +238,6 @@ export default class GamePage extends Component {
       type: 'Chat',
       msg
     }))
-  }
-
-  toggleFullscreen = () => {
-    const fullscreenElement =
-      document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.msFullscreenElement
-
-    if (fullscreenElement) {
-      const exitFullscreen =
-        document.exitFullscreen ||
-        document.webkitExitFullscreen ||
-        document.mozCancelFullScreen ||
-        document.msExitFullscreen
-
-      if (exitFullscreen) exitFullscreen.call(document)
-    } else {
-      const requestFullscreen =
-        this.container.requestFullscreen ||
-        this.container.webkitRequestFullScreen ||
-        this.container.mozRequestFullScreen ||
-        this.container.msRequestFullscreen
-      requestFullscreen.call(this.container)
-    }
   }
 
   quit = () => {
