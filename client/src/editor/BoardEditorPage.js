@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Alert, Button, Checkbox, Col, Glyphicon, Row, Tab, Tabs} from 'react-bootstrap'
+import {Alert, Button, Checkbox, Col, Glyphicon, Row} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
 import {MoveData} from 'synergychess-engine'
 
@@ -7,6 +7,8 @@ import Board from '../board/Board'
 import GameOverDlg from '../gamepage/GameOverDlg'
 import FullscreenButton, {FULLSCREEN_STYLE} from '../FullscreenButton'
 import MoveHistory from '../gamepage/MoveHistory'
+
+import PlayerColor from '../gameconfig/PlayerColor'
 import State, {STATE_DESCS} from '../State'
 
 import PieceSelect from './PieceSelect'
@@ -58,8 +60,8 @@ export default class BoardEditorPage extends Component {
               showLegalMoves={true}
               showLastMove={true}
               viewAsBlackPlayer={flipBoard}
-              allowMove={true}
-              myColor={0}
+              allowMove={playing}
+              myColor={flipBoard ? PlayerColor.BLACK : PlayerColor.WHITE}
               onMove={this.onThisBoardMove.bind(this)}
             />
 
@@ -80,11 +82,7 @@ export default class BoardEditorPage extends Component {
               Playing
             </Checkbox>
 
-            <Tabs id="Chat" defaultActiveKey={1}>
-              <Tab eventKey={1} title="Moves">
-                <MoveHistory notations={notations} />
-              </Tab>
-            </Tabs>
+            {notations.length > 0 && <MoveHistory notations={notations} />}
           </Col>
         </Row>
 
@@ -97,7 +95,6 @@ export default class BoardEditorPage extends Component {
   }
 
   selectPiece = (selectedPiece) => {
-    const {playing} = this.state
     this.setState({selectedPiece})
   }
 

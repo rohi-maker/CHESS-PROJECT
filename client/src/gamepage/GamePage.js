@@ -5,16 +5,16 @@ import {MoveData} from 'synergychess-engine'
 
 import Board from '../board/Board'
 import GameConfig from '../gameconfig/GameConfig'
-import GameOverDlg from './GameOverDlg'
-import PlayerColor from '../gameconfig/PlayerColor'
-import State, {STATE_DESCS} from '../State'
+import FullscreenButton, {FULLSCREEN_STYLE} from '../FullscreenButton'
 
 import Chat from './Chat'
+import GameOverDlg from './GameOverDlg'
 import MoveHistory from './MoveHistory'
 import PlayerInfo from './PlayerInfo'
 import TimeConfig from './TimeConfig'
 
-import FullscreenButton, {FULLSCREEN_STYLE} from '../FullscreenButton'
+import PlayerColor from '../gameconfig/PlayerColor'
+import State, {STATE_DESCS} from '../State'
 
 import SockJS from 'sockjs-client'
 import serverUrl from '../server'
@@ -59,7 +59,7 @@ export default class GamePage extends Component {
 
     const {myColor, timeLimitSecs, timeBonusSecs} = iJoined
     const viewAsBlackPlayer = myColor === PlayerColor.BLACK
-    const iAmPlayer = iJoined.myColor === PlayerColor.WHITE || iJoined.myColor === PlayerColor.BLACK
+    const iAmPlayer = myColor === PlayerColor.WHITE || myColor === PlayerColor.BLACK
     const allowMove = iAmPlayer && state === State.ALIVE
 
     return (
@@ -75,7 +75,7 @@ export default class GamePage extends Component {
               showLastMove={true}
               viewAsBlackPlayer={flipBoard ? !viewAsBlackPlayer : viewAsBlackPlayer}
               allowMove={allowMove}
-              myColor={iJoined.myColor}
+              myColor={myColor}
               onMove={this.onThisBoardMove.bind(this)}
             />
 
