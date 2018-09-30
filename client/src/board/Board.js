@@ -30,6 +30,7 @@ export default class Board extends Component {
 
     this.position = Position()
     this.position.setSEN(props.sen)
+
     this.kingChoice = ''
     this.kingRemoveChoices = []
     this.castling = false
@@ -114,7 +115,7 @@ export default class Board extends Component {
 
   clickOnPiece(r, c) {
     // If this is not player turn, disable clicking on piece
-    if (this.myColor !== (this.position.getColor() === "white" ? 0 : 1)) {
+    if (this.myColor !== (this.position.color === "white" ? 0 : 1)) {
       return
     }
 
@@ -181,11 +182,11 @@ export default class Board extends Component {
     }
 
     // Castling
-    if (  this.state.currentMove !== ''
-          && board[x][y].toUpperCase() === 'K'
-          && this.state.validMoves.map(e => Helper.toSEN(e[0], e[1])).includes(Helper.toSEN(row, col))
-          && (Math.abs(col - y) > 1 || this.state.validMoves.map(e => Helper.toSEN(e[0], e[1])).includes(Helper.toSEN(x, col + (col - y))))
-          && x === row && y !== col) {
+    if (this.state.currentMove !== ''
+        && board[x][y].toUpperCase() === 'K'
+        && this.state.validMoves.map(e => Helper.toSEN(e[0], e[1])).includes(Helper.toSEN(row, col))
+        && (Math.abs(col - y) > 1 || this.state.validMoves.map(e => Helper.toSEN(e[0], e[1])).includes(Helper.toSEN(x, col + (col - y))))
+        && x === row && y !== col) {
       // Inner rank
       if (row === 2 || row === 9) {
         if (this.state.validMoves.reduce((res, e) => res || (e[0] === row && e[1] === col), false)) {
@@ -252,7 +253,7 @@ export default class Board extends Component {
           && ((Helper.getTeam(board[x][y]) === 'white' && row === 11)
               || (Helper.getTeam(board[x][y]) === 'black' && row === 0)
           )
-          && (Helper.getAvailablePieces(this.state.sen, this.position.getTeamToMove).length > 0)
+          && (Helper.getAvailablePieces(this.state.sen, this.position.teamToMove).length > 0)
       ) {
         if (this.state.value === '') {
           this.row = row
@@ -289,7 +290,7 @@ export default class Board extends Component {
 
   getPromotionButtons() {
     if (this.state.isPromoting) {
-      const availablePieces = Helper.getAvailablePieces(this.state.sen, this.position.getTeamToMove)
+      const availablePieces = Helper.getAvailablePieces(this.state.sen, this.position.teamToMove)
 
       return <ButtonToolbar>
         {availablePieces.map(e =>
@@ -346,7 +347,7 @@ export default class Board extends Component {
     const hilightCurrentMove =
       i === currentMove[0] && j === currentMove[1]
       && !this.castling
-      && Helper.getTeam(sen) === this.position.getTeamToMove
+      && Helper.getTeam(sen) === this.position.teamToMove
 
     const hilightLastMove =
       this.state.showLastMove

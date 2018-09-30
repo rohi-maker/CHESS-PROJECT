@@ -28,31 +28,31 @@ object GameGeneratorJs {
 
 @JSExportTopLevel("Position")
 case class Position() {
-  var data: Game = GameGenerator.loadFromSEN(GameGenerator.startingSEN)
+  private var game: Game = GameGenerator.loadFromSEN(GameGenerator.startingSEN)
 
   @JSExport
   def setSEN(sen: String) {
-    data = GameGenerator.loadFromSEN(sen)
+    game = GameGenerator.loadFromSEN(sen)
   }
 
   @JSExport
   def getTeamToMove: String = {
-    data.teamToMove
+    game.teamToMove
   }
 
   @JSExport
   def validMoves(from: String): js.Array[String] = {
-    if (data.board.getSquare(from) == null || data.board.getSquare(from).color != data.teamToMove) {
+    if (game.board.getSquare(from) == null || game.board.getSquare(from).color != game.teamToMove) {
       return js.Array[String]()
     }
 
     val moveData = MoveData()
     moveData.from = from
-    moveData.enPassant = data.enPassant
-    moveData.castling = data.castling
-    moveData.board = data.board
+    moveData.enPassant = game.enPassant
+    moveData.castling = game.castling
+    moveData.board = game.board
 
-    val result = data.board.getSquare(from).validMoves(moveData)
+    val result = game.board.getSquare(from).validMoves(moveData)
     result.toJSArray
   }
 
@@ -83,21 +83,21 @@ case class Position() {
     moveData.from = from
     moveData.to = to
     moveData.rookPlacement = rookPlacement
-    moveData.enPassant = data.enPassant
-    moveData.castling = data.castling
-    moveData.board = data.board
+    moveData.enPassant = game.enPassant
+    moveData.castling = game.castling
+    moveData.board = game.board
     if (promotion != "") {
       moveData.promotionData = new PromotionData()
       moveData.promotionData.name = promotion
     }
 
-    val moveResult = data.move(moveData)
+    val moveResult = game.move(moveData)
     val mateData = moveResult.get.mateData
 
     if (mateData == null) {
-      Array("", moveResult.get.toNotation(data).getNotation).toJSArray
+      Array("", moveResult.get.toNotation(game).getNotation).toJSArray
     } else {
-      Array(mateData.toString, moveResult.get.toNotation(data).getNotation).toJSArray
+      Array(mateData.toString, moveResult.get.toNotation(game).getNotation).toJSArray
     }
   }
 
@@ -105,34 +105,42 @@ case class Position() {
   def updatePositionFromString(moveDataString: String): js.Array[String] = {
     val moveData = new MoveData(moveDataString)
 
-    moveData.enPassant = data.enPassant
-    moveData.castling = data.castling
-    moveData.board = data.board
+    moveData.enPassant = game.enPassant
+    moveData.castling = game.castling
+    moveData.board = game.board
 
-    val moveResult = data.move(moveData)
+    val moveResult = game.move(moveData)
     val mateData = moveResult.get.mateData
 
     if (mateData == null) {
-      Array("", moveResult.get.toNotation(data).getNotation).toJSArray
+      Array("", moveResult.get.toNotation(game).getNotation).toJSArray
     } else {
-      Array(mateData.toString, moveResult.get.toNotation(data).getNotation).toJSArray
+      Array(mateData.toString, moveResult.get.toNotation(game).getNotation).toJSArray
     }
   }
 
   @JSExport
-  def getColor() = {
-    data.teamToMove
+  def color: String = {
+    game.teamToMove
   }
 
   @JSExport
   def senString: String = {
-    data.senString
+    game.senString
   }
 
   @JSExport
   def piecesCaptured(color: String): js.Dictionary[Int] = {
-    val captures = data.piecesCaptured(color)
+    val captures = game.piecesCaptured(color)
     captures.toJSDictionary
+  }
+
+  @JSExport
+  def nextBestMove(level: Int): String = {
+    game.nextBestMove(level) match {
+      case None => ""
+      case Some(moveData) => moveData.toString
+    }
   }
 }
 
