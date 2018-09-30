@@ -5,7 +5,7 @@ import {Button, Col, Form, FormControl, Row} from 'react-bootstrap'
 import EndedGames from './EndedGames'
 
 export default class EndedGamesPage extends Component {
-  static route = <Route exact path="/ended-games" component={EndedGamesPage}/>
+  static route = <Route exact path="/ended" component={EndedGamesPage}/>
 
   constructor(props) {
     super(props)

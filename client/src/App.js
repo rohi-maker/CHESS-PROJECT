@@ -7,6 +7,7 @@ import Footer from './footer/Footer'
 
 import TopPage from './toppage/TopPage'
 import GamePage from './gamepage/GamePage'
+import BoardEditorPage from './BoardEditorPage'
 import EndedGamesPage from './gamelist/EndedGamesPage'
 
 import LoginComboPage from './loginpage/LoginComboPage'
@@ -39,8 +40,10 @@ export default class App extends Component {
 
           {TopPage.route}
           {GamePage.route}
-
           {EndedGamesPage.route}
+
+          {BoardEditorPage.routeWithFen}
+          {BoardEditorPage.routeWithoutFen}
 
           {LoginComboPage.loginRoute}
           {LoginComboPage.registerRoute}

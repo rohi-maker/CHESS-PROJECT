@@ -219,12 +219,6 @@ export default class GamePage extends Component {
     }
   }
 
-  setBoardOption(key, value) {
-    const {boardOptions} = this.state
-    boardOptions[key] = value
-    this.setState({boardOptions})
-  }
-
   onThisBoardMove(move, [notation, wPiecesCaptured, bPiecesCaptured]) {
     const moveString = moveToString(move)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))

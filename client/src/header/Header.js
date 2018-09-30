@@ -24,7 +24,7 @@ class Header extends Component {
               Home
             </NavItem>
 
-            <NavItem eventKey={2} href="/ended-games" onClick={this.goTo.bind(this)}>
+            <NavItem eventKey={2} href="/ended" onClick={this.goTo.bind(this)}>
               Ended games
             </NavItem>
 
@@ -32,20 +32,24 @@ class Header extends Component {
               Ranking
             </NavItem>
 
+            <NavItem eventKey={4} href="/editor" onClick={this.goTo.bind(this)}>
+              Board editor
+            </NavItem>
+
             {userType === USER_GUEST &&
-              <NavItem eventKey={4} href="/login" onClick={this.goTo.bind(this)}>
+              <NavItem eventKey={5} href="/login" onClick={this.goTo.bind(this)}>
                 Login | {username}
               </NavItem>
             }
 
             {userType !== USER_GUEST &&
-              <NavItem eventKey={4} href={`/users/${username}`} onClick={this.goTo.bind(this)}>
+              <NavItem eventKey={5} href={`/users/${username}`} onClick={this.goTo.bind(this)}>
                 {username}
               </NavItem>
             }
 
             {userType !== USER_GUEST &&
-              <NavItem eventKey={5} onClick={this.logout}>
+              <NavItem eventKey={6} onClick={this.logout}>
                 Logout
               </NavItem>
             }
