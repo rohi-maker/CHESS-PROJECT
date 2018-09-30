@@ -22,8 +22,7 @@ export default class BoardEditorPage extends Component {
       state: State.ALIVE,
       status: STATE_DESCS[State.ALIVE],
 
-      whitePiece: 'X',
-      blackPiece: 'x',
+      selectedPiece: 'x',
       playing: false,
 
       flipBoard: false,
@@ -37,7 +36,7 @@ export default class BoardEditorPage extends Component {
   render() {
     const {
       state, status,
-      whitePiece, blackPiece, playing,
+      selectedPiece, playing,
       flipBoard, notations,
       wPiecesCaptured, bPiecesCaptured
     } = this.state
@@ -75,8 +74,7 @@ export default class BoardEditorPage extends Component {
           <Col md={4}>
             <Alert>{playing ? status : 'Editing board'}</Alert>
 
-            <PieceSelect selectedPiece={whitePiece} onSelect={this.selectPiece} />
-            <PieceSelect selectedPiece={blackPiece} onSelect={this.selectPiece} />
+            {!playing && <PieceSelect selectedPiece={selectedPiece} onSelect={this.selectPiece} />}
 
             <Checkbox checked={playing} onClick={this.togglePlaying}>
               Playing
@@ -98,10 +96,9 @@ export default class BoardEditorPage extends Component {
   componentDidMount() {
   }
 
-  selectPiece = (piece) => {
-    const isWhite = piece === piece.toUpperCase()
-    const key = isWhite ? 'whitePiece' : 'blackPiece'
-    this.setState({[key]: piece})
+  selectPiece = (selectedPiece) => {
+    const {playing} = this.state
+    this.setState({selectedPiece})
   }
 
   togglePlaying = () => {

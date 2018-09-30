@@ -19,13 +19,13 @@ const renderPiece = (piece, isWhite) => {
 }
 
 export default function PieceSelect({selectedPiece, onSelect}) {
-  const isWhite = selectedPiece === selectedPiece.toUpperCase()
-
   return (
     <ToggleButtonGroup type="radio" name="piece" value={selectedPiece} onChange={onSelect}>
-      {PIECES.map(p => renderPiece(p, isWhite))}
+      {PIECES.map(p => renderPiece(p, false))}
+      <br />
+      {PIECES.map(p => renderPiece(p, true))}
 
-      <ToggleButton value={isWhite ? 'X' : 'x'}>
+      <ToggleButton value={'x'}>
         <div style={GLYPH_STYLE}>
           <Glyphicon glyph="remove"  />
         </div>
