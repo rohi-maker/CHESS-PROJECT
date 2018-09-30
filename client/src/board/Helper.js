@@ -30,7 +30,7 @@ export const IMGS = {
 }
 
 export default class Helper {
-  static getImageFilename(sen) {
+  static getImageSrc(sen) {
     let result = this.getPieceName(sen)
     if (sen === sen.toUpperCase()) {
       result += "_w"
@@ -55,13 +55,14 @@ export default class Helper {
     return result
   }
 
-  static getImage(sen) {
+  static getImage(sen, style) {
     if (sen === undefined || sen === null || sen === "") {
       return <div />
     } else {
       return <img
-        src={this.getImageFilename(sen)}
+        src={this.getImageSrc(sen)}
         alt={this.getPieceName(sen)}
+        style={style ? style : {}}
       />
     }
   }

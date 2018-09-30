@@ -1,17 +1,18 @@
 import React, {Component} from 'react'
-import {Alert, Button, Col, Glyphicon, Row, Tab, Tabs} from 'react-bootstrap'
+import {Alert, Button, Checkbox, Col, Glyphicon, Row, Tab, Tabs} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
 import {MoveData} from 'synergychess-engine'
 
-import Board from './board/Board'
-import GameOverDlg from './gamepage/GameOverDlg'
-import MoveHistory from './gamepage/MoveHistory'
-import State, {STATE_DESCS} from './State'
+import Board from '../board/Board'
+import GameOverDlg from '../gamepage/GameOverDlg'
+import FullscreenButton, {FULLSCREEN_STYLE} from '../FullscreenButton'
+import MoveHistory from '../gamepage/MoveHistory'
+import State, {STATE_DESCS} from '../State'
 
-import FullscreenButton, {FULLSCREEN_STYLE} from './FullscreenButton'
+import PieceSelect from './PieceSelect'
 
 export default class BoardEditorPage extends Component {
-  static routeWithFen = <Route path="/editor/:fen" component={BoardEditorPage}/>
+  static routeWithFen = <Route path="/editor/:sen" component={BoardEditorPage}/>
   static routeWithoutFen = <Route exact path="/editor" component={BoardEditorPage}/>
 
   constructor() {
@@ -20,15 +21,29 @@ export default class BoardEditorPage extends Component {
     this.state = {
       state: State.ALIVE,
       status: STATE_DESCS[State.ALIVE],
+
+      whitePiece: 'X',
+      blackPiece: 'x',
+      playing: false,
+
       flipBoard: false,
       notations: [],
+
       wPiecesCaptured: {},
       bPiecesCaptured: {}
     }
   }
 
   render() {
-    const {state, status, flipBoard, notations, wPiecesCaptured, bPiecesCaptured} = this.state
+    const {
+      state, status,
+      whitePiece, blackPiece, playing,
+      flipBoard, notations,
+      wPiecesCaptured, bPiecesCaptured
+    } = this.state
+
+    let {sen} = this.props.match.params
+    sen = sen || Board.startingSEN
 
     const gameOver = state !== State.ALIVE && state !== State.NOT_STARTED
 
@@ -38,7 +53,7 @@ export default class BoardEditorPage extends Component {
           <Col md={8}>
             <Board
               ref={r => this.board = r}
-              sen={Board.startingSEN}
+              sen={sen}
 
               showCoords={true}
               showLegalMoves={true}
@@ -58,12 +73,14 @@ export default class BoardEditorPage extends Component {
           </Col>
 
           <Col md={4}>
-            <Alert>{status}</Alert>
+            <Alert>{playing ? status : 'Editing board'}</Alert>
 
-            <Alert>Game will be automatically canceled if first moves are not made within 30"</Alert>
+            <PieceSelect selectedPiece={whitePiece} onSelect={this.selectPiece} />
+            <PieceSelect selectedPiece={blackPiece} onSelect={this.selectPiece} />
 
-            <br />
-            <br />
+            <Checkbox checked={playing} onClick={this.togglePlaying}>
+              Playing
+            </Checkbox>
 
             <Tabs id="Chat" defaultActiveKey={1}>
               <Tab eventKey={1} title="Moves">
@@ -79,6 +96,17 @@ export default class BoardEditorPage extends Component {
   }
 
   componentDidMount() {
+  }
+
+  selectPiece = (piece) => {
+    const isWhite = piece === piece.toUpperCase()
+    const key = isWhite ? 'whitePiece' : 'blackPiece'
+    this.setState({[key]: piece})
+  }
+
+  togglePlaying = () => {
+    const {playing} = this.state
+    this.setState({playing: !playing})
   }
 
   onThisBoardMove(move, [notation, wPiecesCaptured, bPiecesCaptured]) {

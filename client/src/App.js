@@ -7,7 +7,7 @@ import Footer from './footer/Footer'
 
 import TopPage from './toppage/TopPage'
 import GamePage from './gamepage/GamePage'
-import BoardEditorPage from './BoardEditorPage'
+import BoardEditorPage from './editor/BoardEditorPage'
 import EndedGamesPage from './gamelist/EndedGamesPage'
 
 import LoginComboPage from './loginpage/LoginComboPage'
