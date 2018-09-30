@@ -25,8 +25,8 @@ object GameGenerator {
         val c = rowConfig(count)
         var tmp = c.toString
         if (!(47 < c && c < 58)) {
-          val pos = Point(col, rank).toString()
-          val nPiece = PieceFactory.newPiece(getPieceName(c.toString), getPieceTeam(c.toString), new Point(pos))
+          val pos = Point(col, rank)
+          val nPiece = PieceFactory.newPiece(c, pos)
           board.setSquare(pos, nPiece)
           col += 1
           count += 1
@@ -53,22 +53,5 @@ object GameGenerator {
     game.teamToMove = teamToMove
 
     game
-  }
-
-  def getPieceName(pchar: String): String = {
-    val pChar = pchar.toUpperCase()
-    pChar match {
-      case "P" =>  "pawn"
-      case "N" =>  "knight"
-      case "B" =>  "bishop"
-      case "R" =>  "rook"
-      case "Q" =>  "queen"
-      case "K" =>  "king"
-      case "I" =>  "infantry"
-    }
-  }
-
-  def getPieceTeam(pChar: String): String = {
-    if (pChar.toUpperCase() == pChar) "white" else "black"
   }
 }

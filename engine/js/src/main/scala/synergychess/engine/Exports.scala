@@ -36,6 +36,17 @@ case class Position() {
   }
 
   @JSExport
+  def setSquare(col: Int, rank: Int, piece: String) {
+    val pos = Point(col, rank)
+    game.board.setSquare(Point(col, rank), PieceFactory.newPiece(piece(0), pos))
+  }
+
+  @JSExport
+  def removeSquare(col: Int, rank: Int) {
+    game.board.removeSquare(Point(col, rank))
+  }
+
+  @JSExport
   def getTeamToMove: String = {
     game.teamToMove
   }

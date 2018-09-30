@@ -114,6 +114,17 @@ export default class Board extends Component {
   }
 
   clickOnPiece(r, c) {
+    const {putPiece} = this.props
+    if (putPiece) {
+      if (putPiece === 'x') {
+        this.position.removeSquare(c + 1, r + 1)
+      } else {
+        this.position.setSquare(c + 1, r + 1, putPiece)
+      }
+      this.setState({sen: this.position.senString})
+      return
+    }
+
     // If this is not player turn, disable clicking on piece
     if (this.myColor !== (this.position.color === "white" ? 0 : 1)) {
       return

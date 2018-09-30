@@ -11,4 +11,24 @@ object PieceFactory {
     // A pawn that can't double jump
     case "infantry" => new Pawn(color, basePos, false)
   }
+
+  def newPiece(pChar: Char, basePos: Point): Piece = {
+    newPiece(getPieceName(pChar), getPieceTeam(pChar), basePos)
+  }
+
+  private def getPieceName(pChar: Char): String = {
+    pChar.toUpper match {
+      case 'P' =>  "pawn"
+      case 'N' =>  "knight"
+      case 'B' =>  "bishop"
+      case 'R' =>  "rook"
+      case 'Q' =>  "queen"
+      case 'K' =>  "king"
+      case 'I' =>  "infantry"
+    }
+  }
+
+  private def getPieceTeam(pChar: Char): String = {
+    if (pChar.isUpper) "white" else "black"
+  }
 }

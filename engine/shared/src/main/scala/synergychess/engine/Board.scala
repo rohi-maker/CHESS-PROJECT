@@ -15,6 +15,13 @@ class Board {
     gameBoard(pos.toString) = value
   }
 
+  def removeSquare(pos: String) {
+    gameBoard(pos) = null
+  }
+  def removeSquare(pos: Point) {
+    gameBoard(pos.toString) = null
+  }
+
   def squaresAttackedBy: Map[String, scala.collection.mutable.Map[String, ArrayBuffer[String]]] = {
     // Return squares attacked by each team
     val white = scala.collection.mutable.Map[String, ArrayBuffer[String]]()

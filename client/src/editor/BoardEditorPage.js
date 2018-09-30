@@ -24,7 +24,7 @@ export default class BoardEditorPage extends Component {
       state: State.ALIVE,
       status: STATE_DESCS[State.ALIVE],
 
-      selectedPiece: 'x',
+      putPiece: 'x',
       playing: false,
 
       flipBoard: false,
@@ -38,13 +38,13 @@ export default class BoardEditorPage extends Component {
   render() {
     const {
       state, status,
-      selectedPiece, playing,
+      putPiece, playing,
       flipBoard, notations,
       wPiecesCaptured, bPiecesCaptured
     } = this.state
 
-    let {sen} = this.props.match.params
-    sen = sen || Board.startingSEN
+    const {sen} = this.props.match.params
+    const initialSen = sen || Board.startingSEN
 
     const gameOver = state !== State.ALIVE && state !== State.NOT_STARTED
 
@@ -54,13 +54,14 @@ export default class BoardEditorPage extends Component {
           <Col md={8}>
             <Board
               ref={r => this.board = r}
-              sen={sen}
+              sen={initialSen}
+              putPiece={playing ? undefined : putPiece}
 
               showCoords={true}
               showLegalMoves={true}
               showLastMove={true}
               viewAsBlackPlayer={flipBoard}
-              allowMove={playing}
+              allowMove={true}
               myColor={flipBoard ? PlayerColor.BLACK : PlayerColor.WHITE}
               onMove={this.onThisBoardMove.bind(this)}
             />
@@ -76,7 +77,7 @@ export default class BoardEditorPage extends Component {
           <Col md={4}>
             <Alert>{playing ? status : 'Editing board'}</Alert>
 
-            {!playing && <PieceSelect selectedPiece={selectedPiece} onSelect={this.selectPiece} />}
+            {!playing && <PieceSelect selectedPiece={putPiece} onSelect={this.selectPiece} />}
 
             <Checkbox checked={playing} onClick={this.togglePlaying}>
               Playing
@@ -94,8 +95,8 @@ export default class BoardEditorPage extends Component {
   componentDidMount() {
   }
 
-  selectPiece = (selectedPiece) => {
-    this.setState({selectedPiece})
+  selectPiece = (putPiece) => {
+    this.setState({putPiece})
   }
 
   togglePlaying = () => {
