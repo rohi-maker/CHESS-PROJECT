@@ -89,6 +89,16 @@ export default class GamePage extends Component {
               <Glyphicon glyph="refresh" />{' '}
               Flip board
             </Button>
+
+            {fullscreenEnabled &&
+              <React.Fragment>
+                {' '}
+                <Button bsStyle="primary" onClick={this.toggleFullscreen}>
+                  <Glyphicon glyph="fullscreen" />{' '}
+                  Fullscreen
+                </Button>
+              </React.Fragment>
+            }
           </Col>
 
           <Col md={4}>
@@ -115,15 +125,6 @@ export default class GamePage extends Component {
               wPiecesCaptured={wPiecesCaptured}
               bPiecesCaptured={bPiecesCaptured}
             />
-
-            {fullscreenEnabled &&
-              <React.Fragment>
-                <Button bsStyle="primary" onClick={this.toggleFullscreen}>
-                  <Glyphicon glyph="fullscreen" />{' '}
-                  Fullscreen
-                </Button>{' '}
-              </React.Fragment>
-            }
 
             {iAmPlayer && state === State.ALIVE &&
               <Button bsStyle="primary" onClick={this.quit}>
