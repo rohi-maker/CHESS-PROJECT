@@ -42,7 +42,7 @@ case class Position() {
   }
 
   @JSExport
-  def removeSquare(col: Int, rank: Int) {
+  def removeSquare(col: Int, rank: Int): Boolean = {
     game.board.removeSquare(Point(col, rank))
   }
 

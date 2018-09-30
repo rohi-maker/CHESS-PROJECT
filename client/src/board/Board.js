@@ -114,14 +114,21 @@ export default class Board extends Component {
   }
 
   clickOnPiece(r, c) {
-    const {putPiece} = this.props
+    const {putPiece, onPut} = this.props
     if (putPiece) {
+      let modified
       if (putPiece === 'x') {
-        this.position.removeSquare(c + 1, r + 1)
+        modified = this.position.removeSquare(c + 1, r + 1)
       } else {
         this.position.setSquare(c + 1, r + 1, putPiece)
+        modified = true
       }
-      this.setState({sen: this.position.senString})
+
+      if (modified) {
+        this.setState({sen: this.position.senString})
+        onPut()
+      }
+
       return
     }
 

@@ -55,7 +55,6 @@ export default class BoardEditorPage extends Component {
             <Board
               ref={r => this.board = r}
               sen={initialSen}
-              putPiece={playing ? undefined : putPiece}
 
               showCoords={true}
               showLegalMoves={true}
@@ -64,6 +63,9 @@ export default class BoardEditorPage extends Component {
               allowMove={true}
               myColor={flipBoard ? PlayerColor.BLACK : PlayerColor.WHITE}
               onMove={this.onThisBoardMove.bind(this)}
+
+              putPiece={playing ? undefined : putPiece}
+              onPut={this.clearMoveHistory}
             />
 
             <Button bsStyle="primary" onClick={() => this.setState({flipBoard: !flipBoard})}>
@@ -113,5 +115,9 @@ export default class BoardEditorPage extends Component {
     const {notations} = this.state
     notations.push(notation)
     this.setState({notations})
+  }
+
+  clearMoveHistory = () => {
+    this.setState({notations: []})
   }
 }

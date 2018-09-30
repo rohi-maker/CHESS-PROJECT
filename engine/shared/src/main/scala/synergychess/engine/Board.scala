@@ -18,8 +18,8 @@ class Board {
   def removeSquare(pos: String) {
     gameBoard(pos) = null
   }
-  def removeSquare(pos: Point) {
-    gameBoard(pos.toString) = null
+  def removeSquare(pos: Point): Boolean = {
+    gameBoard.put(pos.toString, null).exists(_ != null)
   }
 
   def squaresAttackedBy: Map[String, scala.collection.mutable.Map[String, ArrayBuffer[String]]] = {
