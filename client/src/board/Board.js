@@ -140,16 +140,10 @@ export default class Board extends Component {
     // If player needs to select piece to promote to, choose pawn
     if (this.state.isPromoting) {
       this.setState({
-        value: 'P',
-        isPromoting: false
-      }, () => {
-        const move = {
-          from: this.state.currentMove,
-          to: Helper.toSEN(this.row, this.col),
-          promotion: 'P'
-        }
-
-        this.props.onMove(move, this.move(moveToString(move)))
+        isPromoting: false,
+        currentMove: '',
+        validMoves: [],
+        value: ''
       })
       return
     }
