@@ -140,7 +140,7 @@ export default class Board extends Component {
     // If player needs to select piece to promote to, choose pawn
     if (this.state.isPromoting) {
       this.setState({
-        value: "P",
+        value: 'P',
         isPromoting: false
       }, () => {
         const move = {
@@ -389,7 +389,7 @@ export default class Board extends Component {
     return color +
       (hilightLegal ? ' highlight highlight-legal' : '') +
       (hilightCurrentMove ? ' highlight highlight-current-move' : '') +
-      (hilightLastMove ? ' highlight highlight-last-move' : '')
+      (hilightLastMove && !hilightLegal ? ' highlight highlight-last-move' : '')
   }
 
   render() {
