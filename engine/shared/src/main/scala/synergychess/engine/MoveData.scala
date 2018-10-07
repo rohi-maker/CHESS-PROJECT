@@ -78,6 +78,7 @@ case class MoveData (
         case 'b' => "bishop"
         case 'q' => "queen"
         case 'n' => "knight"
+        case 'p' => "pawn"
       }
     }
   }

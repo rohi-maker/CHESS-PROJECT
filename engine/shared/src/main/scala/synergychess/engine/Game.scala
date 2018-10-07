@@ -71,7 +71,7 @@ case class Game() {
       moveData.promotionData.safeSqs = safeSqs
 
       notation.isPromotion = true
-      if (moveData.promotionData.name != "" && !valids.contains(moveData.promotionData.name)) return None
+      if (moveData.promotionData.name != "" && (!valids.contains(moveData.promotionData.name) && moveData.promotionData.name != "pawn")) return None
       if (kingSq != "") isLegalMove = safeSqs.contains(kingSq)
     }
 

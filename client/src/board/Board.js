@@ -137,8 +137,22 @@ export default class Board extends Component {
       return
     }
 
-    // If player needs to select piece to promote to, disable clciking on piece
-    if (this.state.isPromoting) return
+    // If player needs to select piece to promote to, choose pawn
+    if (this.state.isPromoting) {
+      this.setState({
+        value: "P",
+        isPromoting: false
+      }, () => {
+        const move = {
+          from: this.state.currentMove,
+          to: Helper.toSEN(this.row, this.col),
+          promotion: 'P'
+        }
+
+        this.props.onMove(move, this.move(moveToString(move)))
+      })
+      return
+    }
 
     let row = r, col = c
 
