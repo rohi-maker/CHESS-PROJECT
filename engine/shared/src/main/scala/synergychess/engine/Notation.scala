@@ -151,8 +151,7 @@ case class Notation (
     else
       mainNotation = pChar(piece) +
         (if (isTaken) if (piece == "pawn") fileFrom + "x" else "x" else "") +
-        moveTo.toLowerCase +
-        (if (enPassant) "e.p." else "")
+        moveTo.toLowerCase
 
     if (isDoubleThreat) { //threatened by another of the same type of piece
       mainNotation = pChar(piece) + (if (fileNeeded) fileFrom else "") //so need file or rank extra inf
