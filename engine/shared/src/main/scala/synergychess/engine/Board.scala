@@ -108,6 +108,11 @@ class Board {
         // target object found at end of steps function (orig code)
         val target = getSquare(cDir.last)
         cDir.remove(cDir.length - 1)
+
+        if (target.isInstanceOf[King] && cDir.isEmpty) {
+          return true
+        }
+
         if (target.isInstanceOf[Queen] || target.isInstanceOf[Rook]) {
           return true
         }
@@ -140,6 +145,10 @@ class Board {
           } else { // pawn is a threat
             return true
           }
+        }
+
+        if (target.isInstanceOf[King] && cDir.length == 1) {
+          return true
         }
 
         // Check for Queen or Bishop
