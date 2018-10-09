@@ -20,16 +20,26 @@ const renderPiece = (piece, isWhite) => {
 
 export default function PieceSelect({selectedPiece, onSelect}) {
   return (
-    <ToggleButtonGroup type="radio" name="piece" value={selectedPiece} onChange={onSelect}>
-      {PIECES.map(p => renderPiece(p, false))}
-      <br />
-      {PIECES.map(p => renderPiece(p, true))}
+    <React.Fragment>
+      <ToggleButtonGroup type="radio" name="piece" value={selectedPiece} onChange={onSelect}>
+        {PIECES.map(p => renderPiece(p, false))}
+      </ToggleButtonGroup>
 
-      <ToggleButton value={'x'}>
-        <div style={GLYPH_STYLE}>
-          <Glyphicon glyph="remove"  />
-        </div>
-      </ToggleButton>
-    </ToggleButtonGroup>
+      <br /><br />
+
+      <ToggleButtonGroup type="radio" name="piece" value={selectedPiece} onChange={onSelect}>
+        {PIECES.map(p => renderPiece(p, true))}
+      </ToggleButtonGroup>
+
+      <br /><br />
+
+      <ToggleButtonGroup type="radio" name="piece" value={selectedPiece} onChange={onSelect}>
+        <ToggleButton value={'x'}>
+          <div style={GLYPH_STYLE}>
+            <Glyphicon glyph="remove"  />
+          </div>
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </React.Fragment>
   )
 }

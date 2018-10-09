@@ -79,11 +79,11 @@ export default class BoardEditorPage extends Component {
           <Col md={4}>
             <Alert>{playing ? status : 'Editing board'}</Alert>
 
-            {!playing && <PieceSelect selectedPiece={putPiece} onSelect={this.selectPiece} />}
-
             <Checkbox checked={playing} onClick={this.togglePlaying}>
               Playing
             </Checkbox>
+
+            {!playing && <PieceSelect selectedPiece={putPiece} onSelect={this.selectPiece} />}
 
             {notations.length > 0 && <MoveHistory notations={notations} />}
           </Col>
