@@ -15,11 +15,14 @@ import PieceSelect from './PieceSelect'
 import PlayerInfo from './PlayerInfo'
 
 export default class BoardEditorPage extends Component {
-  static routeWithFen = <Route path="/editor/:sen" component={BoardEditorPage}/>
+  static routeWithFen = <Route path="/editor/*" component={BoardEditorPage}/>
   static routeWithoutFen = <Route exact path="/editor" component={BoardEditorPage}/>
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+
+    const pos = props.match.params[0]
+    this.initialSen = pos ? pos + ' w KQkq KQkq - 0 0' : Board.startingSEN
 
     this.state = {
       state: State.ALIVE,
@@ -44,9 +47,6 @@ export default class BoardEditorPage extends Component {
       wPiecesCaptured, bPiecesCaptured
     } = this.state
 
-    const {sen} = this.props.match.params
-    const initialSen = sen || Board.startingSEN
-
     const gameOver = state !== State.ALIVE && state !== State.NOT_STARTED
 
     return (
@@ -55,7 +55,7 @@ export default class BoardEditorPage extends Component {
           <Col md={8}>
             <Board
               ref={r => this.board = r}
-              sen={initialSen}
+              sen={this.initialSen}
 
               showCoords={true}
               showLegalMoves={true}
@@ -112,9 +112,6 @@ export default class BoardEditorPage extends Component {
     )
   }
 
-  componentDidMount() {
-  }
-
   selectPiece = (putPiece) => {
     this.setState({putPiece})
   }
@@ -122,6 +119,13 @@ export default class BoardEditorPage extends Component {
   togglePlaying = () => {
     const {playing} = this.state
     this.setState({playing: !playing})
+
+    // When begin playing, set the SEN position to URL bar so that user can copy
+    if (!playing) {
+      const sen = this.board.position.senString
+      const pos = sen.substring(0, sen.indexOf(' '))
+      window.history.pushState(null, null, '/editor/' + pos)
+    }
   }
 
   onThisBoardMove(move, [notation, wPiecesCaptured, bPiecesCaptured]) {

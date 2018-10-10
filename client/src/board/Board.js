@@ -29,7 +29,11 @@ export default class Board extends Component {
     super(props)
 
     this.position = Position()
-    this.position.setSEN(props.sen)
+    try {
+      this.position.setSEN(props.sen)
+    } catch (e) {
+      this.position.setSEN(Board.startingSEN)
+    }
 
     this.kingChoice = ''
     this.kingRemoveChoices = []
