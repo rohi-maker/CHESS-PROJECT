@@ -1,17 +1,18 @@
 import React, {Component} from 'react'
 import {Alert, Button, Checkbox, Col, Glyphicon, Row} from 'react-bootstrap'
 import {Route} from 'react-router-dom'
-import {MoveData} from 'synergychess-engine'
 
 import Board from '../board/Board'
 import GameOverDlg from '../gamepage/GameOverDlg'
-import FullscreenButton, {FULLSCREEN_STYLE} from '../FullscreenButton'
 import MoveHistory from '../gamepage/MoveHistory'
+
+import FullscreenButton, {FULLSCREEN_STYLE} from '../FullscreenButton'
 
 import PlayerColor from '../gameconfig/PlayerColor'
 import State, {STATE_DESCS} from '../State'
 
 import PieceSelect from './PieceSelect'
+import PlayerInfo from './PlayerInfo'
 
 export default class BoardEditorPage extends Component {
   static routeWithFen = <Route path="/editor/:sen" component={BoardEditorPage}/>
@@ -86,7 +87,23 @@ export default class BoardEditorPage extends Component {
 
             {!playing && <PieceSelect selectedPiece={putPiece} onSelect={this.selectPiece} />}
 
-            {notations.length > 0 && <MoveHistory notations={notations} />}
+            {playing &&
+              <React.Fragment>
+                <PlayerInfo
+                  color={flipBoard ? PlayerColor.WHITE : PlayerColor.BLACK}
+                  wPiecesCaptured={wPiecesCaptured}
+                  bPiecesCaptured={bPiecesCaptured}
+                />
+
+                <PlayerInfo
+                  color={flipBoard ? PlayerColor.BLACK : PlayerColor.WHITE}
+                  wPiecesCaptured={wPiecesCaptured}
+                  bPiecesCaptured={bPiecesCaptured}
+                />
+
+                {notations.length > 0 && <MoveHistory notations={notations} />}
+              </React.Fragment>
+            }
           </Col>
         </Row>
 
