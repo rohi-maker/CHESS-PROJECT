@@ -114,7 +114,7 @@ export default class Board extends Component {
   }
 
   clickOnPiece(r, c) {
-    const {putPiece, onPut} = this.props
+    const {editor, putPiece, onPut} = this.props
     if (putPiece) {
       let modified
       if (putPiece === 'x') {
@@ -133,7 +133,7 @@ export default class Board extends Component {
     }
 
     // If this is not player turn, disable clicking on piece
-    if (this.myColor !== (this.position.color === "white" ? 0 : 1)) {
+    if (!editor && this.myColor !== (this.position.color === "white" ? 0 : 1)) {
       return
     }
 

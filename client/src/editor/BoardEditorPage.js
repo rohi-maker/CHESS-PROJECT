@@ -64,6 +64,7 @@ export default class BoardEditorPage extends Component {
               myColor={flipBoard ? PlayerColor.BLACK : PlayerColor.WHITE}
               onMove={this.onThisBoardMove.bind(this)}
 
+              editor
               putPiece={playing ? undefined : putPiece}
               onPut={this.clearMoveHistory}
             />
