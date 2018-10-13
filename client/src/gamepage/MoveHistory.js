@@ -13,8 +13,8 @@ const adjustKingRemovals = (moves) => {
     const ms = move.split(', ')
 
     if (ms.length === 2) {
-      ret[i - 1] += ms[0]
       ret.push(ms[1])
+      ret[i] += ms[0]
     } else {
       ret.push(move)
     }
