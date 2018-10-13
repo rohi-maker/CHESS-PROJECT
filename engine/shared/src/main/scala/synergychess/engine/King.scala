@@ -120,7 +120,13 @@ class King(override val color: String, override val basePos: Point) extends Piec
             pos.x += inc
             val p2str = pos.toString
 
-            if (board.getSquare(p1str) != null || board.getSquare(p2str) != null) {}
+            pos.x += inc
+            val p3str = pos.toString
+
+            var invalid = false
+            if ((p3str == "D3" || p3str == "D10") && board.getSquare(p3str) != null) invalid = true
+
+            if (board.getSquare(p1str) != null || board.getSquare(p2str) != null || invalid) {}
             else if (!(board.underAttack(color, p1str) || board.underAttack(color, p2str))) {
               valids.append(p2str)
             }
@@ -137,6 +143,14 @@ class King(override val color: String, override val basePos: Point) extends Piec
             val points = basePos.pointsBetween(target)
 
             var pointsBtwn = points.clone()
+
+            var nothingBetween = true
+            for (i <- points.indices.dropRight(1)) {
+              if (board.getSquare(points(i)) != null) {
+                nothingBetween = false
+              }
+            }
+            if (!nothingBetween) return
 
             for (i <- points.indices) {
               if (board.underAttack(color, points(i)) || board.getSquare(points(i)) != null && !targets.contains(points(i))) {
