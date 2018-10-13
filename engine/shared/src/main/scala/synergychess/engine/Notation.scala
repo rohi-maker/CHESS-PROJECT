@@ -150,7 +150,7 @@ case class Notation (
       mainNotation = moveTo.toLowerCase + "=" + promoPiece
     else
       mainNotation = pChar(piece) +
-        (if (isTaken) if (piece == "pawn") fileFrom + "x" else "x" else "") +
+        (if (isTaken || enPassant) if (piece == "pawn") fileFrom + "x" else "x" else "") +
         moveTo.toLowerCase
 
     if (isDoubleThreat) { //threatened by another of the same type of piece
