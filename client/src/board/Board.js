@@ -321,8 +321,7 @@ export default class Board extends Component {
   getPromotionButtons() {
     if (this.state.isPromoting) {
       const board = GameGenerator.loadFromSEN(this.state.sen)
-      let x, y
-      [x, y] = Helper.toPos(this.state.currentMove)
+      const [x, y] = Helper.toPos(this.state.currentMove)
       const availablePieces = Helper.getAvailablePieces(this.state.sen, Helper.getTeam(board[x][y]))
 
       return <ButtonToolbar>
