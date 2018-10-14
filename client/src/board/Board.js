@@ -60,15 +60,14 @@ export default class Board extends Component {
 
   componentDidMount() {
     this.resize()
-    this.bindedResize = this.resize.bind(this)
-    window.addEventListener('resize', this.bindedResize)
+    window.addEventListener('resize', this.resize)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.bindedResize)
+    window.removeEventListener('resize', this.resize)
   }
 
-  resize() {
+  resize = () => {
     const boardSize = Math.min(this.table.parentElement.clientWidth, window.innerHeight) - COORDS_SIZE
     this.setState({boardSize})
   }

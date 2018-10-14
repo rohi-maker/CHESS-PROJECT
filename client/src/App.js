@@ -35,7 +35,7 @@ export default class App extends Component {
           <Header />
 
           {!this.state.flashDismissed && window.$me.flash &&
-            <Alert bsStyle="info" onDismiss={this.dismissFlash.bind(this)}>{window.$me.flash}</Alert>
+            <Alert bsStyle="info" onDismiss={this.dismissFlash}>{window.$me.flash}</Alert>
           }
 
           {TopPage.route}
@@ -65,7 +65,7 @@ export default class App extends Component {
     )
   }
 
-  dismissFlash() {
+  dismissFlash = () => {
     this.setState({flashDismissed: true})
   }
 }

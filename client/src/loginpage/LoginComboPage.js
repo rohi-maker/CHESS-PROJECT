@@ -57,21 +57,21 @@ export default class LoginComboPage extends Component {
             <Tab eventKey={1} title="Login">
               <Panel><Panel.Body>
                 <br />
-                <UsernameLogin onFormSubmit={this.onFormSubmit.bind(this)} />
+                <UsernameLogin onFormSubmit={this.onFormSubmit} />
               </Panel.Body></Panel>
             </Tab>
 
             <Tab eventKey={2} title="Register">
               <Panel><Panel.Body>
                 <br />
-                <UsernameRegister onFormSubmit={this.onFormSubmit.bind(this)} />
+                <UsernameRegister onFormSubmit={this.onFormSubmit} />
               </Panel.Body></Panel>
             </Tab>
 
             <Tab eventKey={3} title="Forgot password">
               <Panel><Panel.Body>
                 <br />
-                <ForgotPassword onFormSubmit={this.onFormSubmit.bind(this)} />
+                <ForgotPassword onFormSubmit={this.onFormSubmit} />
               </Panel.Body></Panel>
             </Tab>
           </Tabs>
@@ -80,7 +80,7 @@ export default class LoginComboPage extends Component {
     )
   }
 
-  onFormSubmit(doWithCaptchaResponse, e) {
+  onFormSubmit = (doWithCaptchaResponse, e) => {
     ReCaptcha.onFormSubmit(doWithCaptchaResponse, e)
   }
 }

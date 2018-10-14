@@ -18,7 +18,7 @@ export default class UsernameLogin extends Component {
 
   render() {
     return (
-      <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse.bind(this), e)}>
+      <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse, e)}>
         {this.state.status && <Alert bsStyle="info">{this.state.status}</Alert>}
 
         <FormGroup>
@@ -58,7 +58,7 @@ export default class UsernameLogin extends Component {
     )
   }
 
-  doWithReCaptchaResponse(response) {
+  doWithReCaptchaResponse = (response) => {
     this.setState({sending: true, status: 'Please wait...'})
 
     const {usernameOrEmail, password} = this.state

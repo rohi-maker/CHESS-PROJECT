@@ -31,7 +31,7 @@ export default class UsernameRegister extends Component {
       password2ValidationState !== null
 
     return (
-      <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse.bind(this), e)}>
+      <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse, e)}>
         {this.state.status && <Alert bsStyle="info">{this.state.status}</Alert>}
 
         <FormGroup validationState={emailValidationState}>
@@ -125,7 +125,7 @@ export default class UsernameRegister extends Component {
       : 'warning'
   }
 
-  doWithReCaptchaResponse(response) {
+  doWithReCaptchaResponse = (response) => {
     this.setState({sending: true, status: 'Please wait...'})
 
     const {username, email, password} = this.state

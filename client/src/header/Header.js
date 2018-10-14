@@ -20,30 +20,30 @@ class Header extends Component {
 
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} href="/" onClick={this.goTo.bind(this)}>
+            <NavItem eventKey={1} href="/" onClick={this.goTo}>
               Home
             </NavItem>
 
-            <NavItem eventKey={2} href="/ended" onClick={this.goTo.bind(this)}>
+            <NavItem eventKey={2} href="/ended" onClick={this.goTo}>
               Ended games
             </NavItem>
 
-            <NavItem eventKey={3} href="/ranking" onClick={this.goTo.bind(this)}>
+            <NavItem eventKey={3} href="/ranking" onClick={this.goTo}>
               Ranking
             </NavItem>
 
-            <NavItem eventKey={4} href="/editor" onClick={this.goTo.bind(this)}>
+            <NavItem eventKey={4} href="/editor" onClick={this.goTo}>
               Board editor
             </NavItem>
 
             {userType === USER_GUEST &&
-              <NavItem eventKey={5} href="/login" onClick={this.goTo.bind(this)}>
+              <NavItem eventKey={5} href="/login" onClick={this.goTo}>
                 Login | {username}
               </NavItem>
             }
 
             {userType !== USER_GUEST &&
-              <NavItem eventKey={5} href={`/users/${username}`} onClick={this.goTo.bind(this)}>
+              <NavItem eventKey={5} href={`/users/${username}`} onClick={this.goTo}>
                 {username}
               </NavItem>
             }
@@ -59,7 +59,7 @@ class Header extends Component {
     )
   }
 
-  goTo(e) {
+  goTo = (e) => {
     e.preventDefault()
     this.props.history.push(e.target.getAttribute('href'))
     return false

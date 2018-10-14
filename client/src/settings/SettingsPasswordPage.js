@@ -44,7 +44,7 @@ export default class SettingsPasswordPage extends Component {
           <Panel><Panel.Body>
             <h3>Change password</h3>
 
-            <Form horizontal onSubmit={this.onSave.bind(this)}>
+            <Form horizontal onSubmit={this.onSave}>
               {this.state.status && <Alert bsStyle="info">{this.state.status}</Alert>}
 
               {!resetPassword &&
@@ -117,7 +117,7 @@ export default class SettingsPasswordPage extends Component {
       : 'warning'
   }
 
-  onSave(e) {
+  onSave = (e) => {
     this.setState({sending: true, status: 'Please wait...'})
 
     const {reset} = qs.parse(window.location.search, {ignoreQueryPrefix: true})

@@ -56,7 +56,7 @@ class Lobby extends Component {
           </thead>
 
           <tbody>
-            {this.state.configs.map(this.renderGameConfig.bind(this))}
+            {this.state.configs.map(this.renderGameConfig)}
           </tbody>
         </Table>
 
@@ -76,8 +76,8 @@ class Lobby extends Component {
 
         <GameConfig
           {...this.state.configDlg}
-          onOk={this.createNewGame.bind(this)}
-          onCancel={this.hideGameConfigDlg.bind(this)}
+          onOk={this.createNewGame}
+          onCancel={this.hideGameConfigDlg}
         />
       </div>
     )
@@ -105,7 +105,7 @@ class Lobby extends Component {
     this.sock.close()
   }
 
-  renderGameConfig({creatorId, creatorColor, creatorPoint, timeLimitSecs, timeBonusSecs, rated}, idx) {
+  renderGameConfig = ({creatorId, creatorColor, creatorPoint, timeLimitSecs, timeBonusSecs, rated}, idx) => {
     const color = <PlayerColor color={creatorColor} />
 
     const rating =
@@ -178,13 +178,13 @@ class Lobby extends Component {
     this.setState({configDlg})
   }
 
-  hideGameConfigDlg() {
+  hideGameConfigDlg = () => {
     const {configDlg} = this.state
     configDlg.show = false
     this.setState({configDlg})
   }
 
-  createNewGame({limit, bonus, level, color, rated}) {
+  createNewGame = ({limit, bonus, level, color, rated}) => {
     const {withComputer} = this.state.configDlg
 
     this.sock.send(JSON.stringify({

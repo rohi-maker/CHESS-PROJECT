@@ -22,7 +22,7 @@ export default class ForgotPassword extends Component {
     const submitDisabled = emailValidationState !== null
 
     return (
-      <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse.bind(this), e)}>
+      <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse, e)}>
         {status && <Alert bsStyle="info">{status}</Alert>}
 
         <FormGroup validationState={emailValidationState}>
@@ -56,7 +56,7 @@ export default class ForgotPassword extends Component {
       : 'warning'
   }
 
-  doWithReCaptchaResponse(response) {
+  doWithReCaptchaResponse = (response) => {
     this.setState({sending: true, status: 'Please wait...'})
 
     const {email} = this.state

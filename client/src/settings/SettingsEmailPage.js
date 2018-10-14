@@ -38,7 +38,7 @@ export default class SettingsEmailPage extends Component {
           <Panel><Panel.Body>
             <h3>Change email</h3>
 
-            <Form horizontal onSubmit={this.onSave.bind(this)}>
+            <Form horizontal onSubmit={this.onSave}>
               {this.state.status && <Alert bsStyle="info">{this.state.status}</Alert>}
 
               <FormGroup validationState={emailValidationState}>
@@ -75,7 +75,7 @@ export default class SettingsEmailPage extends Component {
       : 'warning'
   }
 
-  onSave(e) {
+  onSave = (e) => {
     this.setState({sending: true, status: 'Please wait...'})
 
     const {email} = this.state

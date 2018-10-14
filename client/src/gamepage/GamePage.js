@@ -76,7 +76,7 @@ export default class GamePage extends Component {
               viewAsBlackPlayer={flipBoard ? !viewAsBlackPlayer : viewAsBlackPlayer}
               allowMove={allowMove}
               myColor={myColor}
-              onMove={this.onThisBoardMove.bind(this)}
+              onMove={this.onThisBoardMove}
             />
 
             <Button bsStyle="primary" onClick={() => this.setState({flipBoard: !flipBoard})}>
@@ -219,7 +219,7 @@ export default class GamePage extends Component {
     }
   }
 
-  onThisBoardMove(move, [notation, wPiecesCaptured, bPiecesCaptured]) {
+  onThisBoardMove = (move, [notation, wPiecesCaptured, bPiecesCaptured]) => {
     const moveString = moveToString(move)
     this.sock.send(JSON.stringify({type: 'Move', move: moveString}))
 

@@ -63,7 +63,7 @@ export default class BoardEditorPage extends Component {
               viewAsBlackPlayer={flipBoard}
               allowMove={true}
               myColor={flipBoard ? PlayerColor.BLACK : PlayerColor.WHITE}
-              onMove={this.onThisBoardMove.bind(this)}
+              onMove={this.onThisBoardMove}
 
               editor
               putPiece={playing ? undefined : putPiece}
@@ -128,7 +128,7 @@ export default class BoardEditorPage extends Component {
     }
   }
 
-  onThisBoardMove(move, [notation, wPiecesCaptured, bPiecesCaptured]) {
+  onThisBoardMove = (move, [notation, wPiecesCaptured, bPiecesCaptured]) => {
     this.appendMoveHistory(notation)
     this.setState({wPiecesCaptured, bPiecesCaptured})
   }
