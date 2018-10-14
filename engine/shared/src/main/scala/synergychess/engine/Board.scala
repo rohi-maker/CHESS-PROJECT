@@ -396,11 +396,11 @@ class Board {
               notation.isDoubleThreat = true
 
               // Compare file, if the same, then
-              if (fromPoint.y == adj.y) {
+              if (fromPoint.x == adj.x) {
                 notation.rankNeeded = true
               }
               // Compare rank, if the same, then
-              if (fromPoint.x == adj.x) {
+              if (fromPoint.y == adj.y) {
                 notation.fileNeeded = true
               }
 
