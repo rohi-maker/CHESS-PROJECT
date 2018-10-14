@@ -17,9 +17,11 @@ export default class UsernameLogin extends Component {
   }
 
   render() {
+    const {usernameOrEmail, password, sending, status} = this.state
+
     return (
       <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse, e)}>
-        {this.state.status && <Alert bsStyle="info">{this.state.status}</Alert>}
+        {status && <Alert bsStyle="info">{status}</Alert>}
 
         <FormGroup>
           <Col componentClass={ControlLabel} sm={4}>
@@ -29,7 +31,7 @@ export default class UsernameLogin extends Component {
             <FormControl
               type="text"
               placeholder="Username or email"
-              value={this.state.email}
+              value={usernameOrEmail}
               onChange={e => this.setState({usernameOrEmail: e.target.value.trim()})}
             />
           </Col>
@@ -43,7 +45,7 @@ export default class UsernameLogin extends Component {
             <FormControl
               type="password"
               placeholder="Password"
-              value={this.state.password}
+              value={password}
               onChange={e => this.setState({password: e.target.value.trim()})}
             />
           </Col>
@@ -51,7 +53,7 @@ export default class UsernameLogin extends Component {
 
         <FormGroup>
           <Col smOffset={4} sm={8}>
-            <Button type="submit" disabled={this.state.sending}>Login</Button>
+            <Button type="submit" disabled={sending}>Login</Button>
           </Col>
         </FormGroup>
       </Form>
