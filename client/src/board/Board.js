@@ -101,6 +101,7 @@ export default class Board extends Component {
     this.kingRemoveChoices = kingRemoveChoices
 
     const lastMove = [move[0], move[1]]
+    this.kingChoice = ''
     this.setState({
       sen: this.position.senString,
       currentMove: '',
