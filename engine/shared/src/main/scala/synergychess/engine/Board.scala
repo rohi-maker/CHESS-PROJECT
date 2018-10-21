@@ -364,8 +364,6 @@ class Board {
           if (fromPoint.y != toPoint.y && toPoint.y == posPoint.y) notation.fileNeeded = true
           // The rook is moving along a file, and another rook is threatening the target square along it's rank
           if (fromPoint.x != toPoint.x && toPoint.x == posPoint.x) notation.rankNeeded = true
-
-          return notation
         }
       }
     }
