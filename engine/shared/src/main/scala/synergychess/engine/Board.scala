@@ -248,12 +248,12 @@ class Board {
 
             // Compare file, if the same, then
             if (fromPoint.y == adj.y) {
-              notation.rankNeeded = true
+              notation.fileNeeded = true
             }
 
             // Compare rank, if the same, then
             if (fromPoint.x == adj.x) {
-              notation.fileNeeded = true
+              notation.rankNeeded = true
             }
 
             // If a double threat with no common rank or file => either rank or file is okay
