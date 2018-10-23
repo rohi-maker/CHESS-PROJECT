@@ -77,6 +77,7 @@ export default class Board extends Component {
     const move = moveData.getDataFromString(moveString)
     let [mateData, notation] = this.position.updatePositionFromString(moveString)
 
+    this.kingChoice = ''
     // Check checkmate
     let kingRemoveChoices = []
     mateData = mateData.split(",")
@@ -101,7 +102,6 @@ export default class Board extends Component {
     this.kingRemoveChoices = kingRemoveChoices
 
     const lastMove = [move[0], move[1]]
-    this.kingChoice = ''
     this.setState({
       sen: this.position.senString,
       currentMove: '',

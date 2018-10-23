@@ -77,6 +77,19 @@ class EndConditions() {
       }))
     }
 
+    def tryKing(pos: String): Boolean = {
+      val piece = if (kings(0).toString == pos) kings(1) else kings(0)
+
+      // Remove a king and see if still in checkMate
+      val oldKing = new King(board.getSquare(piece).asInstanceOf[King])
+
+      board.setSquare(piece, null)
+
+      val mate = singleKingMated(board, pos)
+
+      board.setSquare(piece, oldKing)
+      mate
+    }
 
     if (doubleCheck) {
       def doubleCheckMate(): Boolean = {
@@ -116,29 +129,19 @@ class EndConditions() {
 
       val safeKings = ArrayBuffer[String]()
 
-      def tryKing(pos: String) {
-        val piece = if (kings(0).toString == pos.toString) kings(1) else kings(0)
+      if (!tryKing(kings(0))) safeKings.append(kings(0))
+      else mateData.kingsDead.append(kings(0))
 
-        // Remove a king and see if still in checkMate
-        val oldKing = new King(board.getSquare(piece).asInstanceOf[King])
-
-        board.setSquare(piece, null)
-
-        val mate = singleKingMated(board, pos)
-
-        if (!mate) safeKings.append(pos)
-        else mateData.kingsDead.append(pos)
-
-        board.setSquare(piece, oldKing)
-      }
-
-      tryKing(kings(0))
-      tryKing(kings(1))
+      if (!tryKing(kings(1))) safeKings.append(kings(1))
+      else mateData.kingsDead.append(kings(1))
       mateData.safeKings = safeKings
     } else {
       if (singleKingMated(board, kings(0))) {
         mateData.kingsDead.append(kings(0))
         mateData.checkMate = true
+
+        val otherKing = board.getKingPositions(color).filter(k => k != kings(0))(0)
+        if (tryKing(otherKing)) mateData.trueCheckMate = true
       }
     }
 
