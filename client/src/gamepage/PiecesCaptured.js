@@ -6,7 +6,7 @@ import PlayerColor from '../gameconfig/PlayerColor'
 import './PiecesCaptured.css'
 
 const renderPiece = (color, pieceName, num) => {
-  if (num === 0) return null
+  if (num <= 0) return null
 
   const c = color === PlayerColor.BLACK ? 'b' : 'w'
   const src = IMGS[`${pieceName}_${c}`]
