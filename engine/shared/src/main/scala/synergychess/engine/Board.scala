@@ -358,12 +358,6 @@ class Board {
           if (fromPoint.y == posPoint.y) notation.fileNeeded = true
           // The moving rook and the found rook are on the same file, rank needed
           if (fromPoint.x == posPoint.x) notation.rankNeeded = true
-
-          // Intersecting moves
-          // The rook is moving along a rank, and another rook is threatening the target square along it's file
-          if (fromPoint.y != toPoint.y && toPoint.y == posPoint.y) notation.fileNeeded = true
-          // The rook is moving along a file, and another rook is threatening the target square along it's rank
-          if (fromPoint.x != toPoint.x && toPoint.x == posPoint.x) notation.rankNeeded = true
         }
       }
     }
