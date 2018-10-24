@@ -140,8 +140,12 @@ class EndConditions() {
         mateData.kingsDead.append(kings(0))
         mateData.checkMate = true
 
-        val otherKing = board.getKingPositions(color).filter(k => k != kings(0))(0)
-        if (tryKing(otherKing)) mateData.trueCheckMate = true
+        val otherKing = board.getKingPositions(color).filter(k => k != kings(0))
+        if (otherKing.length == 0) {
+          mateData.trueCheckMate = true
+        } else {
+          if (tryKing(otherKing(0))) mateData.trueCheckMate = true
+        }
       }
     }
 
