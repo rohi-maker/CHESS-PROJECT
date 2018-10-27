@@ -1,7 +1,11 @@
 import React from 'react'
 import {Button, Glyphicon} from 'react-bootstrap'
 
-export const FULLSCREEN_STYLE = {width: '100%', height: '100%'}
+export const FULLSCREEN_STYLE = {
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'white'
+}
 
 const fullscreenEnabled =
   document.fullscreenEnabled ||
