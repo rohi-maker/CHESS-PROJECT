@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, ButtonToolbar} from 'react-bootstrap'
+import {Button, ButtonToolbar, Modal} from 'react-bootstrap'
 
 import Helper from './Helper.js'
 import {Position, GameGenerator, MoveData} from 'synergychess-engine'
@@ -54,6 +54,7 @@ export default class Board extends Component {
       currentMove: '',
       lastMove: [],
       isPromoting: false,
+      isSelectingCastle: false,
       value: ''
     }
   }
@@ -155,8 +156,7 @@ export default class Board extends Component {
     let row = r, col = c
 
     // x, y is the position of the clicked piece
-    let x, y
-    [x, y] = Helper.toPos(this.state.currentMove)
+    const [x, y] = Helper.toPos(this.state.currentMove)
 
     const board = GameGenerator.loadFromSEN(this.state.sen)
 
@@ -192,20 +192,13 @@ export default class Board extends Component {
         return
       }
 
-      let move
-      if (this.rookPos.length !== 0 && row === this.rookPos[0] && col === this.rookPos[1]) {
-        move = {
-          from: this.state.currentMove,
-          to: this.kingPlacement
-        }
-      } else {
-        move = {
-          castling: true,
-          from: this.state.currentMove,
-          to: this.kingPlacement,
-          rookPlacement: Helper.toSEN(row, col)
-        }
+      const move = {
+        castling: true,
+        from: this.state.currentMove,
+        to: this.kingPlacement,
+        rookPlacement: Helper.toSEN(row, col)
       }
+
       this.props.onMove(move, this.move(moveToString(move)))
       this.castling = false
       return
@@ -230,36 +223,28 @@ export default class Board extends Component {
         }
       } else if (row === 0 || row === 11) {
         // Outer rank
-        board[row][col] = board[x][y]
-        board[x][y] = ''
-        let sen = this.state.sen
-        sen = Helper.move(sen, x, y, '')
-        sen = Helper.move(sen, row, col, board[row][col])
+        if (col - y === 1 || col - y === -1) {
+          let sen = this.state.sen
+          sen = Helper.move(sen, row, col, board[x][y])
+          sen = Helper.move(sen, x, y, '')
+          this.kingPlacement = Helper.toSEN(row, col)
 
+          this.setState({sen, isSelectingCastle: true})
+          return
+        }
+
+        this.castling = true
+        this.kingPlacement = Helper.toSEN(row, col)
         const validMoves = []
-
         for (let i = Math.min(y, col); i <= Math.max(y, col); i++) {
           if (i !== col) {
             validMoves.push([row, i])
           }
         }
+        let sen = this.state.sen
+        sen = Helper.move(sen, row, col, board[x][y])
+        sen = Helper.move(sen, x, y, '')
 
-        if (col - y === 1) {
-          if (window.confirm('Do you wish to castle?')) {
-            this.rookPos = [row, 11]
-            validMoves.push([row, 11])
-          }
-        } else if (col - y === -1) {
-          if (window.confirm('Do you wish to castle?')) {
-            this.rookPos = [row, 0]
-            validMoves.push([row, 0])
-          }
-        } else {
-          this.rookPos = []
-        }
-
-        this.castling = true
-        this.kingPlacement = Helper.toSEN(row, col)
         this.setState({
           validMoves,
           sen
@@ -392,6 +377,33 @@ export default class Board extends Component {
       (hilightLastMove && !hilightLegal ? ' highlight highlight-last-move' : '')
   }
 
+  selectCastle(choice) {
+    if (choice === 'cancel') {
+      const [x, y] = Helper.toPos(this.state.currentMove)
+      const [row, col] = Helper.toPos(this.kingPlacement)
+      const board = GameGenerator.loadFromSEN(this.state.sen)
+      let sen = this.state.sen
+      sen = Helper.move(sen, x, y, board[row][col])
+      sen = Helper.move(sen, row, col, '')
+      this.setState({sen, currentMove: '', validMoves: [], isSelectingCastle: false})
+    } else {
+      const move = (choice === 'yes')
+        ? {
+          castling: true,
+          from: this.state.currentMove,
+          to: this.kingPlacement,
+          rookPlacement: this.state.currentMove
+        }
+        : {
+          from: this.state.currentMove,
+          to: this.kingPlacement
+        }
+
+      this.props.onMove(move, this.move(moveToString(move)))
+      this.setState({isSelectingCastle: false})
+    }
+  }
+
   render() {
     let board = GameGenerator.loadFromSEN(this.state.sen)
     const validMoves = this.state.validMoves.map(e => this.getPosAsBlackPlayer(e))
@@ -409,6 +421,24 @@ export default class Board extends Component {
     return (
       <div>
         {this.getPromotionButtons()}
+
+        {
+          (!this.state.isSelectingCastle)
+            ? <React.Fragment />
+            : <Modal.Dialog onHide={!this.state.isSelectingCastle}>
+              <Modal.Header>
+                <Modal.Title>Castling</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>Do you want to castle?</Modal.Body>
+
+              <Modal.Footer>
+                <Button onClick={() => this.selectCastle('cancel')}>Cancel</Button>
+                <Button onClick={() => this.selectCastle('no')}>No</Button>
+                <Button onClick={() => this.selectCastle('yes')} bsStyle="primary">Yes</Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+        }
 
         <table className="board" ref={r => this.table = r}>
           <tbody>
