@@ -67,9 +67,18 @@ export default class MoveHistory extends Component {
                 {blackMove && <td>{blackMove}</td>}
               </tr>
             ))}
+            <tr key="dummy-bottom" ref={(e => this.end = e)}></tr>
           </tbody>
         </Table>
       </div>
     )
+  }
+
+  scrollToBottom = () => {
+    if (this.end) this.end.scrollIntoView({behavior: "smooth", block: "end"});
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
   }
 }
