@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Alert, Button, Col, ControlLabel, Form, FormControl, FormGroup} from 'react-bootstrap'
+import {Alert, Button, Col, ControlLabel, Form, FormControl, FormGroup, Checkbox} from 'react-bootstrap'
 import qs from 'qs'
 
 import validateEmail from '../validateEmail'
@@ -15,7 +15,8 @@ export default class UsernameRegister extends Component {
       password: '',
       password2: '',
       sending: false,
-      status: undefined
+      status: undefined,
+      checked: false
     }
   }
 
@@ -28,7 +29,8 @@ export default class UsernameRegister extends Component {
       emailValidationState !== null ||
       usernameValidationState !== null ||
       passwordValidationState !== null ||
-      password2ValidationState !== null
+      password2ValidationState !== null ||
+      !this.state.checked
 
     return (
       <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse, e)}>
@@ -91,6 +93,20 @@ export default class UsernameRegister extends Component {
         </FormGroup>
 
         <FormGroup>
+          <Col componentClass={ControlLabel} sm={4}>
+          </Col>
+          <Col sm={8}>
+            <Checkbox
+              inputRef={ref => {this.checkbox = ref}}
+              onChange={this.isChecked.bind(this)}
+              validationState='success'
+            >
+              By joining this site I agree to the terms, and conditions
+            </Checkbox>
+          </Col>
+        </FormGroup>
+
+        <FormGroup>
           <Col smOffset={4} sm={8}>
             <Button type="submit" disabled={submitDisabled || this.state.sending}>
               Register
@@ -99,6 +115,11 @@ export default class UsernameRegister extends Component {
         </FormGroup>
       </Form>
     )
+  }
+
+  isChecked() {
+    if (this.checkbox && this.checkbox.checked !== this.state.checked)
+      this.setState({checked: this.checkbox.checked})
   }
 
   emailValidationState() {
