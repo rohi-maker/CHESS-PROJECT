@@ -67,7 +67,7 @@ export default class MoveHistory extends Component {
                 {blackMove && <td>{blackMove}</td>}
               </tr>
             ))}
-            <tr key="dummy-bottom" ref={(e => this.end = e)}></tr>
+            <tr ref={e => this.end = e}></tr>
           </tbody>
         </Table>
       </div>
