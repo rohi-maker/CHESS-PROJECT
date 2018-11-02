@@ -101,7 +101,13 @@ export default class UsernameRegister extends Component {
               onChange={this.isChecked.bind(this)}
               validationState='success'
             >
-              By joining this site I agree to the terms, and conditions
+              <a
+                href="https://play.synergychess.net/terms"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                By joining this site I agree to the terms, and conditions
+              </a>
             </Checkbox>
           </Col>
         </FormGroup>
