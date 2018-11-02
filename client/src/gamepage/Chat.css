@@ -3,6 +3,7 @@
   height: 200px;
   border: solid 1px silver;
   margin-bottom: 0.5em;
+  overflow: scroll;
 }
 
 .chat-input {

@@ -36,6 +36,7 @@ export default class Chat extends Component {
   onMsg(username, msg) {
     const line = createChatLine(username, msg)
     this.output.appendChild(line)
+    this.output.lastChild.scrollIntoView({behavior: "smooth", block: "end"});
   }
 
   onSubmit = (event) => {
