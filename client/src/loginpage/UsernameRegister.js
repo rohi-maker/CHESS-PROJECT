@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Alert, Button, Col, ControlLabel, Form, FormControl, FormGroup, Checkbox} from 'react-bootstrap'
+import {Link} from 'react-router-dom'
 import qs from 'qs'
 
 import validateEmail from '../validateEmail'
@@ -14,13 +15,15 @@ export default class UsernameRegister extends Component {
       username: '',
       password: '',
       password2: '',
+      termsAgreed: false,
       sending: false,
-      status: undefined,
-      checked: false
+      status: undefined
     }
   }
 
   render() {
+    const {email, username, password, password2, termsAgreed, sending, status} = this.state
+
     const emailValidationState = this.emailValidationState()
     const usernameValidationState = this.usernameValidationState()
     const passwordValidationState = this.passwordValidationState()
@@ -30,11 +33,11 @@ export default class UsernameRegister extends Component {
       usernameValidationState !== null ||
       passwordValidationState !== null ||
       password2ValidationState !== null ||
-      !this.state.checked
+      !termsAgreed
 
     return (
       <Form horizontal onSubmit={e => this.props.onFormSubmit(this.doWithReCaptchaResponse, e)}>
-        {this.state.status && <Alert bsStyle="info">{this.state.status}</Alert>}
+        {status && <Alert bsStyle="info">{status}</Alert>}
 
         <FormGroup validationState={emailValidationState}>
           <Col componentClass={ControlLabel} sm={4}>
@@ -44,7 +47,7 @@ export default class UsernameRegister extends Component {
             <FormControl
               type="email"
               placeholder="Email"
-              value={this.state.email}
+              value={email}
               onChange={e => this.setState({email: e.target.value.trim()})}
             />
           </Col>
@@ -58,7 +61,7 @@ export default class UsernameRegister extends Component {
             <FormControl
               type="text"
               placeholder="Cannot change later"
-              value={this.state.username}
+              value={username}
               onChange={e => this.setState({username: e.target.value.trim().toLowerCase()})}
             />
           </Col>
@@ -72,7 +75,7 @@ export default class UsernameRegister extends Component {
             <FormControl
               type="password"
               placeholder="Password"
-              value={this.state.password}
+              value={password}
               onChange={e => this.setState({password: e.target.value.trim()})}
             />
           </Col>
@@ -86,7 +89,7 @@ export default class UsernameRegister extends Component {
             <FormControl
               type="password"
               placeholder="Confirm password"
-              value={this.state.password2}
+              value={password2}
               onChange={e => this.setState({password2: e.target.value.trim()})}
             />
           </Col>
@@ -97,35 +100,23 @@ export default class UsernameRegister extends Component {
           </Col>
           <Col sm={8}>
             <Checkbox
-              inputRef={ref => {this.checkbox = ref}}
-              onChange={this.isChecked.bind(this)}
-              validationState='success'
+              value={termsAgreed}
+              onChange={() => this.setState({termsAgreed: !termsAgreed})}
             >
-              <a
-                href="https://play.synergychess.net/terms"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                By joining this site I agree to the terms, and conditions
-              </a>
+              By joining this site I agree to <Link to="/terms" target="_blank">the terms, and conditions</Link>.
             </Checkbox>
           </Col>
         </FormGroup>
 
         <FormGroup>
           <Col smOffset={4} sm={8}>
-            <Button type="submit" disabled={submitDisabled || this.state.sending}>
+            <Button type="submit" disabled={submitDisabled || sending}>
               Register
             </Button>
           </Col>
         </FormGroup>
       </Form>
     )
-  }
-
-  isChecked() {
-    if (this.checkbox && this.checkbox.checked !== this.state.checked)
-      this.setState({checked: this.checkbox.checked})
   }
 
   emailValidationState() {
