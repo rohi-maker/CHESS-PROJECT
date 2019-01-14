@@ -49,8 +49,8 @@ class EndConditions() {
       val currTeamAtking = sqsAtkdBy(color)
       val oppTeamAtking = sqsAtkdBy(oppTeam)
 
-      val attackers = oppTeamAtking(king)
-      if (attackers.isEmpty) return false
+      val attackers = if (oppTeamAtking contains king) oppTeamAtking(king) else null
+      if (attackers == null) return false
 
       // Can't block/capture a double check
       if (attackers.length >= 2) return true
