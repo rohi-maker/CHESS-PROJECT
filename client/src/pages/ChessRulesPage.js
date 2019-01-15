@@ -25,22 +25,19 @@ export default class ChessRulesPage extends Component {
         <h3>3. Pinned Kings – Rook</h3>
         <iframe title="3. Pinned Kings – Rook" width="669" height="376" src="https://www.youtube.com/embed/eTtN8hmuo2s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-        <h3>4. Pinned Kings – Queen</h3>
-        <iframe title="3. Pinned Kings – Queen" width="669" height="376" src="https://www.youtube.com/embed/lIQXxfvt_18" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-        <h3>5. Double Check – Knight</h3>
+        <h3>4. Double Check – Knight</h3>
         <iframe title="4. Double Check – Knight" width="669" height="376" src="https://www.youtube.com/embed/4__Kp4h_Tf0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-        <h3>6. Double Check – Rook</h3>
+        <h3>5. Double Check – Rook</h3>
         <iframe title="4. Double Check – Rook" width="669" height="376" src="https://www.youtube.com/embed/7Nr_CVjXM5U" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-        <h3>7. Checkmate – Be Careful !!</h3>
+        <h3>6. Checkmate – Be Careful !!</h3>
         <iframe title="5.Checkmate – Be Careful !!" width="669" height="376" src="https://www.youtube.com/embed/r7K3bQ45iWQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-        <h3>8. Castling</h3>
+        <h3>7. Castling</h3>
         <iframe title="6. Castling" width="669" height="376" src="https://www.youtube.com/embed/TANpFOMX5MY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-        <h3>9. Pawn Promotion</h3>
+        <h3>8. Pawn Promotion</h3>
         <iframe title="7. Pawn Promotion" width="669" height="376" src="https://www.youtube.com/embed/q8Mfa38m6xA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     )
