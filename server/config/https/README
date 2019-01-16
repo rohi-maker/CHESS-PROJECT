@@ -1,4 +1,4 @@
-This directory contains your keys and certificates.
+This directory contains keys and certificates for http://play.synergychess.net.
 
 `privkey.pem`  : the private key for your certificate.
 `fullchain.pem`: the certificate file used in most server software.
