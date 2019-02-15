@@ -271,16 +271,41 @@ case class Game() {
           val validMoves = piece._2.validMoves(from)
 
           for (validMove <- validMoves) {
-            // Cannot reuse "from" above
-            val moveData = MoveData()
-            moveData.from = from.from
-            moveData.to = validMove
-            moveData.board = board
-            moveData.castling = castling
-            moveData.enPassant = enPassant
-            moveData.kingChoice = kingChoice
+            def getMoveData: MoveData = {
+              // Cannot reuse "from" above
+              val moveData = MoveData()
+              moveData.from = from.from
+              moveData.to = validMove
+              moveData.board = board
+              moveData.castling = castling
+              moveData.enPassant = enPassant
+              moveData.kingChoice = kingChoice
+              moveData
+            }
 
-            ret.append(moveData)
+            val pos = new Point(validMove)
+            if (piece._2.name == "pawn" && (pos.y == 1 || pos.y == 12)) {
+              val (safeSqs, valids) = validPromotions(teamToMove, piece._1)
+
+              if (valids.nonEmpty) {
+                for (valid <- valids) {
+                  val moveData = getMoveData
+
+                  val promotionData = new PromotionData()
+                  promotionData.safeSqs = safeSqs
+                  promotionData.validPieces = valids
+                  promotionData.name = valid
+
+                  moveData.promotionData = promotionData
+
+                  ret.append(moveData)
+                }
+              } else {
+                ret.append(getMoveData)
+              }
+            } else {
+              ret.append(getMoveData)
+            }
           }
         }
       }
