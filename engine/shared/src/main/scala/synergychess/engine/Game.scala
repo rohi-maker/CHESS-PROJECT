@@ -268,6 +268,7 @@ case class Game() {
       for (piece <- from.board.gameBoard) {
         if (piece._2 != null && piece._2.color == teamToMove) {
           from.from = piece._1
+          val fromPos = new Point(piece._1)
           val validMoves = piece._2.validMoves(from)
 
           for (validMove <- validMoves) {
@@ -284,7 +285,15 @@ case class Game() {
             }
 
             val pos = new Point(validMove)
-            if (piece._2.name == "pawn" && (pos.y == 1 || pos.y == 12)) {
+            if (piece._2.name == "king" && (Math.abs(fromPos.x - pos.x) + Math.abs(fromPos.y - pos.y) > 1)) {
+              for (x <- Math.min(fromPos.x, pos.x) to Math.max(fromPos.x, pos.x) - 1) {
+                val moveData = getMoveData
+                val to = Point(x, pos.y)
+                moveData.rookPlacement = to.toString
+
+                ret.append(moveData)
+              }
+            } else if (piece._2.name == "pawn" && (pos.y == 1 || pos.y == 12)) {
               val (safeSqs, valids) = validPromotions(teamToMove, piece._1)
 
               if (valids.nonEmpty) {
