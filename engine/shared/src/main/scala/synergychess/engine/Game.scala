@@ -4,7 +4,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 case class Game() {
-  val maxPieces = Map(
+  val maxPieces: Map[String, Int] = Map(
     "pawn" -> 16,
     "rook" -> 4,
     "knight" -> 4,
@@ -285,8 +285,11 @@ case class Game() {
             }
 
             val pos = new Point(validMove)
-            if (piece._2.name == "king" && (Math.abs(fromPos.x - pos.x) + Math.abs(fromPos.y - pos.y) > 1)) {
-              for (x <- Math.min(fromPos.x, pos.x) to Math.max(fromPos.x, pos.x) - 1) {
+            if (piece._2.name == "king"
+              && (Math.abs(fromPos.x - pos.x) + Math.abs(fromPos.y - pos.y) > 1)
+              && (fromPos.y == pos.y)) {
+
+              for (x <- Math.min(fromPos.x, pos.x) until Math.max(fromPos.x, pos.x)) {
                 val moveData = getMoveData
                 val to = Point(x, pos.y)
                 moveData.rookPlacement = to.toString
