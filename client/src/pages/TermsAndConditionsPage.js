@@ -44,6 +44,7 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Use</h3>
+
         <p>
           The Website is made available for your use on your acceptance and compliance with
           these terms and conditions. By using this Website, you are agreeing to these terms
@@ -76,12 +77,14 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Passwords and logins</h3>
+
         <p>
           You are responsible for maintaining the confidentiality of your passwords and login
           details and for all activities carried out under your password and login.
         </p>
 
         <h3>Indemnification for loss or damage</h3>
+
         <p>
           You agree to indemnify Us and hold Us harmless from and against any and all
           liabilities or expenses arising from or in any way related to your use of this Website
@@ -92,6 +95,7 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Intellectual property and copyrights</h3>
+
         <p>
           We hold the copyright to the content of this Website, including all uploaded files,
           layout design, data, graphics, articles, file content, codes, news, tutorials, videos,
@@ -101,13 +105,16 @@ export default class TermsAndConditionsPage extends Component {
           for commercial purposes unless expressly agreed to by Us, in which case we may
           require you to sign a Licence Agreement.
         </p>
+
         <p>
           If you wish to use content, images or other of our intellectual property, you should
           submit your request to us at the following email address:
         </p>
+
         <p><a href="mailto:info@synergychess.net">info@synergychess.net</a></p>
 
         <h3>Trademarks</h3>
+
         <p>
           The trademarks and logos contained on this Website are trademarks of Synergy
           Chess. Use of these trademarks is strictly prohibited except with Our express, written
@@ -115,6 +122,7 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Links to external websites</h3>
+
         <p>
           This Website may contain links that direct you outside of this Website. These links
           are provided for your convenience and are not an express or implied indication that
@@ -122,6 +130,7 @@ export default class TermsAndConditionsPage extends Component {
           website, product or service. We accept no liability for loss or damage arising out of
           or in connection to your use of these sites.
         </p>
+
         <p>
           You may link to our articles or home page. However, you should not provide a link
           which suggests any association, approval or endorsement on our part in respect to
@@ -130,6 +139,7 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Limitation of Liability</h3>
+
         <p>
           We take no responsibility for the accuracy of any of the content or statements
           contained on this Website or in relation to our Services. Statements made are by
@@ -140,6 +150,7 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Information Collection</h3>
+
         <p>
           Use of information you have provided us with, or that we have collected and retained
           relating to your use of the Website and/or our Services, is governed by our Privacy
@@ -150,6 +161,7 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Confidentiality</h3>
+
         <p>
           All personal information you give us will be dealt with in a confidential manner in
           accordance with our Privacy Policy. However, due to circumstances outside of our
@@ -157,7 +169,9 @@ export default class TermsAndConditionsPage extends Component {
           confidential due to the potential ability of third parties to intercept and access such
           information.
         </p>
+
         <h3>Governing Law</h3>
+
         <p>
           These terms and conditions are governed by and construed in accordance with the
           laws of Queensland, Australia. Any disputes concerning this website are to be
@@ -168,11 +182,22 @@ export default class TermsAndConditionsPage extends Component {
         </p>
 
         <h3>Chat Violation</h3>
+
         <p>
           All chat participants are required to keep chat friendly, and free from abuse. Synergy
           Chess reserves the right to block any player from the chat room for any reason, and
           without notice, and may cancel subscriptions in severe cases. If your subscription is
           cancelled for Chat Violation no refunds will be given.
+        </p>
+
+        <h3>Subscriptions</h3>
+
+        <p>
+          All new players will get 2 months Free play, and full access, from time of signing up
+          for subscription. If subscription is cancelled before the free time period ends, then
+          no fees will apply. If subscription is cancelled, access to play will be limited to
+          30 minutes per day, per IP address. Other limitations will also apply, including loss
+          of all rating points. No refunds will be granted for subscriptions not cancelled in time.
         </p>
       </div>
     )
