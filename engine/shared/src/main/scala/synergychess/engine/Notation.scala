@@ -161,16 +161,7 @@ case class Notation (
 
     // Normal moves or Promotion, not castling
     if (!isInnerKingCastle && !isInnerQueenCastle && !isOuterKingCastle && !isOuterQueenCastle) {
-      if (isDoubleCheckMate) {
-        notationString = mainNotation + "##"
-      } else {
-        notationString = mainNotation + (if (isInCheck) "+" else "")
-        notationString += (if (isInDoubleCheck) "++" else "")
-        notationString = (if (kingRemoved != "") "x" + kingRemoved.toLowerCase + ", " else "") + notationString
-        if (!isInDoubleCheck && isCheckmate) {
-          notationString = mainNotation + "#"
-        }
-      }
+      notationString = mainNotation
     } else { // Castling
       if (isInnerKingCastle || isInnerQueenCastle || isOuterKingCastle || isOuterQueenCastle) {
         var rookLoc = ""
@@ -186,15 +177,20 @@ case class Notation (
         notationString += (if (isInnerQueenCastle) "O-O-O" else "")
         notationString += (if (isOuterKingCastle) "O-" + kingPos.charAt(0) + "-" + rookLoc else "")
         notationString += (if (isOuterQueenCastle) "O-" + kingPos.charAt(0) + "-" + rookLoc else "")
-
-        // feasible rook can put opp King in check after castling + (if (isInDoubleCheck)  { "++"}
-        notationString += (if (isInCheck) "+" else "")
-
-        notationString += (if (isInDoubleCheck) "++" else "")
-        notationString += (if (isCheckmate) "#" else "")
-        notationString += (if (isDoubleCheckMate) "##" else "")
       }
     }
+
+    if (isDoubleCheckMate) {
+      notationString += "##"
+    } else {
+      notationString += (if (isInCheck) "+" else "")
+      notationString += (if (isInDoubleCheck) "++" else "")
+      notationString = (if (kingRemoved != "") "x" + kingRemoved.toLowerCase + ", " else "") + notationString
+      if (!isInDoubleCheck && isCheckmate) {
+        notationString = mainNotation + "#"
+      }
+    }
+
     notationString
   }
 }
