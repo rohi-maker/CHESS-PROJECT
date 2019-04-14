@@ -289,14 +289,22 @@ case class Game() {
               && (Math.abs(fromPos.x - pos.x) + Math.abs(fromPos.y - pos.y) > 1)
               && (fromPos.y == pos.y)) {
 
-              for (x <- Math.min(fromPos.x, pos.x) until Math.max(fromPos.x, pos.x)) {
+              if (pos.y == 1 || pos.y == 12) {
+                for (x <- Math.min(fromPos.x, pos.x) until Math.max(fromPos.x, pos.x)) {
+                  val moveData = getMoveData
+                  val to = Point(x, pos.y)
+                  moveData.rookPlacement = to.toString
+
+                  ret.append(moveData)
+                }
+              } else {
                 val moveData = getMoveData
-                val to = Point(x, pos.y)
-                moveData.rookPlacement = to.toString
 
                 ret.append(moveData)
               }
-            } else if (piece._2.name == "pawn" && (pos.y == 1 || pos.y == 12)) {
+            }
+
+            if (piece._2.name == "pawn" && (pos.y == 1 || pos.y == 12)) {
               val (safeSqs, valids) = validPromotions(teamToMove, piece._1)
 
               if (valids.nonEmpty) {

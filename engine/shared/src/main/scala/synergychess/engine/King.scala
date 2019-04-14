@@ -183,6 +183,7 @@ class King(override val color: String, override val basePos: Point) extends Piec
     val p2 = new Point(moveData.to)
     var castleSquare = new Point()
     var inBetween = new Point()
+
     if (moveData.rookPlacement != "") {
       val dir = if (p1.x < p2.x) 6 else -5
       castleSquare = Point(dir + p1.x, p1.y)
