@@ -68,9 +68,12 @@ export default class UserPage extends Component {
 
   componentDidMount() {
     const {username} = this.props.match.params
-    fetch(serverUrl(`/api/users/${username}`))
+    fetch(serverUrl(`/api/users/${username}/ratings`))
       .then(res => res.json())
-      .then(ratings => this.setState(ratings['']))
+      .then(ratings => {
+        const rating = ratings['']
+        this.setState({point: rating.p, rank: rating.r})
+      })
       .catch(e => {})
   }
 }
