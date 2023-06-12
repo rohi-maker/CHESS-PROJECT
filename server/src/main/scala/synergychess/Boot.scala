@@ -46,8 +46,9 @@ class PositionAdapter extends Position {
         onStateInfo(Some(stateInfo))
     }
   }
-
-  override def stalemateIsDraw(gameName: String): Boolean = true
+override  def is3FoldRepetitionAutomaticDraw(gameName: String): Boolean = true
+override  def is50MoveAutomaticDraw(gameName: String): Boolean = true
+  override def isStalemateDraw(gameName: String): Boolean = true
 }
 
 class SearchAdapter extends Search {

@@ -8,7 +8,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 resolvers in Global += Resolver.mavenLocal
 
-libraryDependencies += "tv.cntt" %% "nchess-server" % "1.0.0-SNAPSHOT"
+libraryDependencies += "tv.cntt" %% "nchess-server" % "1.1.0-SNAPSHOT"
 libraryDependencies += "net.synergychess" %% "synergychess-engine" % "1.0.0-SNAPSHOT"
 
 // Put config directory in classpath for easier development
