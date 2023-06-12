@@ -1,0 +1,1000 @@
+   63  pm2 stop npm
+   64  sudo npm start
+   65  cd ..
+   66  sudo vi .env
+   67  sudo npm start
+   68  npm2 start npm
+   69  pm2 start npm
+   70  ls
+   71  cd src
+   72  ls
+   73  sudo vi server.js
+   74  cd ..
+   75  pm2 restart npm
+   76  cd ..
+   77  cd server/
+   78  ls
+   79  cd public/
+   80  ls
+   81  sudo cp index.html index.html.bk
+   82  sudo vi index.html
+   83  cd ..
+   84  cd ../client/
+   85  ls
+   86  sudo vi package.json 
+   87  pm2 restart npm
+   88  cd ..
+   89  pm2 stop npm
+   90  npm start
+   91  sudo npm start
+   92  cd client/
+   93  sudo npm start
+   94  sudo vi package
+   95  sudo vi package.json 
+   96  sudo npm start
+   97  cd ../server/
+   98  ls
+   99  cd public/
+  100  ls
+  101  cd static/
+  102  ls
+  103  cd /js
+  104  cd js
+  105  ls
+  106  less main.832e0677.js 
+  107  cd ..
+  108  cd..
+  109  cd ..
+  110  cd /data/play.synergychess.net/
+  111  ls
+  112  cd server/
+  113  ls
+  114  cd ../client/
+  115  sudo vi package.json 
+  116  npm start
+  117  cd ..
+  118  cd server/
+  119  ls
+  120  cd config/
+  121  ls
+  122  sudo vi nchess.conf 
+  123  ls
+  124  cd /data/play.synergychess.net/
+  125  ls
+  126  cd server/
+  127  ls
+  128  cd target/
+  129  ls
+  130  cd xitrum/
+  131  ls
+  132  cd public/
+  133  ls
+  134  cd ..
+  135  ls
+  136  cd script/
+  137  ls
+  138  JAVA_OPTS="-Xmx2750m -Xms256m -XX:MaxMetaspaceSize=384m -XX:+OptimizeStringConcat -XX:+CMSParallelRemarkEnabled -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=1 -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -Djava.awt.headless=true -server -Dxitrum.mode=production"
+  139  if [ -h $0 ]; then   ROOT_DIR="$(cd "$(dirname "$(readlink -n "$0")")/.." && pwd)"; else   ROOT_DIR="$(cd "$(dirname $0)/.." && pwd)"; fi
+  140  echo "$ROOT_DIR"
+  141  if [ -h $0 ]; then   ROOT_DIR="$(cd "$(dirname -- "$(readlink -f -- "$0")")/.." && pwd)"; else   ROOT_DIR="$(cd "$(dirname $0)/.." && pwd)"; fi
+  142  echo "$ROOT_DIR"
+  143  CLASS_PATH="$ROOT_DIR/lib/*:config"
+  144  echo CLASS_PATH
+  145  echo $CLASS_PATH
+  146  exec java $JAVA_OPTS -cp "$CLASS_PATH" "$@" synergychess.Boot
+  147  ls
+  148  cd /data/play.synergychess.net/
+  149  cd nchess/
+  150  ls
+  151  cd server/
+  152  ls
+  153  cd target/
+  154  ls
+  155  cd scala-2.12/
+  156  ls
+  157  sudo cp nchess-server_2.12-1.0.0-SNAPSHOT.jar /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/jars/nchess-server_2.12.jar
+  158  cd /root/.ivy2/local/tv.cntt/nchess-server_2.12
+  159  sudo cd /root/.ivy2/local/tv.cntt/nchess-server_2.12
+  160  ls
+  161  pwd
+  162  which /root/.ivy2/local/tv.cntt/nchess-server_2.12
+  163  cd /root
+  164  sudo cd /root
+  165  sudo cd .ivy2
+  166  ls -al
+  167  cd root
+  168  cd /root
+  169  sudo cd /root
+  170  ls
+  171  sudo less /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.1.0-SNAPSHOT/jars/nchess-api_2.12.jar
+  172  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/jars/
+  173  sudo cp nchess-server_2.12-1.0.0-SNAPSHOT.jar /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/jars/nchess-server_2.12.jar
+  174  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/srcs/
+  175  sudo cp nchess-server_2.12-1.0.0-SNAPSHOT-sources.jar /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/srcs/nchess-server_2.12-sources.jar
+  176  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/ivys
+  177  sudo cp ivy-1.0.0-SNAPSHOT.xml /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/ivys/ivy.xml
+  178  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/poms/
+  179  sudo cp nchess-server_2.12-1.0.0-SNAPSHOT.pom /root/.ivy2/local/tv.cntt/nchess-server_2.12/1.0.0-SNAPSHOT/poms/nchess-server_2.12.pom
+  180  cd ..
+  181  cd /data/play.synergychess.net/
+  182  ls
+  183  cd server/
+  184  ls 
+  185  sudo cp build.sbt.bk build.sbt
+  186  sudo ../sbt/sbt xitrumPackage
+  187  cd /Users/xz/Downloads/nchess/api/target/scala-2.12
+  188  cd /data/play.synergychess.net/nchess/api/target/scala-2.12/
+  189  ls
+  190  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/jars/
+  191  sudo cp nchess-api_2.12-1.0.0-SNAPSHOT-sources.jar /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/jars/nchess-api_2.12.jar
+  192  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/ivys
+  193  sudo cp ivy-1.0.0-SNAPSHOT.xml /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/ivys/ivy.xml
+  194  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/poms/
+  195  sudo cp nchess-api_2.12-1.0.0-SNAPSHOT.pom /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/poms/nchess-api_2.12.pom
+  196  sudo mkdir -p /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/srcs/
+  197  sudo cp nchess-api_2.12-1.0.0-SNAPSHOT-sources.jar /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/srcs/nchess-server_2.12-sources.jar
+  198  cd /data
+  199  cd play.synergychess.net/server/
+  200  ls
+  201  sudo ../sbt/sbt xitrumPackage
+  202  cd ..
+  203  cd play.synergychess.net/
+  204  ls
+  205  cd nchess/
+  206  ls
+  207  cd api/
+  208  ls
+  209  cd target/
+  210  ls
+  211  cd scala-2.12/
+  212  ls
+  213  pwd
+  214  sudo cp nchess-api_2.12-1.0.0-SNAPSHOT-sources.jar /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/jars/nchess-api_2.12.jar
+  215  sudo cp ivy-1.0.0-SNAPSHOT.xml /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/ivys/ivy.xml
+  216  sudo cp nchess-api_2.12-1.0.0-SNAPSHOT.pom /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/poms/nchess-api_2.12.pom
+  217  sudo cp nchess-api_2.12-1.0.0-SNAPSHOT-sources.jar /root/.ivy2/local/tv.cntt/nchess-api_2.12/1.0.0-SNAPSHOT/srcs/nchess-server_2.12-sources.jar
+  218  cd /data/play.synergychess.net/server/
+  219  sudo ../sbt/sbt xitrumPackage
+  220  cd /data/play.synergychess.net/nchess/api/target/scala-2.12
+  221  ls
+  222  cd classes/
+  223  ls
+  224  cd nchess/
+  225  ls -al
+  226  cd api
+  227  ls
+  228  ls -al
+  229  cd
+  230  ls
+  231  cd play.synergychess.net/
+  232  ls
+  233  cd target/
+  234  ls
+  235  cd scala-2.12/
+  236  ls
+  237  cd ..
+  238  ls -al
+  239  ls
+  240  scala-2.12/
+  241  ls
+  242  cd
+  243  ls
+  244  cd play.synergychess.net/
+  245  ls
+  246  cd target/
+  247  ls
+  248  cd scala-2.12/
+  249  ls
+  250  rm nchess-server_2.12-1.0.0-SNAPSHOT.jar
+  251  cd classes/
+  252  ls
+  253  cd ..
+  254  ls
+  255  rm -r target/
+  256  ls
+  257  cd target/
+  258  ls
+  259  cd scala-2.12/
+  260  ls
+  261  cd ..
+  262  sudo cp -rf scala-2.12 /data/play.synergychess.net/nchess/api/target/scala-2.12
+  263  cd 
+  264  ls
+  265  cd /data/play.synergychess.net/
+  266  ls
+  267  cd server/
+  268  sudo ../sbt/sbt xitrumPackage
+  269  cd ..
+  270  ls
+  271  cd nchess/
+  272  ls
+  273  sudo ../sbt/sbt "project api" publishLocal
+  274  sbt "project server" publishLocal
+  275  sudo ../sbt/sbt "project server" publishLocal
+  276  cd ..
+  277  cd server/
+  278  ls
+  279  sudo ../sbt/sbt xitrumPackage
+  280  ls
+  281  sudo vi build.sbt
+  282  sudo ../sbt/sbt xitrumPackage
+  283  sudo ../sbt/sbt evicted
+  284  cd ..
+  285  ls
+  286  cd server/
+  287  ls
+  288  cp build.sbt.bk build.sbt
+  289  sudo cp build.sbt.bk build.sbt
+  290  sudo ../sbt/sbt xitrumPackage
+  291  ls
+  292  sudo vi build.sbt
+  293  sudo ../sbt/sbt xitrumPackage
+  294  sudo vi build.sbt
+  295  sudo ../sbt/sbt xitrumPackage
+  296  cd ..
+  297  cd nchess/
+  298  ls
+  299  sudo cp build.sbt build.sbt.bk
+  300  sudo vi build.sbt
+  301  sudo ../sbt/sbt "project api" publishLocal
+  302  sudo ../sbt/sbt "project server" publishLocal
+  303  cd ../server/
+  304  ls
+  305  sudo ../sbt/sbt xitrumPackage
+  306  cd ../nchess/
+  307  ls
+  308  which git
+  309  git status
+  310  git log
+  311  cd
+  312  ls
+  313  rm -r certbot-auto 
+  314  rm nodesource_setup.sh 
+  315  ls
+  316  ls -al
+  317  ]rm -r play.synergychess.net/
+  318  ls
+  319  rm -r play.synergychess.net
+  320  ls
+  321  cd play.synergychess.net/
+  322  ls
+  323  cd nchess/
+  324  ls
+  325  git log
+  326  ls
+  327  git status
+  328  ls
+  329  pwd
+  330  cd /data/play.synergychess.net/
+  331  ls
+  332  cd nchess/
+  333  ls
+  334  cp build.sbt.bk build.sbt
+  335  sudo cp build.sbt.bk build.sbt
+  336  ls
+  337  ls -al
+  338  rm build.sbt.bk
+  339  sudo rm build.sbt.bk
+  340  ls
+  341  git status
+  342  git log
+  343  git checkout 0c275be99dd632299489a9d075dfbbf2e8439b2e
+  344  sudo git checkout 0c275be99dd632299489a9d075dfbbf2e8439b2e
+  345  sudo ../sbt/sbt "project api" publishLocal
+  346  sudo ../sbt/sbt sbt "project server" publishLocal
+  347  sudo ../sbt/sbt "project server" publishLocal
+  348  cd ../server/
+  349  ls
+  350  cp build.sbt.bk build.sbt
+  351  sudo cp build.sbt.bk build.sbt
+  352  sudo ../sbt/sbt xitrumPackage
+  353  ls
+  354  cd target/
+  355  ls
+  356  cd xitrum/
+  357  ls
+  358  cd script/
+  359  ls
+  360  start
+  361  ]sh start
+  362  cd ..
+  363  sh script/start
+  364  cd ..
+  365  sudo ../sbt/sbt run
+  366  ls
+  367  sh script/start
+  368  cd target/
+  369  ls
+  370  cd xitrum/
+  371  ls
+  372  cd public/
+  373  ls
+  374  cd ..
+  375  sh script/start
+  376  sudo sh script/start
+  377  sudo script/start
+  378  script/start
+  379  sh script/start
+  380  ls -al
+  381  cd script/
+  382  ls
+  383   ls -al
+  384  cd ..
+  385  ls
+  386  sudo script/start
+  387  sh script/start
+  388  sudo script/start
+  389  pm2 start script/start
+  390  pm2 list
+  391  pm2 start script/start
+  392  sh script/start
+  393  sudo script/start
+  394  sudo script/start synergychess.Boot
+  395  sudo vi /etc/nginx/nginx.conf
+  396  sudo nginx -t
+  397  sudo systemctl restart nginx
+  398  sudo vi /etc/nginx/nginx.conf
+  399  sudo nginx -t
+  400  sudo systemctl restart nginx
+  401  cd /data/play.synergychess.net/
+  402  ls
+  403  cd client/
+  404  ls
+  405  sudo npm run build
+  406  git status
+  407  cd
+  408  grep ^NAME  /etc/*release
+  409  sudo vi /etc/yum.repos.d/mongodb-org-4.4.repo
+  410  sudo yum install -y mongodb-org
+  411  which mongod
+  412  sudo yum install -y mongodb-org-4.4
+  413  sudo systemctl start mongod
+  414  sudo yum install -y mongodb-org-4.4.1
+  415  sudo yum install mongodb-org-4.4 
+  416  sudo vi /etc/yum.repos.d/mongodb-org-4.4.repo
+  417  sudo yum install -y mongodb-org
+  418  sudo vi /etc/yum.repos.d/mongodb-org-4.4.repo
+  419  cd ..
+  420  sudo vi /etc/yum.repos.d/mongodb-org-4.4.repo
+  421  sudo yum install -y mongodb-org
+  422  sudo yum install -y mongodb-org-4.4
+  423  sudo yum install -y mongodb-org-4.4.1 mongodb-org-server-4.4.1 mongodb-org-shell-4.4.1 mongodb-org-mongos-4.4.1 mongodb-org-tools-4.4.1
+  424  cd
+  425  sudo yum install libcurl openssl xz-libs
+  426  curl https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-amazon-4.4.1.tgz -o mongodb-linux-x86_64-amazon-4.4.1.tgz
+  427  tar -zxvf mongodb-linux-x86_64-*-4.4.1.tgz
+  428  sudo mkdir -p /var/lib/mongo
+  429  sudo mkdir -p /var/log/mongodb
+  430  mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork
+  431  mongod
+  432  ls
+  433  sudo cp mongodb-linux-x86_64-amazon-4.4.1/bin/* /usr/bin/
+  434  mongod
+  435  echo $PATH
+  436  sudo cp mongodb-linux-x86_64-amazon-4.4.1/bin/* /usr/local/bin/
+  437  mongod
+  438  mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork
+  439  sudo systemctl start mongod
+  440  sudo vi /etc/nginx/nginx.conf
+  441  sudo systemctl restart nginx
+  442  ls
+  443  cd
+  444  ls
+  445  sudo vi /etc/nginx/nginx.conf
+  446  sudo systemctl restart nginx
+  447  sudo vi /etc/nginx/nginx.conf
+  448  cd
+  449  ls
+  450  sudo systemctl restart nginx
+  451  sudo vi /etc/nginx/nginx.conf
+  452  sudo systemctl restart nginx
+  453  sudo nginx -t
+  454  sudo systemctl restart nginx
+  455  sudo vi /etc/nginx/nginx.conf
+  456  sudo nginx -t
+  457  sudo systemctl restart nginx
+  458  sudo vi /etc/nginx/nginx.conf
+  459  sudo systemctl restart nginx
+  460  sudo vi /etc/nginx/nginx.conf
+  461  sudo nginx -t
+  462  sudo systemctl restart nginx
+  463  sudo vi /etc/nginx/nginx.conf
+  464  sudo systemctl restart nginx
+  465  sudo vi /etc/nginx/nginx.conf
+  466  sudo systemctl restart nginx
+  467  sudo vi /etc/nginx/nginx.conf
+  468  sudo systemctl restart nginx
+  469  ls
+  470  cd /data
+  471  ls
+  472  cd play.synergychess.net/
+  473  ls
+  474  cd server
+  475  ls
+  476  ls -al
+  477  cd target/
+  478  ls
+  479  cd xitrum/
+  480  ls
+  481  cd config/
+  482  ls
+  483  cd ..
+  484  ls 
+  485  ls -al
+  486  cd lib
+  487  ls
+  488  ls -al
+  489  free -m
+  490  cd ..
+  491  ls
+  492  cd ..
+  493  sudo ../sbt/sbt run
+  494  pm2 list
+  495  pm2 stop start
+  496  sudo lsof -t -i:8000
+  497  sudo lsof -i -P -n
+  498  sudo lsof -t -i:8000
+  499  cd ../client/
+  500  ls
+  501  pm2 list
+  502  pm2 start npm
+  503  ls
+  504  sudo vi package.json 
+  505  pm2 restart npm
+  506  ls
+  507  cd src
+  508  ls
+  509  sudo cp server.js.bk server.js 
+  510  sudo rm server.js.bk
+  511  ls
+  512  rm -r [ec2-user@ip-172-31-17-128 ~]$ ls
+  513  mongodb-linux-x86_64-amazon-4.4.1
+  514  rm -r [ec2-user@ip-172-31-17-128 ~]$ ls
+  515  rm -r mongodb-linux-x86_64-amazon-4.4.1
+  516  rm mongodb-linux-x86_64-amazon-4.4.1.tgz
+  517  cd play.synergychess.net/
+  518  ls
+  519  rm -r nchess
+  520  rm -rf nchess
+  521  cd ..
+  522   rm -rf play.synergychess.net
+  523  ls
+  524  ls a-l
+  525  ls -al
+  526  cd /data/play.synergychess.net/
+  527  ls
+  528  cd client/
+  529  ls
+  530  less package.json 
+  531  cd src/
+  532  ls
+  533  less server.js 
+  534  cd ..
+  535  npm run build
+  536  sudo npm run build
+  537  cd ../server/
+  538  ls
+  539  sudo .sbt/sbt xitrumPackage
+  540  sudo ../sbt/sbt xitrumPackage
+  541  sudo ../sbt/sbt run
+  542  cd ../client/
+  543  ls
+  544  pm2 list
+  545  pm2 delete start
+  546  pm2 stop npm
+  547  exit
+  548  sudo vi /etc/nginx/nginx.conf
+  549  sudo systemctl restart nginx
+  550  sudo vi /etc/nginx/nginx.conf
+  551  sudo systemctl restart nginx
+  552  sudo vi /etc/nginx/nginx.conf
+  553  sudo systemctl restart nginx
+  554  ls
+  555  exit
+  556  cd /data
+  557  cd play.synergychess.net/server/public/
+  558  ls
+  559  sudo cp index.html.bk index.html
+  560  cd
+  561  ls
+  562  ls -al
+  563  exit
+  564  sudo yum update
+  565  ls
+  566  clear
+  567  ls
+  568  clear
+  569  ls
+  570  clear
+  571  java --version
+  572  clear
+  573  ls
+  574  clear
+  575  pwd
+  576  ls
+  577  clear
+  578  ls
+  579  clear
+  580  wget https://drive.google.com/file/d/1nL2jZmKzV7Ly5snwTPCwDGP5L9QwRVIc/view
+  581  ls
+  582  cd vi
+  583  cd view
+  584  ls
+  585  cd ..
+  586  rm -rf view
+  587  ls
+  588  clear
+  589  ls
+  590  cd ec2-user/
+  591  ls
+  592  rm -rf view 
+  593  wget https://drive.google.com/u/0/uc?export=download&confirm=9YDa&id=1nL2jZmKzV7Ly5snwTPCwDGP5L9QwRVIc
+  594  ls
+  595  clear
+  596  aws s3 ls
+  597  aws s3 ls s3://code.synergy.com
+  598  aws s3 ls s3://code.synerge.com
+  599  aws s3 cp s3://code.synerge.com/synergy-chess.zip.download.zip .
+  600  ls
+  601  clear
+  602  unzip synergy-chess.zip.download.zip 
+  603  ls
+  604  cd synergy-chess.zip.download/
+  605  ls
+  606  unzip synergy-chess.zip 
+  607  ls
+  608  clear
+  609  ls
+  610  cd synergy-chess/
+  611  ls
+  612  java version
+  613  ls
+  614  clear
+  615  ls
+  616  sb
+  617  sbt
+  618  clear
+  619  javac -versino
+  620  javac -version
+  621  yum install sbt
+  622  sudo yum install sbt
+  623  curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+  624  sudo yum install sbt
+  625  clear
+  626  sbt
+  627  ls
+  628  clear
+  629  ls
+  630  cd engine/
+  631  ls
+  632  clear
+  633  sbt "project engineJVM" publishLocal
+  634  ls
+  635  cd target/
+  636  ls
+  637  cd ..
+  638  ls
+  639  cd ..
+  640  sbt fullOptJS
+  641  ls
+  642  cd engine/
+  643  ls
+  644  sbt fullOptJS
+  645  cd js/synergychess-engine
+  646  npm link
+  647  ls
+  648  cd ..
+  649  ls
+  650  clear
+  651  cd ..
+  652  ls
+  653  cd ..
+  654  ls
+  655  cd client/
+  656  ls
+  657  clear
+  658  yarn build
+  659  npm install -g yarn
+  660  yarn run build
+  661  ls
+  662  yarn run build
+  663  npm link synergychess-engine
+  664  yarn run build
+  665  ls
+  666  cd ..
+  667  cd server/
+  668  ls
+  669  sbt xitrumPackage
+  670  clear
+  671  ls
+  672  sbt xitrumPackage
+  673  ls
+  674  mvn run build
+  675  sudo yum install maven
+  676  mvn run build
+  677  ls
+  678  clear
+  679  sbt xitrumPackage
+  680  sbt run xitrumPackage
+  681  cd ..
+  682  sbt run xitrumPackage
+  683  sbt  xitrumPackage
+  684  sbt xitrumPackage
+  685  sbt run xitrumPackage
+  686  ls
+  687  cd server/
+  688  sbt run xitrumPackage
+  689  ls
+  690  cd ../engine/
+  691  ls
+  692  cd target/
+  693  ls
+  694  cd streams/
+  695  ls
+  696  cd \$global/
+  697  ls
+  698  cd ..
+  699  cd server/
+  700  ls
+  701  clear
+  702  ls
+  703  cd target/
+  704  ls
+  705  cp ../config/ .
+  706  cp -r ../config/ .
+  707  ls
+  708  cp r ../public/ .
+  709  cp -r ../public/ .
+  710  cp -r ../script/ .
+  711  cd ..
+  712  sbt run xitrumPackage
+  713  ls
+  714  cd target/
+  715  ls
+  716  mkdir xitrum
+  717  cd p -r ../config/ .
+  718  cp -r ../config/ .
+  719  cp -r ../public// .
+  720  cp -r ../public/ .
+  721  ls
+  722  cp -r ../script/ .
+  723  cd ..
+  724  sbt run xitrumPackage
+  725  vi build.sbt 
+  726  sbt run xitrumPackage
+  727  ls
+  728  vi build.sbt 
+  729  sbt run xitrumPackage
+  730  ls
+  731  npm link synergychess-engine
+  732  sbt run xitrumPackage
+  733  sbt  xitrumPackage
+  734  ls
+  735  clear
+  736  ls
+  737  clear
+  738  ls
+  739  sbt  xitrumPackage
+  740  l
+  741  ls
+  742  clear
+  743  ls
+  744  clear
+  745  ls
+  746  clear
+  747  cd ..
+  748  s
+  749  clear
+  750  ls
+  751  clear
+  752  ls
+  753  cd client/
+  754  ls
+  755  server -s build -p 80
+  756  serve -s build -p 80
+  757  sudo serve -s build -p 80
+  758   serve -s build -p 3000
+  759  ls
+  760  cd ..
+  761  exit
+  762  ls
+  763  sbt run
+  764  clear
+  765  exit
+  766  cd ..
+  767  ls
+  768  cd server/
+  769  sbt run
+  770  exit
+  771  clear
+  772  ls
+  773  clear
+  774  ls
+  775  clear
+  776  ls
+  777  clear
+  778  ls
+  779  npm link synergychess-engine
+  780  ls
+  781  tmux ls
+  782  tmux attach -t 0
+  783  nginx
+  784  sudo service nginx status
+  785  ls
+  786  cd /etc/nginx/
+  787  ls
+  788  vi nginx.conf
+  789  sudo vi nginx.conf
+  790  sudo service nginx restart
+  791  sudo service nginx status
+  792  vi nginx.conf
+  793  sudo vi nginx.conf
+  794  sudo service nginx restart
+  795  sudo service nginx status
+  796  vi nginx.conf
+  797  sudo vi nginx.conf
+  798  sudo service nginx restart
+  799  sudo service nginx status
+  800  clear
+  801  vi nginx.conf
+  802  clear
+  803  sudo vi nginx.conf
+  804  sudo service nginx restart
+  805  sudo service nginx status
+  806  sudo vi nginx.conf
+  807  sudo service nginx restart
+  808  sudo service nginx status
+  809  clear
+  810  vi nginx.conf
+  811  clear
+  812  sudo vi nginx.conf
+  813  sudo service nginx restart
+  814  sudo service nginx status
+  815  sudo vi nginx.conf
+  816  sudo service nginx restart
+  817  clear
+  818  sudo service nginx status
+  819  cd ~
+  820  ls
+  821  cd synergy-chess.zip.download/
+  822  ls
+  823  cd synergy-chess/
+  824  ls
+  825  cd client/
+  826  tmux ls
+  827  tmux attach -t 0
+  828  cd /etc/nginx/
+  829  vi nginx.conf
+  830  clear
+  831  sudo vi nginx.conf
+  832  sudo service nginx restart
+  833  sudo service nginx status
+  834  tmux attach -t 0
+  835  sudo vi nginx.conf
+  836  sudo service nginx restart
+  837  sudo service nginx status
+  838  sudo vi nginx.conf
+  839  sudo service nginx restart
+  840  vi ./conf/mime.types.default
+  841  ls
+  842  clear
+  843  ls
+  844  sudo vi /etc/nginx/mime.types
+  845  sudo service nginx restart
+  846  sudo service nginx status
+  847  ls
+  848  sudo vi nginx.conf
+  849  sudo vi /etc/nginx/mime.types
+  850  sudo service nginx restart
+  851  sudo service nginx status
+  852  sudo vi nginx.conf
+  853  sudo service nginx restart
+  854  sudo service nginx status
+  855  sudo vi nginx.conf
+  856  sudo service nginx restart
+  857  sudo service nginx status
+  858  curl http://13.211.87.187/whoami
+  859  vi nginx.conf
+  860  sudo vi nginx.conf
+  861  sudo service nginx restart
+  862  sudo service nginx status
+  863  curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+  864  curl localhost:8000/whoami
+  865  curl http://13.211.87.187/whoami
+  866  sudo vi nginx.conf
+  867  sudo service nginx restart
+  868  sudo vi nginx.conf
+  869  sudo service nginx restart
+  870  sudo vi nginx.conf
+  871  sudo service nginx restart
+  872  sudo vi nginx.conf
+  873  sudo service nginx restart
+  874  sudo service nginx status
+  875  sudo vi nginx.conf
+  876  sudo service nginx restart
+  877  sudo vi nginx.conf
+  878  sudo service nginx restart
+  879  sudo vi nginx.conf
+  880  sudo service nginx restart
+  881  sudo vi nginx.conf
+  882  sudo service nginx restart
+  883  sudo vi nginx.conf
+  884  sudo service nginx restart
+  885  sudo vi nginx.conf
+  886  sudo service nginx restart
+  887  sudo vi nginx.conf
+  888  sudo service nginx restart
+  889  sudo vi nginx.conf
+  890  sudo service nginx restart
+  891  sudo service nginx status
+  892  sudo vi nginx.conf
+  893  sudo service nginx restart
+  894  sudo service nginx status
+  895  sudo vi nginx.conf
+  896  sudo service nginx restart
+  897  sudo service nginx status
+  898  sudo vi nginx.conf
+  899  sudo service nginx restart
+  900  sudo service nginx status
+  901  sudo vi nginx.conf
+  902  sudo service nginx restart
+  903  sudo service nginx status
+  904  sudo vi nginx.conf
+  905  sudo service nginx restart
+  906  sudo service nginx status
+  907  sudo vi nginx.conf
+  908  sudo service nginx restart
+  909  sudo service nginx status
+  910  sudo vi nginx.conf
+  911  sudo service nginx restart
+  912  sudo service nginx status
+  913  sudo vi nginx.conf
+  914  sudo service nginx restart
+  915  sudo service nginx status
+  916  sudo vi nginx.conf
+  917  sudo service nginx restart
+  918  sudo service nginx status
+  919  sudo vi nginx.conf
+  920  sudo service nginx restart
+  921  sudo service nginx status
+  922  sudo vi nginx.conf
+  923  sudo service nginx restart
+  924  sudo service nginx status
+  925  ls
+  926  clear
+  927  ls
+  928  clear
+  929  ls
+  930  tmux ls
+  931  tmux attach -t 0
+  932  sudo vi nginx.conf
+  933  sudo service nginx restart
+  934  sudo service nginx status
+  935  sudo vi nginx.conf
+  936  sudo service nginx restart
+  937  ls
+  938  exit
+  939  server -s build -p 3000
+  940  serve -s build -p 3000
+  941  ls
+  942  cd cli
+  943  ls
+  944  clear
+  945  ls
+  946  cd src/
+  947  ls
+  948  vi server.js 
+  949  npm run build
+  950  yarn run build
+  951  server -s build -l 3000
+  952  serve -s build -l 3000
+  953  vi App.js 
+  954  vi se
+  955  vi server.js 
+  956  yarn run build
+  957  serve -s build -l 3000
+  958  ls
+  959  clear
+  960  node v
+  961  node -v
+  962  ls
+  963  yanr run start 
+  964  yarn run start
+  965  s
+  966  ls
+  967  vi index.
+  968  vi index.js
+  969  yarn run start
+  970  vi index.js 
+  971  yarn run start
+  972  vi index.js 
+  973  yarn run start
+  974  viindex.js
+  975  ls
+  976  vi index.js
+  977  vi server.js
+  978  yarn run start
+  979  vi server.js 
+  980  yarn run start
+  981  vi server.js 
+  982  yarn run start
+  983  ls
+  984  vi server.js
+  985  vi index.js
+  986  yarn run start
+  987  clear
+  988  yanr run start
+  989  yarn run start
+  990  ls
+  991  vi user/AdminUsepoint.js
+  992  yarn run start
+  993  cd synergy-chess.zip.download/
+  994  ls
+  995  cd synergy-chess/
+  996  ls
+  997  cd s
+  998  cd server/
+  999  sbt run
+ 1000  curl http://13.211.87.187
+ 1001  ls
+ 1002  ls -l
+ 1003  netstat -a
+ 1004  cd ~
+ 1005  ls
+ 1006  pwd
+ 1007  history
+ 1008  sudo service nginx status
+ 1009  sudo service nginx restart
+ 1010  sudo service nginx status
+ 1011  pwd
+ 1012  history
+ 1013  pwd
+ 1014  ls
+ 1015  history
+ 1016* yanr run start 
+ 1017  history |grep cd
+ 1018  ls
+ 1019  cd synergy-chess.zip.download/
+ 1020  ls
+ 1021  cd synergy-chess/
+ 1022  ls
+ 1023  history
+ 1024  sudo service nginx status
+ 1025  history
+ 1026  whereis yarn
+ 1027  pwd
+ 1028  cd s
+ 1029  ls
+ 1030  cd server
+ 1031  sbt run
+ 1032  yarn
+ 1033  yanr run start
+ 1034  yarn run start
+ 1035  cd ..
+ 1036  yarn run start
+ 1037  cd ,,
+ 1038  sbt run
+ 1039  history
+ 1040   curl http://13.211.87.187
+ 1041  sudo service nginx status
+ 1042  service start monogodb
+ 1043  sudo service mongodb status
+ 1044  sudo service mongo status
+ 1045  sudo service mongod status
+ 1046  sudo service status
+ 1047  sudo service list
+ 1048  sudo service
+ 1049  sudo service -status-all
+ 1050  sudo service --status-all
+ 1051  ls
+ 1052  cd synergy-chess/
+ 1053  ls
+ 1054  cd server
+ 1055  history
+ 1056  pwd
+ 1057  sbt run
+ 1058  start monogodb
+ 1059  start
+ 1060  sudo service mongod start
+ 1061  history ~history.txt
+ 1062  history >~history.john

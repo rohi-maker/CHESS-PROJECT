@@ -1,0 +1,18 @@
+{
+  "main.css": "static/css/main.d98fb7ec.css",
+  "main.css.map": "static/css/main.d98fb7ec.css.map",
+  "main.js": "static/js/main.e05c17ab.js",
+  "main.js.map": "static/js/main.e05c17ab.js.map",
+  "static/media/bishop_b.svg": "static/media/bishop_b.1f3b8d1a.svg",
+  "static/media/bishop_w.svg": "static/media/bishop_w.09004fd2.svg",
+  "static/media/king_b.svg": "static/media/king_b.66e1bcad.svg",
+  "static/media/king_w.svg": "static/media/king_w.250510ff.svg",
+  "static/media/knight_b.svg": "static/media/knight_b.d39f1d02.svg",
+  "static/media/knight_w.svg": "static/media/knight_w.e6294efe.svg",
+  "static/media/pawn_b.svg": "static/media/pawn_b.1c52d8c4.svg",
+  "static/media/pawn_w.svg": "static/media/pawn_w.d69014fb.svg",
+  "static/media/queen_b.svg": "static/media/queen_b.7b3e33e4.svg",
+  "static/media/queen_w.svg": "static/media/queen_w.4320a2dd.svg",
+  "static/media/rook_b.svg": "static/media/rook_b.96872a66.svg",
+  "static/media/rook_w.svg": "static/media/rook_w.095b1a06.svg"
+}
